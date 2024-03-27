@@ -28,7 +28,9 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'awazone-4bedeb7518e6.herokuapp.com'
+]
 
 
 # Application definition
