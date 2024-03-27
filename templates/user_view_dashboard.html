@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}DASHBOARD | {{user.firsname}} {{user.last_name}}{% endblock %}
+{% block content %}
+<div class="col-md-12">
+  <div class="bg-body-light">
+    <div class="content content-full">
+      <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+        <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">Welcome {{user.first_name}} {{user.last_name}}</h1>
+        <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Awazone</li>
+            <li class="breadcrumb-item active" aria-current="page">{{user.username}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded">
+    <div class="block-content block-content-full">
+      <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-interval="2000" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% for slide in slides %}
+          <div class="carousel-item active">
+            <img src="{{slide.image.url}}" class="d-block w-100" alt="Carousel Image 1" style="max-height: 50vh;">
+            <div class="carousel-caption d-none d-md-block bg-black-50 rounded-3 px-3">
+              <h5 class="h3 mb-2">
+                {{slide.title}}
+              </h5>
+              <p class="mb-0">
+                {{slide.text}}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Slides Only -->
+</div>
+<div class="block block-rounded">
+  
+</div>
+<div class="content content-full">
+  <h2 class="fw-light mt-4 mb-3">LICENSES</h2>
+  <div class="row items-push">
+    <div class="col-sm-6 col-xl-3" id="licenseDiv">
+      <a class="block block-rounded block-fx-pop text-center h-100 mb-0" href="{% url 'purchase_yearly_license' %}">
+        <div class="block-content block-content-full">
+          <div class="item item-circle bg-primary-lighter mx-auto my-3">
+            <i class="fa fa-check-circle text-primary"></i>
+          </div>
+          {% for yearly in yearly %}
+          Yearly License
+          <div class="display-7 fw-bold">{{yearly.currency}} {{yearly.amount}}</div>
+          <div class="text-muted mt-1">{{yearly.datestamp}}</div>
+          <div class="py-3 fs-4 fw-bold text-success">
+            <i class="fa fa-check-circle me-1"></i>
+            Running...
+          </div>
+          {% empty %}
+            <span id="empty">No Yearly License</span>
+          {% endfor %}
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <a class="block block-rounded block-fx-pop text-center h-100 mb-0" href="{% url 'purchase_monthly_license' %}">
+        <div class="block-content block-content-full">
+          <div class="item item-circle bg-xinspire-lighter mx-auto my-3">
+            <i class="fa fa-check-circle text-xinspire-dark"></i> 
+          </div>
+          
+          {% for monthly in monthly %}
+          Monthly License
+          <div class="display-7 fw-bold">{{monthly.currency}} {{monthly.amount}}</div>
+          <div class="text-muted mt-1">{{monthly.datestamp}}</div>
+          <div class="py-3 fs-4 fw-bold text-success">
+            <i class="fa fa-check-circle me-1"></i>
+            Running...
+          </div>
+          {% empty %}
+            <span id="empty">No Monthly License</span>
+          {% endfor %}
+        </div>
+      </a>
+    </div>
+  </div>
+  <h2 class="fw-light mt-4 mb-3">DISCOVER</h2>
+  <div class="row items-push">
+    <div class="col-md-6 col-xl-3">
+      <a class="block block-rounded block-link-shadow d-flex justify-content-center align-items-start text-center bg-xinspire h-100 mb-0" href="{% url 'aibopay_dashboard' %}">
+        <div class="block-content block-content-full bg-body-extra-light mt-1 align-self-stretch">
+          <div class="py-4">
+            <i class="fa fa-2x fa-wallet text-xinspire"></i>
+            <p class="fs-lg fw-semibold mt-3 mb-1">
+              AIBOPAY
+            </p>
+            <p class="text-muted mb-0">
+              Your Banking made easy!<br> Gain interest for saving on AIBO Pay 
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <a class="block block-rounded block-link-shadow d-flex justify-content-center align-items-start text-center bg-xpro h-100 mb-0" href="{% url 'aiboearn_dashboard' %}">
+        <div class="block-content block-content-full bg-body-extra-light mt-1 align-self-stretch">
+          <div class="py-4">
+            <i class="fa fa-2x fa-coins text-xpro"></i>
+            <p class="fs-lg fw-semibold mt-3 mb-1">
+              AIBOEARN
+            </p>
+            <p class="text-muted mb-0">
+              Purchase Assets from AIBO sectors to earn daily
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <a class="block block-rounded block-link-shadow d-flex justify-content-center align-items-start text-center bg-xplay h-100 mb-0" href="">
+        <div class="block-content block-content-full bg-body-extra-light mt-1 align-self-stretchv">
+          <div class="py-4">
+            <i class="fa fa-2x fa-credit-card text-xplay"></i>
+            <p class="fs-lg fw-semibold mt-3 mb-1">
+              PAWA CARD
+            </p>
+            <p class="text-muted mb-0">
+              Mine Pawa card and pay for services and utilities <br> Earn more spend leverage with PAWA Card
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <a class="block block-rounded block-link-shadow d-flex justify-content-center align-items-start text-center bg-xsmooth h-100 mb-0" href="">
+        <div class="block-content block-content-full bg-body-extra-light mt-1 align-self-stretch">
+          <div class="py-4">
+            <i class="fa fa-2x fa-users text-xsmooth"></i>
+            <p class="fs-lg fw-semibold mt-3 mb-1">
+              MARKET PLACE
+            </p>
+            <p class="text-muted mb-0">
+              Internet, Mobile, B2B, B2C, Transactional etc
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

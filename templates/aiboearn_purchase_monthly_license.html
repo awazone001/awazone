@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}PURCHASE MONTHLY LICENSE{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="block block-rounded">
+    <div class="content content-full content-boxed">
+        <form method="POST">
+            {% csrf_token %}
+          <div class="block">
+            <div class="block-header block-header-default">
+              <h3>Purchase AIBO Monthly License</h3>
+              <div class="block-options">
+                <div class="form-check form-switch">
+                </div>
+              </div>
+            </div>
+            <div class="block-content">
+              <div class="row justify-content-center push">
+                <div class="col-md-10">
+                  <div class="mb-4">
+                    <p class="price">MONTHLY LICENSE : NGN {{monthly}}</p>
+                    <form method="post" action="{% url 'purchase_monthly_license_complete' %}">
+
+                    </form>                                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="block-content bg-body-light">
+              <div class="row justify-content-center push">
+                <div class="col-md-10">
+                  <button type="submit" class="btn btn-alt-primary">
+                    <i class="fa fa-fw fa-cart-arrow-down opacity-50 me-1"></i> Buy Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+ .price {
+    font-size: 30px;
+    color: #888;
+    margin-top: 5px;
+    text-align: center;
+}
+</style>
+{% endblock %}

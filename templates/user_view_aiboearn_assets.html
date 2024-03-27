@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AIBO EARN | ASSET{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="col-md-12">
+    <div class="content" id="assets">
+      <div class="row">  
+        {% for asset in assets %}
+        <div class="col-md-12 col-xl-4">
+          <div class="block block-rounded">
+            <div class="block-content p-0 overflow-hidden">
+              <a class="img-link img-fluid-100" data-toggle="layout" data-action="side_overlay_open" href="">
+                <img class="img-fluid rounded-top" src="{{ asset.image.url }}" alt="">
+              </a>
+            </div>
+            <div class="block-content">
+              <h3 class="h4 mb-2" style="color:darkblue ;">{{ asset.asset }} ({{asset.id}})</h3>
+              <em class="text-muted">Available: {{asset.is_available}}</em><br>
+              <span class="text-primary">Launched</span> on <em class="text-muted">{{asset.launch_date}}</em><br>
+              <span class="text-primary">{{asset.sector}}</span>
+              <p>
+                {{asset.description}}
+              </p>
+              <div class="p-1 p-md-3 w-100">
+                <div class="mb-0">
+                  <div class="progress mb-1" style="height: 6px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:{{asset.percentage_bought}}%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" >{{asset.sold_out_volume}}</div>
+                  </div>
+                  <p class="fs-sm fw-semibold mb-3">
+                    <span class="fw-bold">{{asset.sold_out_volume}}</span> of <span class="fw-bold">{{asset.total_shares}}</span> Market Cap Sold
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="block-content p-0">
+              <div class="row text-center m-0 border-top border-bottom bg-body-light">
+                <div class="col-6 border-end" style="color: green;">
+                  <p class="py-3 mb-0">Daily Rate<br>
+                    <i class="fa fa-line-chart me-1"></i> <strong>{{ asset.rate }}%</strong>
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="py-3 mb-0">Share Rate<br>
+                    <i class="fa fa-line-chart me-1"></i> <strong>$ {{ asset.share_rate}}</strong>
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="py-3 mb-0">Minimum Purchase Amount<br>
+                    <i class="fa fa-bar-chart me-1"></i> <strong>$ {{ asset.minimum_purchase_amount}}</strong>
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="py-3 mb-0">Withdrawal Duration<br>
+                    <i class="fa fa-clock me-1"></i> <strong>{{ asset.minimum_duration}} days</strong>
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="py-3 mb-0">Time Span<br>
+                    <i class="fa fa-clock me-1"></i> <strong>{{ asset.maximum_duration}} days</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="block-content block-content-full">
+              <div class="row">
+                <div class="col-6">
+                  <a class="btn btn-sm btn-primary w-100" href="{% url 'aiboearn_asset_purchase' %}">
+                    <i class="fa fa-cart-arrow-down opacity-50 me-1"></i>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <tr>
+          <td colspan="12" class="text-center">
+            <span id="empty">NO ASSET YET</span>
+          </td>
+        </tr>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

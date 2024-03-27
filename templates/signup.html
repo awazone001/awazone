@@ -1,0 +1,41 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}SIGN UP{% endblock %}
+{% block content %}
+<form class="js-validation-signup" method="POST" novalidate>
+  {% csrf_token %}
+  <div class="py-3">
+    <div class="form-group col-md-12 mb-0" style="justify-content:center ;">
+      {{ form|crispy }}<br>
+    </div><br>
+    <div class="col-sm-8" style="margin: auto;" id="message">
+      {% for message in messages %}
+      {% if message.tags == 'error' %}
+      <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+      {% endif %}
+      {% if message.tags == 'success' %}
+      <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+      {% endif %}
+      {% endfor %}  
+    </div>
+    <div class="mb-4">
+      <input type="checkbox" class="form-check-input" id="signup-terms" name="signup-terms"> I agree to 
+        <a class="btn btn-sm btn-alt-secondary d-block d-lg-inline-block mb-1" href="" data-bs-toggle="modal" data-bs-target="#modal-terms">
+          <i class="fa fa-book opacity-50 me-1"></i>  Terms &amp; Conditions
+        </a>
+      </label>
+    </div>
+  </div>
+  <div class="mb-4">
+    <button type="submit" class="btn w-100 btn-lg btn-hero btn-primary" name="submit" id="Login" value="Sign in" width="104" height="25" border="0" tabindex="5" onclick="showDiv()">
+      <i class="fa fa-fw fa-user-plus opacity-50 me-1"></i> Sign Up
+    </button>
+    <p class="mt-3 mb-0 d-lg-flex justify-content-lg-between">Already Activated?
+      <a class="btn btn-sm btn-alt-secondary d-block d-lg-inline-block mb-1" href="{% url 'user_login' %}">
+        <i class="fa fa-sign-in-alt opacity-50 me-1"></i> Sign In
+      </a>
+    </p>
+  </div>
+</form>
+{% endblock %}

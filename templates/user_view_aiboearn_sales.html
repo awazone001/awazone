@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AIBO EARN | WITHDRAW HISTORY{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="pt-4 px-4 bg-body-dark rounded push">
+    <div class="row items-push">
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{purchases.sector}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">SECTOR</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{purchases.asset}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">ASSET</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+                {{purchases.currency}} {{purchases.available_balance}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">AVAILABLE LEDGER</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+                {{purchases.currency}} {{purchases.ledger_balance}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">LEDGER BALANCE</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded">
+    <div class="block-header block-header-default">
+      <h3 class="block-title">Previous AIBO Earn Asset Sales</h3>
+    </div>
+    <div class="block-content bg-body-dark">
+    </div>
+    <div class="block-content">
+      <div class="table-responsive">
+        <table class="table table-borderless table-striped table-vcenter fs-sm">
+          <thead>
+            <tr>
+              <th class="text-center">Transaction ID</th>
+              <th class="text-center">Purchase ID</th>
+              <th class="d-sm-table-cell text-center">Transaction Date/Time</th>
+              <th class="d-none d-xl-table-cell text-center">Share Worth</th>
+              <th class="d-sm-table-cell text-end">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="transactionBody">
+            {% for sale in sales %}
+            <tr class="transaction-row">
+              <td class="text-center">
+                <a class="fw-semibold" href="">
+                  <strong>{{ sale.id }}</strong>
+                </a>
+              </td>
+              <td class="text-center">
+                <a class="fw-semibold" href="">
+                  <strong>{{ sale.purchase }}</strong>
+                </a>
+              </td>
+              <td class="d-sm-table-cell text-center">{{ sale.transaction_datetime }}</td>
+              <td class="d-none d-xl-table-cell text-center">
+                <a class="fw-semibold" href="">{{ sale.share_value }} shares</a>
+              </td>
+              <td class="d-sm-table-cell text-end">
+                <strong>{{ sale.amount }}</strong>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">
+                <span id="empty">No Transactions Yet</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="buttonsContainer" class="text-center">
+    <button id="viewMoreBtn" class="btn btn-primary">View More</button>
+    <button id="viewLessBtn" class="btn btn-primary" style="display: none;">View Less</button>
+</div>
+{% endblock %}

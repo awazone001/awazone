@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AIBO EARN | SECTOR{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="content" id="assets">
+    <div class="row">  
+      {% for sector in sectors %}
+      <div class="col-md-12 col-xl-4">
+        <div class="block block-rounded">
+          <div class="block-content p-0 overflow-hidden" style="max-height: 50vh;">
+            <a class="img-link img-fluid-100" data-toggle="layout" data-action="side_overlay_open" href="">
+              <img class="img-fluid rounded-top" src="{{ sector.image.url }}" alt="">
+            </a>
+          </div>
+          <div class="block-content">
+            <h3 class="h4 mb-2" style="color:darkblue ;">{{ sector.sector }} ({{sector.id}})</h3>
+            <em class="text-muted">Available: {{sector.is_available}}</em><br>
+            <span class="text-primary">Launched</span> on <em class="text-muted">{{sector.launch_date}}</em>
+            <p>
+              {{sector.description}}
+            </p>
+          </div>
+          <div class="block-content block-content-full">
+            <div class="row">
+              <div class="col-6">
+                <a class="btn btn-sm btn-primary w-100" href="{% url 'user_view_sector_asset' sector.sector %}">
+                  <i class="fa fa-eye opacity-50 me-1"></i>
+                  View Assets
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <span id="empty">NO SECTOR YET</span>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

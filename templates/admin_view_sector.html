@@ -1,0 +1,99 @@
+{% extends "admin_base.html" %}
+{% load static %}]
+{% block content %}
+<main id="main-container">
+        
+  <div class="bg-image">
+    <div class="bg-black-50">
+      <div class="content content-top content-full text-center">
+        <h1 class="fw-bold text-white mt-5 mb-2">
+          AIBO EARN SECTORS
+        </h1>
+        <h3 class="fw-normal text-white-75 mb-5">Invest in Major economic sectors on aibo earn.</h3>
+      </div>
+      <div class="col-md py-3 d-md-flex align-items-md-center justify-content-md-end text-center">
+        <div class="block-content block-content-full text-end bg-body">
+          <a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'add_sector' %}">
+            <i class="far fa-book fa-plus"></i> Launch New Sector
+          </a>             
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+  <div class="content" id="assets">
+    <div class="row">  
+      {% for sector in sectors %}
+      <div class="col-md-12 col-xl-4">
+        <div class="block block-rounded">
+          <div class="block-content p-0 overflow-hidden">
+            <a class="img-link img-fluid-100" data-toggle="layout" data-action="side_overlay_open" href="">
+              <img class="img-fluid rounded-top" src="{{ sector.image.url }}" alt="">
+            </a>
+          </div>
+          <div class="block-content">
+            <h3 class="h4 mb-2" style="color:darkblue ;">{{ sector.sector }} ({{sector.id}})</h3>
+            <em class="text-muted">Available: {{sector.is_available}}</em><br>
+            <span class="text-primary">Launched</span> on <em class="text-muted">{{sector.launch_date}}</em>
+            <span class="text-primary">{{sector.id}}</span>
+            <p>
+              {{sector.description}}
+            </p>
+          </div>
+          <div class="block-content block-content-full">
+            <div class="row">
+              <div class="col-6">
+                <a class="btn btn-sm btn-primary w-100" href="">
+                  <i class="fa fa-eye opacity-50 me-1"></i>
+                  View Assets
+                </a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-sm btn-alt-primary w-100" href="{% url 'update_sector' sector.id %}">
+                  <i class="fa fa-wrench opacity-50 me-1"></i>
+                  Manage
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center push">
+        <li class="page-item active">
+          <a class="page-link" href="">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="">4</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="">5</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="" aria-label="Next">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-right"></i>
+            </span>
+            <span class="visually-hidden">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</main>
+<style>
+  .bg-image{
+        background-image: url('{% static "assets/media/photos/bgd.png" %}');
+      }
+</style>
+{% endblock %}

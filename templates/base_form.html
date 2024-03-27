@@ -1,0 +1,122 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>AWAZONE | {% block title %}{% endblock %}</title>
+    <meta name="description" content="awazone">
+    <meta name="author" content="awazone">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:title" content="awazone">
+    <meta property="og:site_name" content="awazone">
+    <meta property="og:description" content="awazone">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <link rel="shortcut icon" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="stylesheet" id="css-main" href="{% static 'assets/css/dashmix.min.css' %}">
+  </head>
+  <body>
+    <main id="main-container">
+      <div class="bg-image">
+        <div class="row g-0 justify-content-center bg-primary-dark-op">
+          <div class="hero-static col-sm-8 col-md-6 col-xl-4 d-flex align-items-center p-2 px-sm-0">
+            <div class="block block-transparent block-rounded w-100 mb-0 overflow-hidden">
+              <div class="block-content block-content-full px-lg-5 px-xl-6 py-4 py-md-5 py-lg-6 bg-body-extra-light">
+                <div class="mb-2 text-center">
+                  <a class="link-fx fw-bold fs-1" href="">
+                    <img src="{% static "assets/media/logo/awazone_blue.png" %}" style="width: 70%;height:100%">
+                  </a>
+                </div>
+                {% block content %}{% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-content">
+        &copy; <span data-toggle="year-copy"></span>  Powered by Awazone
+      </div>
+    </footer>
+    <div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="modal-terms" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="block block-themed block-transparent mb-0">
+            <div class="block-header bg-primary-dark">
+              <h3 class="block-title"></h3>
+              <div class="block-options">
+                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="block-content">
+              <pre></pre>
+            </div>
+            <div class="block-content block-content-full text-end bg-body">
+              <p class="fw-semibold fs-sm py-1"></p>
+              <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      #preloader{
+        background: white url('{% static "assets/media/preloader/preloader2.gif" %}') no-repeat center center;
+        background-size: 30%;
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        z-index: 100;
+      }
+      .bg-image{
+        background-image: url('{% static "assets/media/photos/bgd.png" %}');
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+      footer {
+        margin-top: auto;
+      }
+    </style>
+    <script>
+      var message_element = document.getElementById("message")
+
+      setTimeout(function(){
+        message_element.style.display = "none";
+      },5000);
+
+      function showDiv() {
+        document.getElementById('preloader').style.display = "block";
+        setTimeout(function() {
+          document.getElementById('preloader').style.display = "none";
+          
+        },2000);
+      }
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </body>
+</html>

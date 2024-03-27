@@ -1,0 +1,570 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>AWAZONE | {% block title %}{% endblock %}</title>
+    <meta name="description" content="awazone">
+    <meta name="author" content="awazone">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:title" content="awazone">
+    <meta property="og:site_name" content="awazone">
+    <meta property="og:description" content="awazone">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <link rel="shortcut icon" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="stylesheet" id="css-main" href="{% static 'assets/css/dashmix.min.css' %}">
+    <link rel="stylesheet" id="css-theme" href="{% static 'assets/css/themes/xpro.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/chat.css' %}">
+  </head>
+  <!-- ***** Preloader Start ***** -->
+  <div id="preloader"></div>  
+  <!-- ***** Preloader End ***** -->
+  <body> 
+    <div id="page-container" class="sidebar-dark side-scroll page-header-fixed page-header-dark main-content-boxed">
+      <aside id="side-overlay">
+        <div class="bg-primary">
+          <div class="content-header">
+            <a class="img-link me-1" href="">
+              <img class="img-avatar img-avatar32 img-avatar-thumb" src="{% static 'assets/media/avatars/avatar.jpg' %}" alt="">
+            </a>
+            <div class="ms-2">
+              <a class="text-white fw-semibold" href="">{{ user.username }}</a>
+            </div>
+            <a class="ms-auto text-white" href="" data-toggle="layout" data-action="side_overlay_close">
+              <i class="fa fa-times"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="content-side content-side-full">
+          <ul class="nav-main">
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="{% url 'admin_dashboard' %}">
+                <i class="nav-main-link-icon fa fa-compass"></i>
+                <span class="nav-main-link-name">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">AWAZONE SERVICES</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-wallet"></i>
+                <span class="nav-main-link-name">AIBO PAY</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-exchange"></i>
+                    <span class="nav-main-link-name">Transactions</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-wrench"></i>
+                    <span class="nav-main-link-name">Fund Management</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'manage_rates' %}">
+                    <i class="nav-main-link-icon fa fa-wrench"></i>
+                    <span class="nav-main-link-name">Billing Management</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-coins"></i>
+                <span class="nav-main-link-name">AIBO EARN</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'view_sectors' %}">
+                    <i class="nav-main-link-icon fa fa-diamond"></i>
+                    <span class="nav-main-link-name">Sectors</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'view_assets' %}">
+                    <i class="nav-main-link-icon fa fa-puzzle-piece"></i>
+                    <span class="nav-main-link-name">Assets</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'view_sectors' %}">
+                    <i class="nav-main-link-icon fa fa-cart-arrow-down"></i>
+                    <span class="nav-main-link-name">Purchases</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-credit-card"></i>
+                <span class="nav-main-link-name">PAWA CARD</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-credit-card"></i>
+                    <span class="nav-main-link-name">Card Management</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-heading">Manage</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-user"></i>
+                <span class="nav-main-link-name">USER</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-users"></i>
+                    <span class="nav-main-link-name">Users</span>
+                  </a>
+                </li>            
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'admin_view_level' %}">
+                    <i class="nav-main-link-icon fa fa-user-circle"></i>
+                    <span class="nav-main-link-name">Rank</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-envelope"></i>
+                    <span class="nav-main-link-name">Mailing</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-user"></i>
+                <span class="nav-main-link-name">STAFF</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'view_staffs' %}">
+                    <i class="nav-main-link-icon fa fa-users"></i>
+                    <span class="nav-main-link-name">Staff</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-envelope"></i>
+                    <span class="nav-main-link-name">Mailing</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-certificate"></i>
+                    <span class="nav-main-link-name">Rank</span>
+                  </a>
+                </li>
+              </ul>
+            </li>         
+            <li class="nav-main-heading">More</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <i class="nav-main-link-icon fa fa-life-ring"></i>
+                <span class="nav-main-link-name">Support</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <i class="nav-main-link-icon fa fa-envelope"></i>
+                <span class="nav-main-link-name">Contact</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">Personal</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="{% url 'admin_profile' %}">
+                <i class="nav-main-link-icon fa fa-user"></i>
+                <span class="nav-main-link-name">Account</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <i class="nav-main-link-icon fa fa-cog"></i>
+                <span class="nav-main-link-name">Settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+      <nav id="sidebar" aria-label="Main Navigation">
+        <div class="content-header bg-primary">
+          <a class="fw-semibold text-white tracking-wide" href="">
+            <img src="{% static "assets/media/logo/awazone_white_2.png" %}" style="width: 30%;height:70%">
+          </a>
+          <div>
+            <a class="d-lg-none text-white ms-2" data-toggle="layout" data-action="sidebar_close" href="">
+              <i class="fa fa-times-circle"></i>
+            </a>
+          </div>
+        </div>
+        <div class="js-sidebar-scroll">
+          <div class="smini-hidden">
+            <div class="content-side content-side-full bg-black-10 d-flex align-items-center">
+              <a class="img-link d-inline-block" href="">
+                <img class="img-avatar img-avatar48 img-avatar-thumb" src="{% static 'assets/media/avatars/avatar.jpg' %}" alt="">
+              </a>
+              <div class="ms-3">
+                <a class="fw-semibold text-dual" href="">{{ user.username }}</a>
+              </div>
+            </div>
+          </div>`
+          <div class="content-side content-side-full">
+            <ul class="nav-main">
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'admin_dashboard' %}">
+                  <i class="nav-main-link-icon fa fa-compass"></i>
+                  <span class="nav-main-link-name">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'admin_profile' %}">
+                  <i class="nav-main-link-icon fa fa-user-circle"></i>
+                  <span class="nav-main-link-name">Profile</span>
+                </a>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'rooms' %}">
+                  <i class="nav-main-link-icon fa fa-envelope-open"></i>
+                  <span class="nav-main-link-name">Messages</span>
+                </a>
+              </li>
+              <li class="nav-main-heading">More</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                  <i class="nav-main-link-icon fa fa-briefcase"></i>
+                  <span class="nav-main-link-name">Resources</span>
+                </a>
+                <ul class="nav-main-submenu">
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="{% url 'manage_terms_and_conditions' %}">
+                      <i class="nav-main-link-icon fa fa-file-contract"></i>
+                      <span class="nav-main-link-name">Manage T&C's</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="">
+                      <i class="nav-main-link-icon fa fa-map"></i>
+                      <span class="nav-main-link-name">Slides and Ads</span>
+                    </a>
+                  </li>
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="{% url 'view_staffs' %}">
+                      <i class="nav-main-link-icon fa fa-users"></i>
+                      <span class="nav-main-link-name">Staff</span>
+                      <span class="nav-main-link-badge badge rounded-pill bg-primary">0</span>
+                    </a>
+                  </li>
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="">
+                      <i class="nav-main-link-icon fa fa-cog"></i>
+                      <span class="nav-main-link-name">Manage</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'user_logout' %}">
+                  <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i>
+                  <span class="nav-main-link-name">Log Out</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <header id="page-header">
+        <div class="content-header">
+          <img src="{% static "assets/media/logo/awazone_white_2.png" %}" style="width: 25%;height:60%">
+          <div class="d-flex align-items-center" id="header">
+            <a class="fw-semibold text-dual tracking-wide" href="">
+              <span class="opacity-75"></span>
+            </a>
+            <ul class="nav-main nav-main-horizontal nav-main-hover d-none d-lg-block ms-3">
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'admin_dashboard' %}">
+                  <i class="nav-main-link-icon fa fa-compass"></i>
+                  <span class="nav-main-link-name">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'admin_profile' %}">
+                  <i class="nav-main-link-icon fa fa-user-circle"></i>
+                  <span class="nav-main-link-name">Profile</span>
+                </a>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'rooms' %}">
+                  <i class="nav-main-link-icon fa fa-envelope-open"></i>
+                  <span class="nav-main-link-name">Messages</span>
+                </a>
+              </li>
+              <li class="nav-main-heading">More</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                  <i class="nav-main-link-icon fa fa-briefcase"></i>
+                  <span class="nav-main-link-name">Resources</span>
+                </a>
+                <ul class="nav-main-submenu">
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="{% url 'manage_terms_and_conditions' %}">
+                      <i class="nav-main-link-icon fa fa-file-contract"></i>
+                      <span class="nav-main-link-name">Manage T&C's</span>
+                    </a>
+                  </li>
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="">
+                      <i class="nav-main-link-icon fa fa-map"></i>
+                      <span class="nav-main-link-name">Slides and Ads</span>
+                    </a>
+                  </li>
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="{% url 'view_staffs' %}">
+                      <i class="nav-main-link-icon fa fa-users"></i>
+                      <span class="nav-main-link-name">staff</span>
+                      <span class="nav-main-link-badge badge rounded-pill bg-primary">0</span>
+                    </a>
+                  </li>
+                  <li class="nav-main-item">
+                    <a class="nav-main-link" href="">
+                      <i class="nav-main-link-icon fa fa-cog"></i>
+                      <span class="nav-main-link-name">Manage</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'user_logout' %}">
+                  <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i>
+                  <span class="nav-main-link-name">Log Out</span>
+                </a>
+              </li>
+            </ul>
+            <!-- END Menu -->
+          </div>
+          <div>
+            <button type="button" class="btn btn-alt-secondary d-lg-none" data-toggle="layout" data-action="header_search_on">
+              <i class="fa fa-fw fa-search"></i>
+            </button>
+            <div class="dropdown d-inline-block" id="notificationBell">
+              <button type="button" class="btn btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-fw fa-bell"></i><sup><span class="nav-main-link-badge badge rounded-pill bg-success">{{ notifications.count }}</span></sup>
+              </button>
+              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+                <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+                  Notifications
+                </div>
+                <ul class="nav-items my-2">
+                  {% for notification in notifications %}
+                  <li>
+                    <a class="d-flex text-dark py-2" href="">
+                      <div class="flex-shrink-0 mx-3">
+                        <i class="fa fa-envelope-open text-info"></i>
+                      </div>
+                      <div class="flex-grow-1 fs-sm pe-2">
+                        <div class="notification">
+                          <div class="notification" data-notification-id="{{notification.id}}">
+                            <span class="message">{{ notification.message }}</span><br>
+                            <span class="timestamp">{{ notification.created_at }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                <div class="p-2 border-top">
+                  <a class="btn btn-alt-primary w-100 text-center" href="">
+                    <i class="fa fa-fw fa-eye opacity-50 me-1"></i> View All
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+              <i class="fa fa-fw fa-bars"></i>
+            </button>
+          </div>
+        </div>
+        <div id="page-header-search" class="overlay-header bg-primary">
+          <div class="content-header">
+            <form class="w-100" action="" method="POST">
+              <div class="input-group">
+                <button type="button" class="btn btn-primary" data-toggle="layout" data-action="header_search_off">
+                  <i class="fa fa-fw fa-times-circle"></i>
+                </button>
+                <input type="text" class="form-control border-0" placeholder="Search your company.." id="page-header-search-input" name="page-header-search-input">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="page-header-loader" class="overlay-header bg-primary-darker">
+          <div class="content-header">
+            <div class="w-100 text-center">
+              <i class="fa fa-fw fa-2x fa-sun fa-spin text-white"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main id="main-container">
+        <div class="bg-header-dark">
+          <div class="content content-full">
+            <div class="row pt-3">
+              <div class="col-md py-3 d-md-flex align-items-md-center text-center">
+                <h1 class="text-white mb-0">
+                  <span class="fw-semibold">WELCOME</span>
+                  <span class="fw-medium fs-base text-white-75 d-block d-md-inline-block">{{ user.first_name }} {{ user.last_name }}</span>
+                </h1>
+              </div>
+              <div class="col-md py-3 d-md-flex align-items-md-center justify-content-md-end text-center">
+                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
+                  <i class="fa fa-fw fa-wrench"></i> Manage Utilities
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-body-extra-light">
+          <div class="content content-full">
+            <div class="col-sm-8" style="margin: auto;" id="message">
+              {% for message in messages %}
+                  {% if message.tags == 'error' %}
+                  <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+                  {% endif %}
+                  {% if message.tags == 'success' %}
+                  <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+                  {% endif %}
+                  {% endfor %}  
+            </div>
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <div class="footer-content">
+          &copy; <span data-toggle="year-copy"></span>  Powered by Awazone
+        </div>
+      </footer>
+    </div>
+    <style>
+      .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+    </style>
+    <style>
+      #preloader{
+        background: white url('{% static "assets/media/preloader/preloader2.gif" %}') no-repeat center center;
+        background-size: 30%;
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        z-index: 100;
+      }
+      #empty{
+          color: red;
+          font-size: 20px;
+          font-weight: 700;
+          display: flex;
+          justify-content: center;
+        }
+    </style>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // JavaScript code to toggle visibility of table rows
+      var transactions = document.getElementsByClassName('transaction-row');
+      var viewMoreBtn = document.getElementById('viewMoreBtn');
+      var viewLessBtn = document.getElementById('viewLessBtn');
+    
+      // Hide the transactions initially
+      for (var i = 0; i < transactions.length; i++) {
+        transactions[i].style.display = 'none';
+      }
+    
+      function toggleTransactions() {
+        for (var i = 0; i < transactions.length; i++) {
+          transactions[i].style.display = (transactions[i].style.display === 'none' || transactions[i].style.display === '') ? 'table-row' : 'none';
+        }
+      }
+    
+      viewMoreBtn.addEventListener('click', function () {
+        toggleTransactions();
+        viewMoreBtn.style.display = 'none';
+        viewLessBtn.style.display = '';
+      });
+    
+      viewLessBtn.addEventListener('click', function () {
+        toggleTransactions();
+        viewMoreBtn.style.display = '';
+        viewLessBtn.style.display = 'none';
+      });
+    </script>
+    <script>
+      const loader = document.getElementById("preloader");
+      window.addEventListener("load",function(){
+        loader.style.display = "none";
+      })
+      var message_element = document.getElementById("message")
+
+      setTimeout(function(){
+        message_element.style.display = "none";
+      },5000);
+
+
+      $(document).ready(function() {
+      // Click event handler for the notification bell
+      $('#notificationBell').click(function() {
+        // Iterate over each notification
+        $('.notification').each(function() {
+          var notificationId = $(this).data('notification-id');
+          markNotificationAsRead(notificationId);
+        });
+      });
+
+      function markNotificationAsRead(notificationId) {
+        $.ajax({
+          url: '/mark_notification_as_read/',
+          type: 'POST',
+          data: {
+            'notification_id': notificationId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+            $('#notificationBell').click(function() {
+            // Refresh the page
+            location.reload();
+          });
+          },
+          error: function(xhr, status, error) {
+            // Error handler
+            console.error('Error marking notification as read:', error);
+          }
+        });
+      }
+    });
+    </script>
+  </body>
+</html>

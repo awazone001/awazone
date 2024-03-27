@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}AIBO EARN | PURCHASE ASSET{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="block block-rounded">
+    <div class="content content-full content-boxed">
+        <form method="POST">
+            {% csrf_token %}
+          <div class="block">
+            <div class="block-header block-header-default">
+              <h3>PURCHASE AIBOEARN ASSET</h3>
+              <div class="block-options">
+                <div class="form-check form-switch">
+                </div>
+              </div>
+            </div>
+            <div class="block-content">
+              <div class="row justify-content-center push">
+                <div class="col-md-10">
+                  <div class="mb-4">
+                    {{ purchase|crispy }}                                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="block-content bg-body-light">
+              <div class="row justify-content-center push">
+                <div class="col-md-10">
+                  <button type="submit" class="btn btn-alt-primary">
+                    <i class="fa fa-fw fa-shopping-cart opacity-50 me-1"></i> Purchase
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Retrieve the necessary elements and URL
+  var mainDropdown = $('#id_sector');
+  var dependentDropdown = $('#id_asset'); // Ensure this selector is correct
+  var assetUrl = $('#buyasset').data('asset-url');
+
+  // Function to load sorted assets
+  function loadSortedAssets(selectedValue) {
+    // Clear the dependent dropdown
+    dependentDropdown.empty();
+
+    // Send an AJAX request to load the sorted assets
+    $.ajax({
+      url: '/aiboearn/ajax_load_assets/',
+      data: {
+        'main_value': selectedValue // Pass the selected value, not the jQuery object
+      },
+      success: function(data) {
+        var assets = data.assets; // Parse JSON directly, no need for JSON.parse()
+        dependentDropdown.empty();
+
+        // Populate the dependent dropdown with the sorted assets
+        $.each(assets, function(index, asset) {
+          dependentDropdown.append('<option value="' + asset.pk + '">' + asset.fields.asset + '</option>');
+        });
+      }
+    });
+  }
+
+  // Check main dropdown on page load
+  var selectedValue = mainDropdown.val();
+  if (!selectedValue) {
+    dependentDropdown.empty();
+  } else {
+    loadSortedAssets(selectedValue);
+  }
+
+  // Event handler for main dropdown change
+  mainDropdown.change(function() {
+    var selectedValue = $(this).val();
+
+    if (!selectedValue) {
+      dependentDropdown.empty();
+    } else {
+      loadSortedAssets(selectedValue);
+    }
+  });
+});
+
+</script>
+{% endblock %}

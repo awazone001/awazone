@@ -1,0 +1,15 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}AIBO PAY | WITHDRAWAL FAILED{% endblock %}
+{% block content %}
+<div class="block-content block-content-full ">
+  <div class="mb-2 text-center">
+    <div style="border-radius: 50%; height: 200px; width: 200px; background:#f8faf5; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+      <i class="nav-main-link-icon fa fa-dollar" style="font-size: 100px;"></i>
+    </div><br>  
+    <h5 style="color: red;">TRANSACTION FAILED</h5>
+    <h5 style="color: red;">Your withdrawal of {{wallet.currency}} {{amount}} to {{bank.account_number}} was not successfull</h5>
+  </div>
+</div>
+{% endblock %}

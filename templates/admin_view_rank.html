@@ -1,0 +1,52 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}User Levels{% endblock %}
+{% block content %}
+<div class="content content-boxed overflow-hidden">
+  <a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'add_level' %}">
+    <i class="far fa-book fa-plus"></i> Create New Rank 
+  </a> 
+    <div class="row py-5">
+      {% for level in levels %}
+      <div class="col-md-6 col-xl-3">
+        <a class="block block-link-pop block-rounded text-center" href="">
+          <div class="block block-rounded block-themed text-center">
+            <div class="block-header bg-muted">
+              <h3 class="block-title">{{level.level}} - {{ level.title }}</h3>
+            </div>
+            <div class="block-content bg-body-light">
+              <div class="py-2">
+                <span class="h1 fw-bold mb-2"><h5>REQUIREMENTS</h5></span>
+                <p class="h6 text-muted">
+                  Direct Team: {{level.direct_team}} {{ level.title }}<br>
+                  Team Size: {{level.number_team}} Team Member<br>
+                </p>
+              </div>
+            </div>
+            <div class="modal-content">
+              <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                  <h3 class="block-title">Reward</h3>
+                </div>
+                <div class="block-content">
+                  <pre style="text-align: justify;">{{ level.user_reward }}</pre>
+                </div>
+              </div>
+            </div>
+            <div class="modal-content">
+              <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                  <h3 class="block-title">DESCRIPTION</h3>
+                </div>
+                <div class="block-content">
+                  <pre style="text-align: justify;">{{ level.description }}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

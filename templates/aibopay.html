@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AIBO PAY DASHBOARD{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <h2 class="fw-light mt-4 mb-3">WALLET OVERVIEW</h2>
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+        <div class="block block-rounded block-fx-pop text-center">
+          <div class="block-content block-content-full ratio ratio-16x9">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-wallet text-primary"></i>
+                <a class="link-fx fs-1 fw-semibold" href=""><h3>{{user_wallet.wallet_number}}</h3></a>
+                <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET NUMBER</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="block block-rounded block-fx-pop text-center">
+          <div class="block-content block-content-full ratio ratio-16x9">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-sack-dollar text-warning"></i>
+                <a class="link-fx text-warning fs-1 fw-semibold" href=""><h3>NGN {{user_wallet.balance}}</h3></a>
+                <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET BALANCE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="block block-rounded block-fx-pop text-center">
+        <div class="block-content block-content-full ratio ratio-16x9">
+          <div class="d-flex justify-content-center align-items-center">
+            <div>
+              <i class="fa fa-2x fa-arrow-alt-circle-up text-danger"></i>
+              <a class="link-fx text-danger fs-1 fw-semibold" href=""><h3>{{user_wallet.currency}} {{user_wallet.outflow}}</h3></a>
+              <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">EXPENSES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="block block-rounded block-fx-pop text-center">
+        <div class="block-content block-content-full ratio ratio-16x9">
+          <div class="d-flex justify-content-center align-items-center">
+            <div>
+              <i class="fa fa-2x fa-arrow-alt-circle-down text-success"></i>
+              <a class="link-fx text-success fs-1 fw-semibold" href=""><h4>{{user_wallet.currency}} {{user_wallet.inflow}}</h4></a>
+              <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">INCOME</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-4 px-4 bg-body-dark rounded push">
+    <div class="row items-push">
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="{% url 'initiate_payment' %}">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-arrow-alt-circle-down"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Deposit</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="{% url 'withdraw' %}">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-arrow-alt-circle-up"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Withdraw</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-exchange"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Transfer</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-phone"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Data and Airtime</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-credit-card"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Pay Bills</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="{% url 'payout_account' %}">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              <i class="fa fa-tasks"></i>
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">Accounts</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded">
+    <div class="block-header block-header-default">
+      <h3 class="block-title">Transaction History</h3>
+      <div class="block-options">
+        <!-- <button type="button" class="btn-block-option">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+        <button type="button" class="btn-block-option">
+          <i class="fa fa-wrench"></i>
+        </button> -->
+      </div>
+    </div>
+    <div class="block-content block-content-full">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped table-vcenter">
+          <thead>
+            <tr>
+              <th>DETAILS</th>
+              <th class="text-center">Transaction</th>
+              <th class="text-center">Amount</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody id="transactionBody">
+            {% for transaction in transactions %}
+            <tr class="transaction-row">
+              <td>
+                <p class="fw-semibold mb-1">
+                  {{transaction.ref}}
+                </p>
+                <p class="fs-sm text-muted">
+                 Description: {{transaction.description}}
+                </p>
+                <p class="fs-sm text-muted">
+                  {{transaction.timestamp}}
+                </p>
+              </td>
+              <td class="text-center">
+                <span class="fs-sm">{{transaction.transaction_type}}</span>
+              </td>
+              <td class="text-center">
+                <div >
+                  {{transaction.currency}} {{transaction.amount}}
+                </div>
+              </td>
+              <td class="text-center">
+                {% if transaction.status == 'Success' %}
+                <a href="" style="color: green;">Success</a>
+                {% elif transaction.status == 'Pending' %}
+                <a href="" style="color: rgb(46, 48, 172);">Pending</a>
+                {% else %}
+                <a href="" style="color: red;">Failed</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">
+                <span id="empty">No Transactions Yet</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="buttonsContainer" class="text-center">
+        <button id="viewMoreBtn" class="btn btn-primary">View More</button>
+        <button id="viewLessBtn" class="btn btn-primary" style="display: none;">View Less</button>
+      </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

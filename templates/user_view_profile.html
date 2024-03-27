@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} PROFILE | {{user.first}} {{user.last_name}}{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="block block-rounded">
+    <div class="block-content text-center">
+      <div class="py-4">
+        <div class="mb-3">
+          <img class="img-avatar img-avatar96" src="{{user.profile_image.url}}" alt="">
+        </div>
+        <h1 class="fs-lg mb-0">{{user.first_name}} {{user.last_name}}</h1>
+        <a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'update_profile' %}">
+          <i class="far fa-book fa-user"></i> Update Info
+        </a>
+      </div>
+    </div>
+    <div class="block-content bg-body-light text-center">
+      <div class="row items-push text-uppercase">
+        <div class="col-6 col-md-3">
+          <div class="fw-semibold text-dark mb-1">ARP</div>
+          <a class="link-fx fs-3" href="">{{aibo.arp}}</a>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-semibold text-dark mb-1">ACCOUNT BALANCE</div>
+          <a class="link-fx fs-3" href="">{{user_wallet.currency}} {{user_wallet.balance}}</a>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-semibold text-dark mb-1">RANK</div>
+          <a class="link-fx fs-3" href="">{{aibo.level}}</a>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="fw-semibold text-dark mb-1">TEAM SIZE</div>
+            <a class="link-fx fs-3" href="">{{user.team}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded">
+    <div class="block-header block-header-default">
+      <h3 class="block-title">USER INFO</h3>
+    </div>
+    <div class="block-content">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="block block-rounded block-bordered">
+            <div class="block-header border-bottom">
+              <h3 class="block-title">CONTACT INFO</h3>
+            </div>
+            <div class="block-content">
+              <address class="fs-sm">
+                PHONE NUMBER <i class="fa fa-phone"></i> <span style="color: blue;">{{user.phone_number}}</span><br>
+                ADDRESS <i class="fa fa-map-marker"></i> <span style="color: blue;">{{user.country}}</span><br>
+                EMAIL <i class="fa fa-envelope"></i> <span style="color: blue;">{{user.email}}</span>
+              </address>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="block block-rounded block-bordered">
+            <div class="block-header border-bottom">
+              <h3 class="block-title">OTHER INFO</h3>
+            </div>
+            <div class="block-content">
+              <address class="fs-sm">
+                USERNAME <i class="fa fa-user"></i> <span style="color: blue;">{{user.username}}</span><br>
+                WALLET  NUMBER <i class="fa fa-wallet"></i> <span style="color: blue;">{{user_wallet.wallet_number}}</span><br>
+                REFERRAL CODE <i class="fa fa-users"></i> <span style="color: blue;">{{user.user_code}}</span>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded">
+    <div class="block-header block-header-default">
+      <h3 class="block-title">Direct Referrals</h3>
+    </div>
+    {% for referral in referrals %}
+    <div class="block-content">
+      <div class="row items-push">
+        <div class="col-md-4">
+          <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0" href="">
+            <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+              <div>
+                <div class="fw-semibold mb-1">{{ referral.first_name }} {{ referral.last_name }}</div>
+                <div class="fs-sm text-muted">{{ referral.username }}</div>
+              </div>
+              <div class="ms-3">
+                <img class="img-avatar" src="{{referral.image.url}}" alt="{% static 'assets/media/avatars/avatar.jpg' %}">
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <span id="empty">No referred users found.</span>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

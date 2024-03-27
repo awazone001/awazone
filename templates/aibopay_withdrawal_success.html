@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}AIBO PAY | WITHDRAWAL SUCCESS{% endblock %}
+{% block content %}
+
+<div class="block-content block-content-full ">
+  <div class="mb-2 text-center">
+    <div style="border-radius: 50%; height: 200px; width: 200px; background:#f8faf5; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+      <i class="nav-main-link-icon fa fa-dollar" style="font-size: 100px;"></i>
+    </div><br>  
+    <h5 style="color: green;">TRANSACTION IN PROGRESS</h5>
+    <h5 style="color: green;">Your withdrawal of {{wallet.currency}} {{amount}} to {{bank.account_number}} is being Processed</h5>
+    <h5>Your Withdrawal will be completed shortly</h5>
+  </div>
+</div>
+{% endblock %}

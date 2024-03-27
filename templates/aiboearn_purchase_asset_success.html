@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}AIBO EARN | PURCHASE SUCCESS{% endblock %}
+{% block content %}
+<div class="row g-0 justify-content-center">
+  <div class="hero-static col-sm-10 col-md-6 col-xl-4 d-flex align-items-center p-2 px-sm-0">
+    <div class="block block-transparent block-rounded w-100 mb-0 overflow-hidden">
+      <div class="block-content block-content-full px-lg-5 px-xl-6 py-4 py-md-5 py-lg-6 bg-body-extra-light">
+        <div class="mb-2 text-center">
+          <p class="text-uppercase fw-bold fs-sm text-muted">AIBO Asset Purchase</p>
+        </div>
+        <div>
+          <h4 style="color: green;">ASSET PURCHASE SUMMARY</h4>
+          <h5 style="color: green;">ASSET: {{asset.asset}}</h5>
+          <h5 style="color: green;">SECTOR: {{asset.sector}}</h5>
+          <h5 style="color: green;">AMOUNT: NGN {{amount}}</h5><br>
+          Kindly check your mail for reciept of this transaction<br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    #handshake{
+    color: #9abc66;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: -20px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AIBO EARN{% endblock %}
+{% block content %}
+<div class="content content-full">
+  <div class="pt-4 px-4 bg-body-dark rounded push">
+    <div class="row items-push">
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="{% url 'user_view_sector' %}">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{sectors.count}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">SECTORS</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="{% url 'user_view_asset' %}">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{assets.count}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">ASSETS</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="#purchaseDiv">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{purchases.count}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">PURCHASES</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-xl-3">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
+          <div class="block-content">
+            <p class="mb-2 d-none d-sm-block text-primary">
+              {{sales.count}}
+            </p>
+            <p class="fw-semibold fs-sm text-uppercase">SALES</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="block block-rounded" id="purchaseDiv">
+    <div class="block-header block-header-default">
+      <h3 class="block-title">Previous AIBO Earn Asset Purchases</h3>
+      <a class="btn btn-sm btn-primary w-10" href="{% url 'aiboearn_asset_purchase' %}">
+        <i class="fa fa-cart-arrow-down opacity-50 me-1"></i>
+        Purchase
+      </a>
+    </div>
+    <div class="block-content bg-body-dark">
+    </div>
+    <div class="block-content">
+      <div class="table-responsive">
+        <table class="table table-borderless table-striped table-vcenter fs-sm">
+          <thead>
+            <tr>
+              <th class="text-center">Transaction ID</th>
+              <th class="text-center">Transaction Date/Time</th>
+              <th class="text-center">Expiring Date/Time</th>
+              <th class="text-center">Sector</th>
+              <th class="text-center">Asset</th>
+              <th class="text-center">Amount</th>
+              <th class="text-center">Shares</th>
+              <th class="text-center">Ledger Balance</th>
+              <th class="text-center">Available Balance</th>
+              <th class="text-center">Total Withdrawals</th>
+              <th class="text-center"></th>
+              <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody id="transactionBody">
+            {% for purchase in purchases %}
+            <tr class="transaction-row">
+              <td class="text-center">
+                <a class="fw-semibold" href="">
+                  <strong>{{ purchase.id }}</strong>
+                </a>
+              </td>
+              <td class="text-center">
+                {{purchase.transaction_datetime}}
+              </td>
+              <td class="text-center">
+                {{purchase.expiring_datetime}}
+              </td>
+              <td class="text-center">
+                {{purchase.sector}}
+              </td>
+              <td class="text-center">
+                {{purchase.asset}}
+              </td>
+              <td class="text-center">
+                {{purchase.amount}}
+              </td>
+              <td class="text-center">
+                {{purchase.share_value}}
+              </td>
+              <td class="text-center">
+                {{purchase.ledger_balance}}
+              </td>
+              <td class="text-center">
+                {{purchase.available_balance}}
+              </td>
+              <td class="text-center">
+                {{purchase.total_sale}}
+              </td>
+              <td class="text-center">
+               <a class="btn btn-primary btn-sm btn-primary rounded-pill px-2" href="{% url 'aiboearn_sell' purchase.id %}">Withdraw</a>
+              </td>
+              <td class="text-center">
+                <a class="btn btn-primary btn-sm btn-primary rounded-pill px-2" href="{% url 'aiboearn_sales' purchase.id %}">Withdrawals</a>
+               </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="12" class="text-center">
+                <span id="empty">No Transactions Yet</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="buttonsContainer" class="text-center">
+    <button id="viewMoreBtn" class="btn btn-primary">View More</button>
+    <button id="viewLessBtn" class="btn btn-primary" style="display: none;">View Less</button>
+  </div>
+{% endblock %}

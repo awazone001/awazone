@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Error Page{% endblock %}
+{% block content %}
+<div class="flex-grow-0 p-5">
+  <p class="text-uppercase fw-bold fs-sm text-muted mb-0">
+    We Encountered an Error
+  </p>
+</div>
+<div class="flex-grow-1 d-flex align-items-center p-5 bg-body-light">
+  <div class="w-100">
+    <p class="text-danger fs-4 fw-bold text-uppercase mb-2">
+      403 Error
+    </p>
+    <h1 class="fw-bold mb-2">
+      Page Not Found
+    </h1>
+    <p class="fs-4 fw-medium text-muted mb-5">
+      We are sorry but the page you are looking for was not found.
+    </p>
+    <a class="btn btn-lg btn-alt-danger" href="">
+      <i class="fa fa-arrow-left opacity-50 me-1"></i> Back to all Errors
+    </a>
+  </div>
+</div>
+<ul class="list-inline flex-gow-1 p-5 fs-sm fw-medium mb-0">
+  <li class="list-inline-item">
+    <a class="text-muted" href="">
+      Dashboard
+    </a>
+  </li> 
+  <li class="list-inline-item">
+    <a class="text-muted" href="">
+      Support
+    </a>
+  </li> 
+  <li class="list-inline-item">
+    <a class="text-muted" href="">
+      Contact
+    </a>
+  </li>
+</ul>
+{% endblock %}

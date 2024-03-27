@@ -1,0 +1,15 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}SIGN UP FAILED{% endblock %}
+{% block content %}
+<form method='POST'>
+  {% csrf_token %}
+  <h3 style="text-align: center; color: red;">
+    This Activation Link is expired, request new Link with the button below.
+  </h3>
+  <div style="align-self: center;">
+    <button class="btn w-100 btn-lg btn-hero btn-primary" type="submit">Request New Email</button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "admin_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Profile | {{user.firsname}} {{user.last_name}}{% endblock %}
+{% block content %}
+<main id="main-container">
+    <!-- Hero -->
+    <div class="bg-image" style="">
+      <div class="bg-black-75">
+        <div class="content content-full">
+          <div class="py-5 text-center">
+            <a class="img-link" href="">
+              <img class="img-avatar img-avatar96 img-avatar-thumb" src="{{user.profile_image.url}}" alt="">
+            </a>
+            <h1 class="fw-bold my-2 text-white">Edit Account</h1>
+            <h2 class="h4 fw-bold text-white-75">
+              {{user.first_name}} {{user.last_name}}
+            </h2>
+            <a class="btn btn-secondary" href="{% url 'admin_dashboard' %}">
+              <i class="fa fa-fw fa-arrow-left opacity-50"></i> Back to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Hero -->
+
+    <!-- Page Content -->
+    <div class="content content-full content-boxed">
+      <div class="block block-rounded">
+        <div class="block-content">
+          <form action="" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+            <!-- User Profile -->
+            <h2 class="content-heading pt-0">
+              <i class="fa fa-fw fa-user-circle text-muted me-1"></i> User Profile
+            </h2>
+            <div class="row push">
+              <div class="col-lg-4">
+                <p class="text-muted">
+                  Your account’s info. 
+                </p>
+              </div>
+              <div class="col-lg-8 col-xl-5">
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-username">Username</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-username" name="dm-profile-edit-username" placeholder="Enter your username.." value="{{user.username}}">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-name">Name</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-name" name="dm-profile-edit-name" placeholder="Enter your name.." value="{{user.first_name}} {{user.last_name}}">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-email">Email Address</label>
+                  <input type="email" class="form-control" id="dm-profile-edit-email" name="dm-profile-edit-email" placeholder="Enter your email.." value="{{user.email}}">
+                </div>
+                {{update_form|crispy}}
+              </div>
+            </div>
+            <!-- END User Profile -->
+
+            <!-- Billing Information -->
+            <h2 class="content-heading pt-0">
+              <i class="fab fa-fw fa-paypal text-muted me-1"></i> Billing Information
+            </h2>
+            <div class="row push">
+              <div class="col-lg-4">
+                <p class="text-muted">
+                  Your billing information is never shown to other users and only used for creating your invoices.
+                </p>
+              </div>
+              <div class="col-lg-8 col-xl-5">
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-company-name">Company Name (Optional)</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-company-name" name="dm-profile-edit-company-name">
+                </div>
+                <div class="row mb-4">
+                  <div class="col-6">
+                    <label class="form-label" for="dm-profile-edit-firstname">Firstname</label>
+                    <input type="text" class="form-control" id="dm-profile-edit-firstname" name="dm-profile-edit-firstname">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label" for="dm-profile-edit-lastname">Lastname</label>
+                    <input type="text" class="form-control" id="dm-profile-edit-lastname" name="dm-profile-edit-lastname">
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-street-1">Street Address 1</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-street-1" name="dm-profile-edit-street-1">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-street-2">Street Address 2</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-street-2" name="dm-profile-edit-street-2">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-city">City</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-city" name="dm-profile-edit-city">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-postal">Postal code</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-postal" name="dm-profile-edit-postal">
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="dm-profile-edit-vat">VAT Number</label>
+                  <input type="text" class="form-control" id="dm-profile-edit-vat" name="dm-profile-edit-vat" value="EA00000000" disabled>
+                </div>
+              </div>
+            </div>
+            <!-- END Billing Information -->
+
+            <!-- Submit -->
+            <div class="row push">
+              <div class="col-lg-8 col-xl-5 offset-lg-4">
+                <div class="mb-4">
+                  <button type="submit" class="btn btn-alt-primary">
+                    <i class="fa fa-check-circle opacity-50 me-1"></i> Update Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- END Submit -->
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- END Page Content -->
+  </main>
+  {% endblock %}

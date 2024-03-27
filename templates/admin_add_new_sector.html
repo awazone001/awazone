@@ -1,0 +1,39 @@
+{% extends "admin_base.html" %}
+{% load static %}]
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+  <div class="block">
+    <div class="block-header block-header-default">
+      <span class="fw-semibold">LAUNCH AIBOEARN SECTOR</span>
+      <div class="block-options">
+        <div class="form-check form-switch">
+          {{new_sector.is_available|as_crispy_field}}
+        </div>
+      </div>
+    </div>
+    <div class="block-content">
+      <div class="row justify-content-center push">
+        <div class="col-md-10">
+          <div class="mb-4">
+            {{new_sector.sector|as_crispy_field}}
+          </div>
+          <div class="mb-4">
+            {{new_sector.description|as_crispy_field}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block-content bg-body-light">
+      <div class="row justify-content-center push">
+        <div class="col-md-10">
+          <button type="submit" class="btn btn-alt-primary">
+            <i class="fa fa-fw fa-certificate opacity-50 me-1"></i> Launch Sector
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

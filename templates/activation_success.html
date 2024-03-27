@@ -1,0 +1,19 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}SIGN UP SUCCESS{% endblock %}
+{% block content %}
+<div class="block-content block-content-full ">
+  <div class="mb-2 text-center">
+    <div style="border-radius: 50%; height: 200px; width: 200px; background:#f8faf5; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+      <i class="nav-main-link-icon fa fa-envelope" style="font-size: 100px;"></i>
+    </div><br>  
+    <h5 style="color: green;">ACCOUNT VERIFICATION SUCCESS!</h5>
+    <h5 style="color: green; text-align: justify;">Your Email has been verified successfully!</h5>
+    <p style="text-align: justify;">Thank you for choosing Awazone Partner Network, Login to your dashboard and pick a monthly license to earn more</p>
+    <a class="btn btn-sm btn-alt-secondary d-block d-lg-inline-block mb-1" href="{% url 'user_login' %}">
+      <i class="fa fa-sign-in-alt opacity-50 me-1"></i> Continue to Sign In
+    </a>
+  </div>
+</div>
+{% endblock %}
