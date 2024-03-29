@@ -4,8 +4,7 @@ from PIL import Image
 class TermsAndConditions(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -22,7 +21,7 @@ class SlidePhoto(models.Model):
 
         img = Image.open(self.image.path)
 
-        if img.height > 200 or img.width > 500:
+        if img.height > 200 or img.width > 800:
             new_img_size = (500, 200)
             img.thumbnail(new_img_size)
             img.save(self.image.path)

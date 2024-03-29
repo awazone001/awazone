@@ -6,7 +6,6 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.conf import settings
-from django.http import HttpResponseServerError
 from .models import Sector,Asset,AssetPurchases,AssetSales
 from .forms import AssetSales,AssetPurchaseForm,AssetForm,SectorForm,AssetSaleForm
 from user_module.decorators import user_access_only,staff_access_only,admin_access_only
@@ -62,110 +61,6 @@ def _render_aiboearn_page(request, template_name, extra_context=None):
     if extra_context:
         context.update(extra_context)
     return render(request, template_name, context)
-
-@login_required
-@admin_access_only()
-def add_asset(request):
-    if request.method == 'POST':
-        new_asset = AssetForm(request.POST, request.FILES)
-        if new_asset.is_valid():
-            with transaction.atomic(durable=True, savepoint=True):
-                new_asset.save(commit=True)
-                messages.success(request, 'Asset Successfully Added!')
-                return redirect('view_assets')
-        else:
-            messages.error(request, 'Invalid Inputs')
-    else:
-        new_asset = AssetForm()
-    
-    content = {
-        'staff': UserProfile.objects.get(email=request.user),
-        'new_asset': new_asset
-    }
-    return render(request, 'admin_add_new_asset.html', content)
-
-@login_required
-@admin_access_only()
-def update_asset(request, asset_id):
-    asset_instance = get_object_or_404(Asset, id=asset_id)
-    if request.method == 'POST':
-        updated_asset = AssetForm(request.POST, request.FILES, instance=asset_instance)
-        if updated_asset.is_valid():
-            with transaction.atomic(durable=True, savepoint=True):
-                updated_asset = updated_asset.save(commit=True)
-                messages.success(request, f'{asset_instance.asset} Successfully Updated!')
-                return redirect('view_assets')
-        else:
-            messages.error(request, 'Invalid Inputs')
-    else:
-        updated_asset = AssetForm(instance=asset_instance)
-
-    content = {
-        'staff': UserProfile.objects.get(email=request.user),
-        'new_asset': updated_asset,
-        'sector': get_object_or_404(Asset, id=asset_id).sector
-    }
-    return render(request, 'admin_add_new_asset.html', content)
-
-@login_required
-@staff_access_only()
-def view_asset(request):
-    purchase = AssetPurchases.objects.all().order_by('-transaction_datetime')
-    sale = AssetSales.objects.all().order_by('-transaction_datetime')
-    assets = Asset.objects.all().order_by('sector')
-    sectors = Sector.objects.all()
-
-    content = {
-        'staff': UserProfile.objects.get(email=request.user),
-        'purchases': purchase,
-        'sales': sale,
-        'assets': assets,
-        'sectors': sectors,
-    }
-    return render(request, 'admin_view_asset.html', content)
-
-@login_required
-@admin_access_only()
-def add_sector(request):
-    new_sector = SectorForm(request.POST or None, request.FILES or None)
-    if request.method == 'POST':
-        if new_sector.is_valid():
-            create_sector = new_sector.save(commit=False)
-            create_sector.sector = create_sector.sector.upper()
-            create_sector.save()
-            messages.success(request, 'Sector Successfully Added!')
-            return redirect('view_sectors')
-        else:
-            messages.error(request, 'Invalid Inputs')
-
-    content = {
-        'staff': UserProfile.objects.get(email=request.user),
-        'new_sector': new_sector
-    }
-    return render(request, 'admin_add_new_sector.html', content)
-
-@login_required
-@admin_access_only()
-def update_sector(request, sector_id):
-    sector_instance = get_object_or_404(Sector, id=sector_id)
-    new_sector = SectorForm(request.POST or None, request.FILES or None, instance=sector_instance)
-    if request.method == 'POST':
-        if new_sector.is_valid():
-            with transaction.atomic(durable=True, savepoint=True):
-                updated_sector = new_sector.save(commit=False)
-                updated_sector.sector = updated_sector.sector.upper()
-                updated_sector.save()
-                messages.success(request, f'{sector_instance.sector} Successfully Updated!')
-                return redirect('view_sectors')
-        else:
-            messages.error(request, 'Invalid Inputs')
-
-    content = {
-        'staff': UserProfile.objects.get(email=request.user),
-        'new_sector': new_sector,
-        'sector': sector_instance
-    }
-    return render(request, 'admin_add_new_sector.html', content)
 
 @login_required
 @user_access_only()
@@ -520,3 +415,172 @@ def monthly_yearly_license_complete(request):
         print("Error in processing the payment", str(e))
         messages.error(request, "An error occurred while processing your request")
         return redirect('user_dashboard')
+
+@login_required
+@admin_access_only()
+def add_asset(request):
+    if request.method == 'POST':
+        new_asset = AssetForm(request.POST, request.FILES)
+        if new_asset.is_valid():
+            with transaction.atomic(durable=True, savepoint=True):
+                new_asset.save(commit=True)
+                messages.success(request, 'Asset Successfully Added!')
+                return redirect('view_assets')
+        else:
+            messages.error(request, 'Invalid Inputs')
+    else:
+        new_asset = AssetForm()
+    
+    content = {
+        'staff': UserProfile.objects.get(email=request.user),
+        'new_asset': new_asset
+    }
+    return render(request, 'admin_add_new_asset.html', content)
+
+@login_required
+@admin_access_only()
+def update_asset(request, asset_id):
+    asset_instance = get_object_or_404(Asset, id=asset_id)
+    if request.method == 'POST':
+        updated_asset = AssetForm(request.POST, request.FILES, instance=asset_instance)
+        if updated_asset.is_valid():
+            with transaction.atomic(durable=True, savepoint=True):
+                updated_asset = updated_asset.save(commit=True)
+                messages.success(request, f'{asset_instance.asset} Successfully Updated!')
+                return redirect('view_assets')
+        else:
+            messages.error(request, 'Invalid Inputs')
+    else:
+        updated_asset = AssetForm(instance=asset_instance)
+
+    content = {
+        'staff': UserProfile.objects.get(email=request.user),
+        'new_asset': updated_asset,
+        'sector': get_object_or_404(Asset, id=asset_id).sector
+    }
+    return render(request, 'admin_add_new_asset.html', content)
+
+@login_required
+@staff_access_only()
+def view_asset(request):
+    purchase = AssetPurchases.objects.all().order_by('-transaction_datetime')
+    sale = AssetSales.objects.all().order_by('-transaction_datetime')
+    assets = Asset.objects.all().order_by('sector')
+    sectors = Sector.objects.all()
+
+    content = {
+        'staff': UserProfile.objects.get(email=request.user),
+        'purchases': purchase,
+        'sales': sale,
+        'assets': assets,
+        'sectors': sectors,
+    }
+    return render(request, 'admin_view_asset.html', content)
+
+@login_required
+@admin_access_only()
+def add_sector(request):
+    new_sector = SectorForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        if new_sector.is_valid():
+            create_sector = new_sector.save(commit=False)
+            create_sector.sector = create_sector.sector.upper()
+            create_sector.save()
+            messages.success(request, 'Sector Successfully Added!')
+            return redirect('view_sectors')
+        else:
+            messages.error(request, 'Invalid Inputs')
+
+    content = {
+        'staff': UserProfile.objects.get(email=request.user),
+        'new_sector': new_sector
+    }
+    return render(request, 'admin_add_new_sector.html', content)
+
+@login_required
+@admin_access_only()
+def update_sector(request, sector_id):
+    sector_instance = get_object_or_404(Sector, id=sector_id)
+    new_sector = SectorForm(request.POST or None, request.FILES or None, instance=sector_instance)
+    if request.method == 'POST':
+        if new_sector.is_valid():
+            with transaction.atomic(durable=True, savepoint=True):
+                updated_sector = new_sector.save(commit=False)
+                updated_sector.sector = updated_sector.sector.upper()
+                updated_sector.save()
+                messages.success(request, f'{sector_instance.sector} Successfully Updated!')
+                return redirect('view_sectors')
+        else:
+            messages.error(request, 'Invalid Inputs')
+
+    content = {
+        'staff': UserProfile.objects.get(email=request.user),
+        'new_sector': new_sector,
+        'sector': sector_instance
+    }
+    return render(request, 'admin_add_new_sector.html', content)
+
+@login_required
+@staff_access_only()
+def view_sector(request):
+    purchase = AssetPurchases.objects.all().order_by('-transaction_datetime')
+    sale = AssetSales.objects.all().order_by('-transaction_datetime')
+    assets = Asset.objects.all().order_by('sold_out_volume')
+    sectors = Sector.objects.all().order_by('launch_date')
+
+    content = {
+        'staff': UserProfile.objects.get(email = request.user),
+        'purchases': purchase,
+        'sales': sale,
+        'assets': assets,
+        'sectors': sectors,
+    }
+    return render(request, 'admin_view_sector.html', content)
+
+@login_required
+@staff_access_only()
+def view_user_aiboearn(request, id):
+    try:
+        searched_user = get_object_or_404(UserProfile, id=id)
+        user_wallet = AIBOWallet.objects.get(user=searched_user)
+        user_info = AIBO.objects.get(user=searched_user)
+        # extract_referral_size(searched_user, request.user.email)
+        
+        content = {
+            'user': searched_user,
+            'user_wallet': user_wallet,
+            'user_info': user_info,
+            'purchases': AssetPurchases.objects.filter(user=searched_user),
+            'sales': AssetSales.objects.filter(user=searched_user),
+            'users': UserProfile.objects.exclude(is_staff=True),
+            'transactions': WalletTransaction.objects.filter(wallet=user_wallet),
+            'referrals': UserProfile.objects.filter(referral_code=searched_user.user_code),
+            'staff': UserProfile.objects.exclude(is_user=True)
+        }
+        return render(request, 'admin/user_aiboearn.html', content)
+    except UserProfile.DoesNotExist:
+        return render(request, 'op_error_403.html')
+
+@login_required(login_url='user_login')
+@staff_access_only()
+def view_user_aiboearn_sales(request, id, purchase_id):
+    try:
+        searched_user = get_object_or_404(UserProfile, id=id)
+        user_wallet = AIBOWallet.objects.get(user=searched_user)
+        user_info = AIBO.objects.get(user=searched_user)
+        # extract_referral_size(searched_user, request.user.email)
+        
+        content = {
+            'user': searched_user,
+            'user_wallet': user_wallet,
+            'user_info': user_info,
+            'purchases': AssetPurchases.objects.get(id=purchase_id),
+            'sales': AssetSales.objects.filter(purchase=purchase_id),
+            'users': UserProfile.objects.exclude(is_staff=True),
+            'transactions': WalletTransaction.objects.filter(wallet=user_wallet),
+            'referrals': UserProfile.objects.filter(referral_code=searched_user.user_code),
+            'staff': UserProfile.objects.exclude(is_user=True)
+        }
+        return render(request, 'user_aiboearn_sales.html', content)
+    except UserProfile.DoesNotExist:
+        return render(request, 'op_error_403.html')

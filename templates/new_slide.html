@@ -1,14 +1,15 @@
 {% extends "admin_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% block title %}UPDATE SLIDES{% endblock %}
 {% block content %}
 <div class="content content-full content-boxed">
   <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
     <div class="block">
       <div class="block-header block-header-default">
-        <a class="btn btn-alt-secondary" href="{% url 'admin_view_rank' %}">
-          <i class="fa fa-eye me-1"></i> View Ranks
+        <a class="btn btn-alt-secondary" href="{% url 'view_slides' %}">
+          <i class="fa fa-eye me-1"></i> View slides
         </a>
         <div class="block-options">
           <div class="form-check form-switch">
@@ -20,6 +21,7 @@
         <div class="row justify-content-center push">
           <div class="col-md-10">
             <div class="mb-4">
+              <img src="{{slide.image.url}}">
               {{form|crispy}}                            
             </div>
           </div>
@@ -29,7 +31,7 @@
         <div class="row justify-content-center push">
           <div class="col-md-10">
             <button type="submit" class="btn btn-alt-primary">
-              <i class="fa fa-fw fa-check opacity-50 me-1"></i> Create
+              <i class="fa fa-fw fa-check opacity-50 me-1"></i> Upload Slide
             </button>
           </div>
         </div>

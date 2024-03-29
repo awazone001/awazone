@@ -1,0 +1,43 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}SLIDES{% endblock %}
+{% block content %}
+<div class="content" id="assets">
+<a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'create_slide' %}">
+  <i class="far fa-book fa-plus"></i> Add New Slide
+</a><br><br>
+<div class="row">  
+  {% for slide in slides %}
+  <div class="col-md-4 col-xl-4">
+    <div class="block block-rounded">
+      <div class="block-content p-0 overflow-hidden">
+        <a class="img-link img-fluid-100" data-toggle="layout" data-action="side_overlay_open" href="">
+          <img src="{{slide.image.url}}" >
+        </a>
+      </div>
+      <div class="block-content">
+        <h3 class="h4 mb-2" style="color:darkblue ;">{{ slide.description}}</h3>
+      </div>
+      <div class="block-content block-content-full">
+        <div class="row" >
+          <div class="col-6">
+            <a class="btn btn-sm btn-alt-primary w-100" href="{% url 'edit_slide' slide.id %}">
+              <i class="fa fa-wrench opacity-50 me-1"></i>
+              Manage
+            </a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-sm btn-alt-secondary w-100" href="{% url 'delete_slide' slide.id %}">
+              <i class="fa fa-times opacity-50 me-1"></i>
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

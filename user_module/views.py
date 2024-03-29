@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse,JsonResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -16,6 +16,22 @@ from .tokens import account_activation_token
 from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense
 from messaging_module.models import Notification
 from django.db import transaction
+from admin_and_staff_module.models import SlidePhoto,TermsAndConditions
+
+def view_terms_and_conditions(request):
+    if request.method == 'GET':
+        try:
+            terms_and_conditions = TermsAndConditions.objects.latest('last_updated')
+            content = {
+                'title': terms_and_conditions.title,
+                'content': terms_and_conditions.content
+            }
+            return JsonResponse(content)
+        except TermsAndConditions.DoesNotExist:
+            return JsonResponse({'error': 'Terms and conditions not found'}, status=404)
+    else:
+        # Handle other HTTP methods if needed
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def verify_email_view(request, user):
     current_site = get_current_site(request)
@@ -131,6 +147,7 @@ def user_dashboard(request):
         'wallet': AIBOWallet.objects.get(user=user),
         'monthly': monthly_subscriptions,
         'yearly': yearly_subscriptions,
+        'slides': SlidePhoto.objects.all()
     }
     return render(request, 'user_view_dashboard.html', content)
 

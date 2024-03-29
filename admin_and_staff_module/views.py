@@ -3,29 +3,108 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from .models import TermsAndConditions, SlidePhoto
-from .forms import TermsAndConditionsForms
+from .forms import TermsAndConditionsForms,SlidePhotoForm
 from user_module.models import UserProfile, Level
 from user_module.decorators import admin_access_only,staff_access_only
 from user_module.forms import LevelForm,UserUpdateForm
 from messaging_module.models import Notification, ChatRoom
 from aibopay.models import AIBORates
-# from rest_framework import generics, status
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.response import Response
-# from user_m.serializers import SlidePhotoSerializer
-# from user_management.permissions import IsAdminOrReadOnly
+from aiboearn.models import Asset,Sector
 
 @login_required
 @admin_access_only()
 def admin_dashboard(request):
-    user_profile = UserProfile.objects.get(id=request.user.id)
+    user_profile = UserProfile.objects.get(email=request.user)
     chats = ChatRoom.objects.filter(is_lock=False)
+    sector = Sector.objects.all().order_by('sector')
+    asset = Asset.objects.all().order_by('asset')
     context = {
         'user': user_profile,
         'users': UserProfile.objects.exclude(is_staff=True),
-        'chats': chats
+        'chats': chats,
+        'sectors': sector,
+        'assets' :asset, 
     }
     return render(request, 'admin_dashboard.html', context)
+
+@login_required
+@admin_access_only()
+def manage_terms_and_conditions(request):
+    if request.method == 'POST':
+        termsandconditions_form = TermsAndConditionsForms(request.POST)
+        if termsandconditions_form.is_valid():
+            termsandconditions_form.save()
+            messages.success(request, 'Terms and Conditions Updated Successfully!')
+            return redirect('manage_terms_and_conditions')
+        else:
+            messages.error(request, 'Invalid Forms')
+    else:
+        try:
+            termsandconditions_form = TermsAndConditionsForms(instance=TermsAndConditions.objects.latest('last_updated'))
+        except TermsAndConditions.DoesNotExist:
+            termsandconditions_form = TermsAndConditionsForms()
+
+
+    context = {'termsandconditions': termsandconditions_form}
+    return render(request, 'update_terms_and_conditions.html', context)
+
+@login_required
+@admin_access_only()
+def view_slides(request):
+    slides = SlidePhoto.objects.all()
+    content = {
+        'slides' : slides
+    }
+    return render(request,'admin_view_slide.html',content)
+
+@login_required
+@admin_access_only()
+def create_slide(request):
+    slide_form = SlidePhotoForm()
+    if request.method=='POST':
+        slide_form = SlidePhotoForm(data=request.POST or None, files=request.FILES or None)
+        if slide_form.is_valid():
+            slide_form.save(commit=True)
+            messages.info(request,"Slide has been created successfully")
+            return redirect('view_slides')
+        else:
+            print(slide_form.errors)
+    content={"form":slide_form}
+    return render(request,'new_slide.html',content)
+
+@login_required
+@admin_access_only()
+def delete_slide(request,id):
+    slide = get_object_or_404(SlidePhoto,pk=id)
+    slide.delete()
+    return redirect('view_slides',permanent=True)
+
+@login_required
+@admin_access_only()
+def edit_slide(request,id):
+    slide = get_object_or_404(SlidePhoto, pk=id)
+    if request.method == 'POST':
+        form = SlidePhotoForm(request.POST, request.FILES, instance=slide)
+        if form.is_valid():
+            if form.cleaned_data['image'] is None: #If no image was uploaded, keep the old one
+                form.cleaned_data['image'] = slide.image
+
+            slide.image = form.cleaned_data['image']
+            slide.description = form.cleaned_data['description']
+            slide.save()
+            messages.success(request, "The slide was edited successfully!")
+            return redirect('view_slides',permanent=True)
+    else:
+        form = SlidePhotoForm(instance=slide)
+    content ={
+       'form' : form,
+       'slide' : slide
+    }
+    return render(request,'new_slide.html',content)
+
+
+
+
 
 
 @login_required
@@ -83,22 +162,6 @@ def view_staff(request, id):
     }
     return render(request, 'admin/user.html', context)
 
-@login_required(login_url='user_login')
-@admin_access_only()
-def manage_terms_and_conditions(request):
-    if request.method == 'POST':
-        termsandconditions_form = TermsAndConditionsForms(request.POST)
-        if termsandconditions_form.is_valid():
-            termsandconditions_form.save()
-            messages.success(request, 'Terms and Conditions Updated Successfully!')
-            return redirect('manage_terms_and_conditions')
-        else:
-            messages.error(request, 'Invalid Forms')
-    else:
-        termsandconditions_form = TermsAndConditionsForms(instance=TermsAndConditions.objects.get_or_create(id='4Awazone-licenses')[0])
-
-    context = {'termsandconditions': termsandconditions_form}
-    return render(request, 'update_terms_and_conditions.html', context)
 
 @login_required(login_url='user_login')
 @admin_access_only()
@@ -130,27 +193,3 @@ def add_level(request):
         'staff': UserProfile.objects.exclude(is_staff=True)
     }
     return render(request, 'admin_update_rank.html', context)
-
-
-
-# class SlidePhotoListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = SlidePhoto.objects.all()
-#     serializer_class = SlidePhotoSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class SlidePhotoRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = SlidePhoto.objects.all()
-#     serializer_class = SlidePhotoSerializer
-#     permission_classes = [IsAdminOrReadOnly]
-
-#     def update(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         serializer = self.get_serializer(instance, data=request.data, partial=True)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response(serializer.data)
-
-#     def destroy(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         self.perform_destroy(instance)
-#         return Response(status=status.HTTP_204_NO_CONTENT)

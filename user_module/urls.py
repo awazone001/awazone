@@ -24,4 +24,5 @@ urlpatterns = [
     name="password_reset_complete"),
     path('user-ranks/',views.view_level,name='levels'),
     path('verify-rank/',views.verify_level,name='verify_level'),
+    path('terms-and-conditions/',views.view_terms_and_conditions,name='terms-and-conditions')
 ]

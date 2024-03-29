@@ -6,6 +6,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from .models import Notification,ChatRoom,ChatMessage
@@ -13,29 +14,41 @@ from .forms import ContactForm
 from user_module.models import UserProfile,AIBO
 from user_module.decorators import staff_access_only
 from aibopay.models import AIBOWallet,MonthlyLicense,YearlyLicense
+from django.core.exceptions import PermissionDenied
 
 @login_required
 def get_notifications(request):
-    if request.user.is_authenticated():
+    try:
         unread_notifications = Notification.objects.filter(Q(user=request.user) & Q(is_read=False)).order_by('-created_at')
-            
+        
         data = {
-            'unread_notifications': list(unread_notifications.values())
+            'unread_notifications': list(unread_notifications.values()),
+            'unread_count' : unread_notifications.count()
         }
         return JsonResponse(data)
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f"Error in get_notifications: {e}")
+        # You may choose to raise PermissionDenied or return a specific error message
+        raise PermissionDenied("Unable to retrieve notifications")
 
 @login_required
+@require_POST
 def mark_notification_as_read(request):
-    if request.method == 'POST':
-        notification_id = request.POST.get('notification_id')
-        try:
-            notification = Notification.objects.get(id=notification_id)
-            notification.mark_as_read()
-            return JsonResponse({'status': 'success'})
-        except Notification.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Notification not found'})
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+    try:
+        notifications = Notification.objects.filter(user=request.user, is_read=False)
+        notifications.update(is_read=True)
+
+        # Get the referer URL
+        referer_url = request.META.get('HTTP_REFERER')
+
+        return JsonResponse({'status': 'success', 'referer': referer_url})
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f"Error in mark_notification_as_read: {e}")
+        # You may choose to raise PermissionDenied or return a specific error message
+        return JsonResponse({'status': 'error', 'message': 'Internal server error'})
+
 
 @login_required
 def create_room(request):

@@ -3,24 +3,19 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="content content-full content-boxed">
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST">
       {% csrf_token %}
     <div class="block">
       <div class="block-header block-header-default">
-        <a class="btn btn-alt-secondary" href="{% url 'admin_view_rank' %}">
-          <i class="fa fa-eye me-1"></i> View Ranks
-        </a>
         <div class="block-options">
-          <div class="form-check form-switch">
-            
-          </div>
+          MANAGE TERMS AND CONDITIONS
         </div>
       </div>
       <div class="block-content">
         <div class="row justify-content-center push">
           <div class="col-md-10">
             <div class="mb-4">
-              {{form|crispy}}                            
+              {{termsandconditions|crispy}}                           
             </div>
           </div>
         </div>
@@ -29,7 +24,7 @@
         <div class="row justify-content-center push">
           <div class="col-md-10">
             <button type="submit" class="btn btn-alt-primary">
-              <i class="fa fa-fw fa-check opacity-50 me-1"></i> Create
+              <i class="fa fa-fw fa-check opacity-50 me-1"></i> Update T&C's
             </button>
           </div>
         </div>

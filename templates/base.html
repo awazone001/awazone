@@ -1,460 +1,559 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <title>AWAZONE | {% block title %}{% endblock %}</title>
-    <meta name="description" content="awazone">
-    <meta name="author" content="awazone">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:title" content="awazone">
-    <meta property="og:site_name" content="awazone">
-    <meta property="og:description" content="awazone">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <link rel="shortcut icon" href="{% static 'assets/media/favicons/favicon.png' %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/media/favicons/favicon.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/media/favicons/favicon.png' %}">
-    <link rel="stylesheet" id="css-main" href="{% static 'assets/css/dashmix.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/chat.css' %}">
-  </head>
-  <!-- ***** Preloader Start ***** -->
-  <div id="preloader"></div>  
-  <!-- ***** Preloader End ***** -->
-  <body>
-    <div id="page-container" class="sidebar-o side-scroll page-header-fixed page-header-dark">
-      <nav id="sidebar" aria-label="Main Navigation">
-        <div class="bg-header-dark">
-          <div class="content-header bg-white-5">
-            <a class="fw-semibold text-white tracking-wide" href="{% url 'user_dashboard' %}">
-              <img src="{% static "assets/media/logo/awazone_white.png" %}" style="width: 80%;height:100%">
-            </a>
-            <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
-              <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
-            </button>
-            <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
-              <i class="far fa-moon" id="dark-mode-toggler"></i>
-            </button>              
-          </div>
+  <title>AWAZONE | {% block title %}{% endblock %}</title>
+  <meta name="description" content="awazone">
+  <meta name="author" content="awazone">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="awazone">
+  <meta property="og:site_name" content="awazone">
+  <meta property="og:description" content="awazone">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <link rel="shortcut icon" href="{% static 'assets/media/favicons/favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/media/favicons/favicon.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/media/favicons/favicon.png' %}">
+  <link rel="stylesheet" id="css-main" href="{% static 'assets/css/dashmix.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/chat.css' %}">
+</head>
+<!-- ***** Preloader Start ***** -->
+<div id="preloader"></div>  
+<!-- ***** Preloader End ***** -->
+<body>
+  <div id="page-container" class="sidebar-o side-scroll page-header-fixed page-header-dark">
+    <nav id="sidebar" aria-label="Main Navigation">
+      <div class="bg-header-dark">
+        <div class="content-header bg-white-5">
+          <a class="fw-semibold text-white tracking-wide" href="{% url 'user_dashboard' %}">
+            <img src="{% static "assets/media/logo/awazone_white.png" %}" style="width: 80%;height:100%">
+          </a>
+          <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on" onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
+            <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
+            <i class="far fa-moon" id="dark-mode-toggler"></i>
+          </button>              
         </div>
-        <div class="js-sidebar-scroll">
-          <div class="content-side pt-0">
-            <ul class="nav-main"><br>
-              <a class="nav-main-link active" href="{% url 'user_dashboard' %}">
-                <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                <span class="nav-main-link-name">Dashboard</span>
-                <span class="nav-main-link-badge badge rounded-pill bg-success">{{ user.username }}</span>
+      </div>
+      <div class="js-sidebar-scroll">
+        <div class="content-side pt-0">
+          <ul class="nav-main"><br>
+            <a class="nav-main-link active" href="{% url 'user_dashboard' %}">
+              <i class="nav-main-link-icon fa fa-chart-pie"></i>
+              <span class="nav-main-link-name">Dashboard</span>
+              <span class="nav-main-link-badge badge rounded-pill bg-success">{{ user.username }}</span>
+            </a>
+            <li class="nav-main-heading">USER</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="{% url 'user_profile' %}">
+                <i class="nav-main-link-icon fa fa-user"></i>
+                <span class="nav-main-link-name">PROFILE</span>
               </a>
-              <li class="nav-main-heading">USER</li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-menu" href="{% url 'user_profile' %}">
-                  <i class="nav-main-link-icon fa fa-user"></i>
-                  <span class="nav-main-link-name">PROFILE</span>
-                </a>
-              </li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-chess-queen"></i>
+                <span class="nav-main-link-name">RANK</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                <a class="nav-main-link" href="{% url 'levels' %}">
                   <i class="nav-main-link-icon fa fa-chess-queen"></i>
-                  <span class="nav-main-link-name">RANK</span>
-                </a>
-                <ul class="nav-main-submenu">
+                    <span class="nav-main-link-name">Ranks</span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'verify_level' %}">
+                    <i class="nav-main-link-icon fa fa-check-circle"></i>
+                    <span class="nav-main-link-name">Verify Rank</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-heading">DISCOVER</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-wallet"></i>
+                <span class="nav-main-link-name">AIBOPAY</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'aibopay_dashboard' %}">
+                    <i class="nav-main-link-icon fa fa-chart-pie"></i>
+                    <span class="nav-main-link-name">Home</span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'initiate_payment' %}">
+                    <i class="nav-main-link-icon fa fa-arrow-alt-circle-down"></i>
+                    <span class="nav-main-link-name">Deposit</span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'withdraw' %}">
+                    <i class="nav-main-link-icon fa fa-arrow-alt-circle-up"></i>
+                    <span class="nav-main-link-name">Withdraw</span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'reset_pin' %}">
+                    <i class="nav-main-link-icon fa fa-link"></i>
+                    <span class="nav-main-link-name">Reset PIN</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                <i class="nav-main-link-icon fa fa-coins"></i>
+                <span class="nav-main-link-name">AIBOEARN</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-submenu">
                   <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'levels' %}">
-                    <i class="nav-main-link-icon fa fa-chess-queen"></i>
-                      <span class="nav-main-link-name">Ranks</span>
-                    </a>
-                  </li>
-                </ul>
-                <ul class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'verify_level' %}">
-                      <i class="nav-main-link-icon fa fa-check-circle"></i>
-                      <span class="nav-main-link-name">Verify Rank</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-main-heading">DISCOVER</li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
-                  <i class="nav-main-link-icon fa fa-wallet"></i>
-                  <span class="nav-main-link-name">AIBOPAY</span>
-                </a>
-                <ul class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'aibopay_dashboard' %}">
+                    <a class="nav-main-link" href="{% url 'aiboearn_dashboard' %}">
                       <i class="nav-main-link-icon fa fa-chart-pie"></i>
                       <span class="nav-main-link-name">Home</span>
                     </a>
                   </li>
-                </ul>
-                <ul class="nav-main-submenu">
+                </li>
+                <li class="nav-main-submenu">
                   <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'initiate_payment' %}">
-                      <i class="nav-main-link-icon fa fa-arrow-alt-circle-down"></i>
-                      <span class="nav-main-link-name">Deposit</span>
+                    <a class="nav-main-link" href="{% url 'user_view_sector' %}">
+                      <i class="nav-main-link-icon fa fa-diamond"></i>
+                      <span class="nav-main-link-name">Sectors</span>
                     </a>
                   </li>
-                </ul>
-                <ul class="nav-main-submenu">
+                </li>
+                <li class="nav-main-submenu">
                   <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'withdraw' %}">
-                      <i class="nav-main-link-icon fa fa-arrow-alt-circle-up"></i>
-                      <span class="nav-main-link-name">Withdraw</span>
+                    <a class="nav-main-link" href="{% url 'user_view_asset' %}">
+                      <i class="nav-main-link-icon fa fa-hourglass"></i>
+                      <span class="nav-main-link-name">Assets</span>
                     </a>
                   </li>
-                </ul>
-                <ul class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'reset_pin' %}">
-                      <i class="nav-main-link-icon fa fa-link"></i>
-                      <span class="nav-main-link-name">Reset PIN</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
-                  <i class="nav-main-link-icon fa fa-coins"></i>
-                  <span class="nav-main-link-name">AIBOEARN</span>
-                </a>
-                <ul class="nav-main-submenu">
-                  <li class="nav-main-submenu">
-                    <li class="nav-main-item">
-                      <a class="nav-main-link" href="{% url 'aiboearn_dashboard' %}">
-                        <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                        <span class="nav-main-link-name">Home</span>
-                      </a>
-                    </li>
-                  </li>
-                  <li class="nav-main-submenu">
-                    <li class="nav-main-item">
-                      <a class="nav-main-link" href="{% url 'user_view_sector' %}">
-                        <i class="nav-main-link-icon fa fa-diamond"></i>
-                        <span class="nav-main-link-name">Sectors</span>
-                      </a>
-                    </li>
-                  </li>
-                  <li class="nav-main-submenu">
-                    <li class="nav-main-item">
-                      <a class="nav-main-link" href="{% url 'user_view_asset' %}">
-                        <i class="nav-main-link-icon fa fa-hourglass"></i>
-                        <span class="nav-main-link-name">Assets</span>
-                      </a>
-                    </li>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-menu" href="">
-                  <i class="nav-main-link-icon fa fa-credit-card"></i>
-                  <span class="nav-main-link-name">PAWA Card</span>
-                </a>
-                <a class="nav-main-link nav-main-link-menu" href="">
-                  <i class="nav-main-link-icon fa fa-users"></i>
-                  <span class="nav-main-link-name">MARKET PLACE</span>
-                </a>
-              </li>
-              <li class="nav-main-heading">Manage Account</li>
-              <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                  <i class="nav-main-link-icon fa fa-handshake"></i>
-                  <span class="nav-main-link-name">Support</span>
-                </a>
-                <ul class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'customer_support' %}">
-                      <span class="nav-main-link-name">Customer Support</span>
-                    </a>
-                  </li>
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'contact' %}">
-                      <span class="nav-main-link-name">Contact Center</span>
-                    </a>
-                  </li>
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="">
-                      <span class="nav-main-link-name">Resources</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-main-heading">Sign Out</li>
-              <li class="nav-main-item">
-                <a class="nav-main-link" href="{% url 'user_logout' %}">
-                  <i class="nav-main-link-icon fa fa-arrow-alt-circle-left"></i>
-                  <span class="nav-main-link-name">Sign Out</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-credit-card"></i>
+                <span class="nav-main-link-name">PAWA Card</span>
+              </a>
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-users"></i>
+                <span class="nav-main-link-name">MARKET PLACE</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">Manage Account</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                <i class="nav-main-link-icon fa fa-handshake"></i>
+                <span class="nav-main-link-name">Support</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'customer_support' %}">
+                    <span class="nav-main-link-name">Customer Support</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="{% url 'contact' %}">
+                    <span class="nav-main-link-name">Contact Center</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="">
+                    <span class="nav-main-link-name">Resources</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-main-heading">Sign Out</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="{% url 'user_logout' %}">
+                <i class="nav-main-link-icon fa fa-arrow-alt-circle-left"></i>
+                <span class="nav-main-link-name">Sign Out</span>
+              </a>
+            </li>
+          </ul>
         </div>
-      </nav>
-      <header id="page-header">
-        <div class="content-header">
-          <div class="space-x-1">
-            <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="sidebar_toggle">
-              <i class="fa fa-fw fa-bars"></i>
-            </button>
+      </div>
+    </nav>
+    <header id="page-header">
+      <div class="content-header">
+        <div class="space-x-1">
+          <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="sidebar_toggle">
+            <i class="fa fa-fw fa-bars"></i>
+          </button>
 
-            <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="header_search_on">
-              <i class="fa fa-fw opacity-50 fa-search"></i> <span class="ms-1 d-none d-sm-inline-block">Search</span>
-            </button>
-          </div>
+          <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="header_search_on">
+            <i class="fa fa-fw opacity-50 fa-search"></i> <span class="ms-1 d-none d-sm-inline-block">Search</span>
+          </button>
+        </div>
 
-          <div class="space-x-1">
-            <div class="dropdown d-inline-block">
-              <button type="button" class="btn btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-fw fa-user d-sm-none"></i>
-                <span class="d-none d-sm-inline-block">{{ user.first_name }} {{ user.last_name }}</span> <span class="nav-main-link-badge badge rounded-pill bg-success"> {{ aibo.level }}</span>
-                <i class="fa fa-fw fa-angle-down opacity-50 ms-1 d-none d-sm-inline-block"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">
-                <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
-                  User Options
-                </div>
-                <div class="p-2">
-                  <a class="dropdown-item" href="{% url 'user_profile' %}">
-                    <i class="far fa-fw fa-user me-1"></i> Profile
-                  </a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'user_logout' %}">
-                    <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Sign Out
-                  </a>
-                </div>
+        <div class="space-x-1">
+          <div class="dropdown d-inline-block">
+            <button type="button" class="btn btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-fw fa-user d-sm-none"></i>
+              <span class="d-none d-sm-inline-block">{{ user.first_name }} {{ user.last_name }}</span> <span class="nav-main-link-badge badge rounded-pill bg-success"> {{ aibo.level }}</span>
+              <i class="fa fa-fw fa-angle-down opacity-50 ms-1 d-none d-sm-inline-block"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">
+              <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+                User Options
+              </div>
+              <div class="p-2">
+                <a class="dropdown-item" href="{% url 'user_profile' %}">
+                  <i class="far fa-fw fa-user me-1"></i> Profile
+                </a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'user_logout' %}">
+                  <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Sign Out
+                </a>
               </div>
             </div>
-            <div class="dropdown d-inline-block" id="notificationBell">
-              <button type="button" class="btn btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-fw fa-bell"></i><sup><span class="nav-main-link-badge badge rounded-pill bg-success">{{ notifications.count }}</span></sup>
-              </button>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
-                  Notifications
-                </div>
-                <ul class="nav-items my-2">
-                  {% for notification in notifications %}
-                  <li>
-                    <a class="d-flex text-dark py-2" href="">
-                      <div class="flex-shrink-0 mx-3">
-                        <i class="fa fa-envelope-open text-info"></i>
-                      </div>
-                      <div class="flex-grow-1 fs-sm pe-2">
-                        <div class="notification">
-                          <div class="notification" data-notification-id="{{notification.id}}">
-                            <span class="message">{{ notification.message }}</span><br>
-                            <span class="timestamp">{{ notification.created_at }}</span>
-                          </div>
+          </div>
+          <div class="dropdown d-inline-block" id="notificationBell">
+            <button type="button" class="btn btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-fw fa-bell"></i><sup><span class="nav-main-link-badge badge rounded-pill bg-success" id="notification_count"></span></sup>
+            </button>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+              <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+                Notifications
+              </div>
+              <ul class="nav-items my-2">
+                <li>
+                  <a class="d-flex text-dark py-2" href="">
+                    <div class="flex-shrink-0 mx-3">
+                      
+                    </div>
+                    <div class="flex-grow-1 fs-sm pe-2">
+                      <div class="notification">
+                        <div class="notification" data-notification-id="{{notification.id}}">
+                          <span class="message" id="notifications"></span>
                         </div>
                       </div>
-                    </a>
-                  </li>
-                  {% endfor %}
-                </ul>
-                <div class="p-2 border-top">
-                  <a class="btn btn-alt-primary w-100 text-center" href="">
-                    <i class="fa fa-fw fa-eye opacity-50 me-1"></i> View All
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div id="page-header-search" class="overlay-header bg-header-dark">
-              <div class="bg-white-10">
-                <div class="content-header">
-                  <form class="w-100" method="POST" onsubmit="return false;">
-                    <div class="input-group">
-                      <button type="button" class="btn btn-alt-primary" data-toggle="layout" data-action="header_search_off">
-                        <i class="fa fa-fw fa-times-circle"></i>
-                      </button>
-                      <input type="text" class="form-control border-0" placeholder="Search...." id="page-header-search-input" name="page-header-search-input">
                     </div>
-                  </form>
-                </div>
+                  </a>
+                </li>
+              </ul>
+              <div class="p-2 border-top">
+                <form id="markAsReadForm" method="post" action="{% url 'mark-notification-as-read' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="seenNotifications" value="" id="seenNotifications" />
+                    <button type="submit" class="btn btn-secondary w-100" onclick="markAsSeen(event)"> <i class="fa fa-fw fa-eye opacity-50 me-1"></i> Viewed</button>
+                </form>
+              </div>    
+            </div>
+          </div>
+          <div id="page-header-search" class="overlay-header bg-header-dark">
+            <div class="bg-white-10">
+              <div class="content-header">
+                <form class="w-100" method="POST" onsubmit="return false;">
+                  <div class="input-group">
+                    <button type="button" class="btn btn-alt-primary" data-toggle="layout" data-action="header_search_off">
+                      <i class="fa fa-fw fa-times-circle"></i>
+                    </button>
+                    <input type="text" class="form-control border-0" placeholder="Search...." id="page-header-search-input" name="page-header-search-input">
+                  </div>
+                </form>
               </div>
             </div>
-            <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
-              <a class="btn btn-sm btn-alt-secondary d-block d-lg-inline-block mb-1" href="" data-bs-toggle="modal" data-bs-target="#modal-terms">
-                <i class="nav-main-link-icon fa fa-book"></i>
-              </a>
-            </button>
           </div>
-        </div>
-      </header>
-      <div class="content content-full">
-        
-      <main id="main-container">
-        <div class="col-sm-8" style="margin: auto;" id="message">
-          {% for message in messages %}
-          {% if message.tags == 'error' %}
-          <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
-          {% endif %}
-          {% if message.tags == 'success' %}
-          <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
-          {% endif %}
-          {% endfor %}  
-        </div>
-        {% block content %}{% endblock %}
-      </main>
-      <div class="bg-body-dark">
-        <div class="content content-full text-center">
-          <div class="py-3">
-            <h3 class="mb-2 text-center">
-              AWAZONE 
-            </h3>
-            <h4 class="fw-normal text-muted text-center">
-              We have the best job offerings in the world!
-            </h4>
-            <a class="btn btn-hero btn-primary" href="" data-toggle="click-ripple">
-              Purchase License
+          <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle" id="terms-and-conditions-button">
+            <a class="btn btn-sm btn-alt-secondary d-block d-lg-inline-block mb-1" href="" data-bs-toggle="modal" data-bs-target="#modal-terms">
+              <i class="nav-main-link-icon fa fa-book"></i>
             </a>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="content content-full">
+      
+    <main id="main-container">
+      <div class="col-sm-8" style="margin: auto;" id="message">
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+        {% endif %}
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+        {% endif %}
+        {% endfor %}  
+      </div>
+      {% block content %}{% endblock %}
+    </main>
+    <div class="bg-body-dark">
+      <div class="content content-full text-center">
+        <div class="py-3">
+          <h3 class="mb-2 text-center">
+            AWAZONE 
+          </h3>
+          <h4 class="fw-normal text-muted text-center">
+            We have the best job offerings in the world!
+          </h4>
+          <a class="btn btn-hero btn-primary" href="" data-toggle="click-ripple">
+            Purchase License
+          </a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        &copy; <span data-toggle="year-copy"></span>  Powered by Awazone
+      </div>
+    </footer>
+  </div>
+  <div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="modal-terms" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="block block-themed block-transparent mb-0">
+          <div class="block-header bg-primary-dark">
+            <h3 class="block-title" id="title"></h3>
+            <div class="block-options">
+              <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                <i class="fa fa-fw fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="block-content">
+            <pre id="terms-and-conditions"></pre>
+          </div>
+          <div class="block-content block-content-full text-end bg-body">
+            <p class="fw-semibold fs-sm py-1"></p>
+            <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
           </div>
         </div>
       </div>
-      <footer>
-        <div class="footer-content">
-          &copy; <span data-toggle="year-copy"></span>  Powered by Awazone
-        </div>
-      </footer>
     </div>
-    <div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="modal-terms" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="block block-themed block-transparent mb-0">
-            <div class="block-header bg-primary-dark">
-              <h3 class="block-title"></h3>
-              <div class="block-options">
-                <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
-                  <i class="fa fa-fw fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <div class="block-content">
-              <pre></pre>
-            </div>
-            <div class="block-content block-content-full text-end bg-body">
-              <p class="fw-semibold fs-sm py-1"></p>
-              <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <style>
-      #preloader{
-        background: white url('{% static "assets/media/preloader/preloader2.gif" %}') no-repeat center center;
-        background-size: 30%;
-        height: 100vh;
-        width: 100%;
-        position: fixed;
-        z-index: 100;
-      }
-      #empty{
-          color: red;
-          font-size: 20px;
-          font-weight: 700;
-          display: flex;
-          justify-content: center;
-        }
-      body {
-        margin: 0;
-        padding: 0;
+  </div>
+  <style>
+    #preloader{
+      background: white url('{% static "assets/media/preloader/preloader2.gif" %}') no-repeat center center;
+      background-size: 30%;
+      height: 100vh;
+      width: 100%;
+      position: fixed;
+      z-index: 100;
+    }
+    #empty{
+        color: red;
+        font-size: 20px;
+        font-weight: 700;
         display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-
-      .footer-content {
-        display: flex;
-        align-items: center;
         justify-content: center;
-        text-align: center;
-        background-color: #333;
-        color: #fff;
-        padding: 20px;
       }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-      footer {
-        margin-top: auto;
-      }
-    </style>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="{% static 'assets/js/app.js' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      // JavaScript code to toggle visibility of table rows
-      var transactions = document.getElementsByClassName('transaction-row');
-      var viewMoreBtn = document.getElementById('viewMoreBtn');
-      var viewLessBtn = document.getElementById('viewLessBtn');
-    
-      // Hide the transactions initially
-      for (var i = 0; i < transactions.length; i++) {
-        transactions[i].style.display = 'none';
-      }
-    
-      function toggleTransactions() {
-        for (var i = 0; i < transactions.length; i++) {
-          transactions[i].style.display = (transactions[i].style.display === 'none' || transactions[i].style.display === '') ? 'table-row' : 'none';
-        }
-      }
-    
-      viewMoreBtn.addEventListener('click', function () {
-        toggleTransactions();
-        viewMoreBtn.style.display = 'none';
-        viewLessBtn.style.display = '';
-      });
-    
-      viewLessBtn.addEventListener('click', function () {
-        toggleTransactions();
-        viewMoreBtn.style.display = '';
-        viewLessBtn.style.display = 'none';
-      });
-    </script>
-    <script>
-      const loader = document.getElementById("preloader");
-      window.addEventListener("load",function(){
-        loader.style.display = "none";
-      })
-      var message_element = document.getElementById("message")
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
 
-      setTimeout(function(){
-        message_element.style.display = "none";
-      },5000);
-
-
-      $(document).ready(function() {
-      // Click event handler for the notification bell
-      $('#notificationBell').click(function() {
-        // Iterate over each notification
-        $('.notification').each(function() {
-          var notificationId = $(this).data('notification-id');
-          markNotificationAsRead(notificationId);
-        });
-      });
-
-      function markNotificationAsRead(notificationId) {
-        $.ajax({
-          url: '/mark_notification_as_read/',
-          type: 'POST',
-          data: {
-            'notification_id': notificationId,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-          },
-          success: function(response) {
-            $('#notificationBell').click(function() {
-            // Refresh the page
-            location.reload();
-          });
-          },
-          error: function(xhr, status, error) {
-            // Error handler
-            console.error('Error marking notification as read:', error);
-          }
-        });
-      }
+    footer {
+      margin-top: auto;
+    }
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'assets/js/app.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+  
+    // Call getNotifications function when page loads
+    window.addEventListener('load', function() {
+      getNotifications();
     });
+
+    var Notifications = document.getElementById("notifications");
+    var Notification_count = document.getElementById("notification_count")
+
+    // Function to fetch and display notifications
+    function getNotifications() {
+        fetch('/get-notifications/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is included
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch notifications');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the fetched notifications data
+                const notifications = data['unread_notifications'];
+                const unreadCount = data['unread_count'];
+
+                Notifications.innerHTML = ''; // Clear previous content
+                Notification_count.innerHTML = unreadCount;
+                notifications.forEach(notification => {
+                    // Create a new span element for each notification
+                    var notificationSpan = document.createElement('span');
+                    // Set the text content of the span to the notification message
+                    notificationSpan.textContent = notification['message'];
+                    // Append the span to the notifications container
+                    Notifications.appendChild(notificationSpan);
+                    // Add line break after each notification
+                    Notifications.appendChild(document.createElement('br'));
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching notifications:', error);
+            });
+    }
+
+    function markAsSeen(event) {
+    event.preventDefault(); // Prevent default form submission
+    fetch('/mark-notification-as-read/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is included
+            },
+            body: JSON.stringify({ seenNotifications: getSeenNotifications() })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to mark notifications as read');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                // Redirect to the previous page
+                const refererUrl = data.referer || '/';
+                window.location.href = refererUrl;
+            } else {
+                console.error('Error marking notifications as read:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error marking notifications as read:', error);
+        });
+    }
+
+    // Function to get the list of seen notifications (if needed)
+    function getSeenNotifications() {
+        // Implement this function if you need to collect the IDs of seen notifications
+        // For example:
+        // return document.getElementById('seenNotifications').value;
+        return '';
+    }
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var Title = document.getElementById("title");
+      var Terms_and_Conditions = document.getElementById("terms-and-conditions");
+
+      document.getElementById('terms-and-conditions-button').addEventListener('click', function (){
+          const url = `/terms-and-conditions/`;
+
+          fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  // Assuming response contains 'title' and 'content' fields
+                  const { title, content } = data;
+                  Title.innerText = title;
+                  Terms_and_Conditions.innerText = content;
+              })
+              .catch(error => {
+                  console.error('Error fetching data:', error);
+              });
+      });
+    });
+
+    
+    const loader = document.getElementById("preloader");
+    window.addEventListener("load",function(){
+      loader.style.display = "none";
+    })
+    var message_element = document.getElementById("message")
+
+    setTimeout(function(){
+      message_element.style.display = "none";
+    },5000);
+
+
+
+    
+
+  // JavaScript code to toggle visibility of table rows
+  var transactions = document.getElementsByClassName('transaction-row');
+    var viewMoreBtn = document.getElementById('viewMoreBtn');
+    var viewLessBtn = document.getElementById('viewLessBtn');
+  
+    // Hide the transactions initially
+    for (var i = 0; i < transactions.length; i++) {
+      transactions[i].style.display = 'none';
+    }
+  
+    function toggleTransactions() {
+      for (var i = 0; i < transactions.length; i++) {
+        transactions[i].style.display = (transactions[i].style.display === 'none' || transactions[i].style.display === '') ? 'table-row' : 'none';
+      }
+    }
+  
+    viewMoreBtn.addEventListener('click', function () {
+      toggleTransactions();
+      viewMoreBtn.style.display = 'none';
+      viewLessBtn.style.display = '';
+    });
+  
+    viewLessBtn.addEventListener('click', function () {
+      toggleTransactions();
+      viewMoreBtn.style.display = '';
+      viewLessBtn.style.display = 'none';
+    });
+
+    
 </script>
-  </body>
+</body>
 </html>

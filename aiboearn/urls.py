@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('admin/launch-sector',views.add_sector,name='add_sector'),
     path('admin/update-sector/<sector_id>/',views.update_sector,name='update_sector'),
+    path('admin/view-sectors',views.view_sector,name='view_sectors'),
     path('admin/views-assets',views.view_asset,name='view_assets'),
     path('admin/launch-asset',views.add_asset,name='add_asset'),
     path('admin/update-asset/<asset_id>/',views.update_asset,name='update_asset'),
@@ -20,4 +21,7 @@ urlpatterns = [
     path('monthly-licence-purchase/complete',views.monthly_yearly_license_complete,name='purchase_monthly_license_complete'),
     path('yearly-licence-purchase/',views.purchase_yearly_license,name='purchase_yearly_license'),
     path('yearly-licence-purchase/complete',views.purchase_yearly_license_complete,name='purchase_yearly_license_complete'),
+    path('admin/manage-aiboearn/user/<id>/',views.view_user_aiboearn,name='view_user_aiboearn'),
+    path('admin/manage-aiboearn/user/<id>/sales/<purchase_id>/',views.view_user_aiboearn_sales,name='view_user_aiboearn_sales'),
+    
 ]
