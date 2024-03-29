@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'awazone-4bedeb7518e6.herokuapp.com',
@@ -91,23 +91,21 @@ WSGI_APPLICATION = 'awazone.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-if DEBUG == False:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config("DATABASE_URL")
-        )
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config("DATABASE_URL")
+    )
+}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': config('DATABASE_NAME'), 
+        'USER': config('DATABASE_USER'), 
+        'PASSWORD': config('DATABASE_PASSWORD'), 
+        'HOST':'', 
+        'PORT': '',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql', 
-            'NAME': config('DATABASE_NAME'), 
-            'USER': config('DATABASE_USER'), 
-            'PASSWORD': config('DATABASE_PASSWORD'), 
-            'HOST':'', 
-            'PORT': '',
-        }
-    }
+}
 
 
 # Password validation
