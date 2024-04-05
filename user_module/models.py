@@ -72,7 +72,6 @@ class UserProfile(AbstractUser):
             img.thumbnail(new_img)
             img.save(self.profile_image.path)
 
-        # Call save() method from AbstractUser directly
         super(AbstractUser, self).save(*args, **kwargs)
 
     def activate(self):
