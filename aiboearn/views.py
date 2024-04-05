@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render,redirect
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.db import transaction
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -93,7 +93,7 @@ def _process_asset_purchase(request):
                         'amount': amount
                     }
                     return render(request,'aiboearn_purchase_asset_success.html',content)
-                return messages.error(request,f"Asset Purchase Failed: {purchase_status}")
+                return HttpResponse(f"Asset Purchase Failed: {purchase_status}")
             messages.error(request,'Insufficient Balance!')
         else:
             messages.error(request, 'Invalid input')  

@@ -21,7 +21,7 @@ class UserProfile(AbstractUser):
     last_name = models.CharField(max_length=50,blank=False,verbose_name='Last name')
     username = models.CharField(max_length=50,unique=True,verbose_name='Username')
     email = models.EmailField(unique = True,verbose_name='Email')
-    profile_image = models.ImageField(upload_to='profile_pictures/',verbose_name='Profile Picture',default='media/profile_pictures/avatar.jpg')
+    profile_image = models.ImageField(upload_to='profile_pictures/',verbose_name='Profile Picture',default='profile_pictures/avatar.jpg')
     phone_number = models.CharField(max_length = 11)
     is_active = models.BooleanField(default=False,verbose_name= 'Account active')
     is_staff = models.BooleanField(default = False,verbose_name='Staff')
@@ -63,7 +63,8 @@ class UserProfile(AbstractUser):
 
         self.first_name = self.first_name.capitalize()
         self.last_name = self.last_name.capitalize()
-        self.user_code = self.generate_ref(self.email)
+        if self.user_code is None:
+            self.user_code = self.generate_ref(self.email)
 
         img = Image.open(self.profile_image.path)
         if img.height > 100 or img.width > 100:
@@ -74,6 +75,20 @@ class UserProfile(AbstractUser):
         # Call save() method from AbstractUser directly
         super(AbstractUser, self).save(*args, **kwargs)
 
+    def activate(self):
+        try:
+            self.is_active =True
+            self.save()
+        except Exception as e:
+            return f"Error Occurred: {e}"
+        
+    def deactivate(self):
+        try:
+            self.is_active=False
+            self.save()
+        except Exception as e:
+            return f"Error Occurred: {e}"
+        
     #create new user
     def create_user(self):
         try:
@@ -98,6 +113,14 @@ class UserProfile(AbstractUser):
     def create_staff(self):
         try:
             self.is_staff=True
+            self.save()
+            return True
+        except Exception as e:
+            return f"Error Occurred: {e}"
+        
+    def unmake_staff(self):
+        try:
+            self.is_staff=False
             self.save()
             return True
         except Exception as e:

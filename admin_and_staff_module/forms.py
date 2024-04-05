@@ -1,6 +1,5 @@
 from django.forms import ModelForm
 from .models import SlidePhoto,TermsAndConditions
-
 class SlidePhotoForm(ModelForm):
 
     class Meta:

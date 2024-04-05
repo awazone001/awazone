@@ -266,9 +266,23 @@
                   </a>
                   <ul class="nav-main-submenu">
                     <li class="nav-main-item">
-                      <a class="nav-main-link" href="">
-                        <span class="nav-main-link-name">Manage</span>
+                      <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+                        <span class="nav-main-link-name">Manage Accounts</span>
                       </a>
+                      <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                          <a class="nav-main-link" href="{% url 'admin_view_users' %}" >
+                            <i class="nav-main-link-icon fa fa-user-circle"></i>
+                            <span class="nav-main-link-name">Users</span>
+                          </a>
+                        </li>
+                        <li class="nav-main-item">
+                          <a class="nav-main-link" href="{% url 'admin_view_users' %}" >
+                            <i class="nav-main-link-icon fa fa-user"></i>
+                            <span class="nav-main-link-name">User</span>
+                          </a>
+                        </li>
+                      </ul>
                     </li>
                     <li class="nav-main-item">
                       <a class="nav-main-link" href="{% url 'admin_view_rank' %}">
@@ -354,26 +368,24 @@
         </div>
       </div>
       <div class="bg-body-extra-light">
-        <div class="content content-full">
-          <div class="col-sm-8" style="margin: auto;" id="message">
-            {% for message in messages %}
-            {% if message.tags == 'error' %}
-            <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
-            {% endif %}
-            {% if message.tags == 'success' %}
-            <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
-            {% endif %}
-            {% endfor %}  
-          </div>
-          <div id="content">
-              {% block content %}{% endblock %}
-          </div>
+        <div class="col-sm-8" style="margin: auto;" id="message">
+          {% for message in messages %}
+          {% if message.tags == 'error' %}
+          <div class="alert alert-danger" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+          {% endif %}
+          {% if message.tags == 'success' %}
+          <div class="alert alert-success" style="margin-top: 10px;text-align:center" id="messgaes">{{message}}</div>
+          {% endif %}
+          {% endfor %}  
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
         </div>
       </div>
     </main>
     <footer id="page-footer" class="footer-static bg-body-extra-light">
       <div class="footer-content">
-        &copy; <span data-toggle="year-copy"></span>  Powered by Awazone
+        Powered by Awazone &copy; <span data-toggle="year-copy"></span>
       </div>
     </footer>
   <style>
@@ -513,6 +525,34 @@
     setTimeout(function(){
       message_element.style.display = "none";
     },5000);
+
+    // JavaScript code to toggle visibility of table rows
+    var transactions = document.getElementsByClassName('transaction-row');
+    var viewMoreBtn = document.getElementById('viewMoreBtn');
+    var viewLessBtn = document.getElementById('viewLessBtn');
+  
+    // Hide the transactions initially
+    for (var i = 0; i < transactions.length; i++) {
+      transactions[i].style.display = 'none';
+    }
+  
+    function toggleTransactions() {
+      for (var i = 0; i < transactions.length; i++) {
+        transactions[i].style.display = (transactions[i].style.display === 'none' || transactions[i].style.display === '') ? 'table-row' : 'none';
+      }
+    }
+  
+    viewMoreBtn.addEventListener('click', function () {
+      toggleTransactions();
+      viewMoreBtn.style.display = 'none';
+      viewLessBtn.style.display = '';
+    });
+  
+    viewLessBtn.addEventListener('click', function () {
+      toggleTransactions();
+      viewMoreBtn.style.display = '';
+      viewLessBtn.style.display = 'none';
+    });
   </script>
 </body>
 </html>

@@ -11,6 +11,7 @@
           <img class="img-avatar img-avatar96" src="{{user.profile_image.url}}" alt="">
         </div>
         <h1 class="fs-lg mb-0">{{user.first_name}} {{user.last_name}}</h1>
+        <p class="text-muted"><i class="fa fa-user"></i> {{user.username}}</p>
         <a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'update_profile' %}">
           <i class="far fa-book fa-user"></i> Update Info
         </a>
@@ -50,9 +51,8 @@
             </div>
             <div class="block-content">
               <address class="fs-sm">
-                PHONE NUMBER <i class="fa fa-phone"></i> <span style="color: blue;">{{user.phone_number}}</span><br>
-                ADDRESS <i class="fa fa-map-marker"></i> <span style="color: blue;">{{user.country}}</span><br>
-                EMAIL <i class="fa fa-envelope"></i> <span style="color: blue;">{{user.email}}</span>
+                <p class="text-muted"><i class="fa fa-envelope"></i> {{user.email}}</p>
+                <p class="text-muted"><i class="fa fa-phone"></i> {{user.phone_number}}</p>
               </address>
             </div>
           </div>
@@ -64,9 +64,8 @@
             </div>
             <div class="block-content">
               <address class="fs-sm">
-                USERNAME <i class="fa fa-user"></i> <span style="color: blue;">{{user.username}}</span><br>
-                WALLET  NUMBER <i class="fa fa-wallet"></i> <span style="color: blue;">{{user_wallet.wallet_number}}</span><br>
-                REFERRAL CODE <i class="fa fa-users"></i> <span style="color: blue;">{{user.user_code}}</span>
+                <p class="text-muted"><i class="fa fa-wallet"></i> {{user_wallet.wallet_number}}</p>
+                <p class="text-muted"><i class="fa fa-users"></i> {{user.user_code}}</p>
               </address>
             </div>
           </div>

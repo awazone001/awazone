@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}Users and Staff{% endblock %}
+{% block content %}
+<main id="main-container">
+    <div class="content content-full content-boxed">
+        <h2 class="content-heading">
+          <i class="si si-users me-1"></i> USERS
+        </h2>
+        <div class="row">
+          {% for user in users %}
+          <div class="col-md-6 col-xl-3">
+            <div class="block block-rounded text-center">
+              <div class="block-content block-content-full bg-image" style="background-color: rgb(75, 75, 199);">
+                <img class="img-avatar img-avatar-thumb" src="{{user.profile_image.url}}" alt="">
+              </div>
+              <div class="block-content block-content-full block-content-sm bg-body-light">
+                <div class="fw-semibold">{{user.first_name}} {{user.last_name}}</div>
+                <div class="fs-sm text-muted">{{user.email}}</div>
+              </div>
+              <div class="block-content block-content-full">
+                <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
+                  <i class="fa fa-plus text-muted me-1"></i> Add
+                </a>
+                <a class="btn btn-sm btn-alt-secondary" href="{% url 'admin_view_user' user.user_code %}">
+                  <i class="fa fa-user-circle text-muted me-1"></i> Profile
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-alt-primary">
+            Check out more <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+
+        <h2 class="content-heading">
+            <i class="si si-users me-1"></i> STAFF
+        </h2>
+        <div class="row">
+            {% for staff in staff %}
+            <div class="col-md-6 col-xl-3">
+              <div class="block block-rounded text-center">
+                <div class="block-content block-content-full bg-image" style="background-color: rgb(75, 75, 199);">
+                  <img class="img-avatar img-avatar-thumb" src="{{staff.profile_image.url}}" alt="">
+                </div>
+                <div class="block-content block-content-full block-content-sm bg-body-light">
+                  <div class="fw-semibold">{{staff.first_name}} {{staff.last_name}}</div>
+                  <div class="fs-sm text-muted">{{staff.email}}</div>
+                </div>
+                <div class="block-content block-content-full">
+                  <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
+                    <i class="fa fa-plus text-muted me-1"></i> Add
+                  </a>
+                  <a class="btn btn-sm btn-alt-secondary" href="{% url 'admin_view_user' staff.user_code %}">
+                    <i class="fa fa-user-circle text-muted me-1"></i> Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-alt-primary">
+            Check out more <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+    </div>
+</main>
+{% endblock %}

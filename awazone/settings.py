@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'awazone-4bedeb7518e6.herokuapp.com',
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'admin_and_staff_module',
     'crispy_forms',
     'crispy_bootstrap4',
+    'whitenoise.runserver_nostatic'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'awazone.urls'
@@ -182,3 +185,9 @@ USE_THOUSAND_SEPARATOR = True
 
 LOGIN_URL = "user_login"
 LOGOUT_REDIRECT_URL="user_login"
+
+SESSION_EXPIRE_SECONDS = 3600  # 1 hour session expiration time in seconds
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60 # group by minute
+SESSION_COOKIE_AGE = SESSION_EXPIRE_SECONDS + SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD
+SESSION_TIMEOUT_REDIRECT = 'user_login'

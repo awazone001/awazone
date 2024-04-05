@@ -1,0 +1,333 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}User | {{aibo_user.first_name}} {{aibo_user.last_name}}{% endblock %}
+{% block content %}
+<main id="main-container">
+    <!-- Page Content -->
+    <div class="content">
+      <!-- User Info -->
+      <div class="block block-rounded">
+        <div class="block-content text-center">
+            <div class="py-4">
+              <div class="mb-3">
+                <img class="img-avatar img-avatar96" src="{{aibo_user.profile_image.url}}" alt="">
+              </div>
+              <h1 class="fs-lg mb-0">{{aibo_user.first_name}} {{aibo_user.last_name}}</h1>
+              <h1 class="fs-lg mb-0">{{aibo_user.username}}</h1>
+              <div class="block-content text-center">
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    {% if aibo_user.is_staff == True %}
+                    <p class="text-muted">
+                      <i class="fa fa-award text-warning me-1"></i>
+                      Staff
+                    </p>
+                    <form method="post" action="{% url 'remove-staff' aibo_user.user_code %}">
+                      {% csrf_token %}
+                      <button type="submit" name="make_staff" value="yes" class="btn btn-sm btn-alt-primary ms-2"><i class="far fa-book fa-user-circle"></i> Make User</button>
+                    </form>
+                    {% else %}
+                    <p class="text-muted">
+                      <i class="fa fa-award text-warning me-1"></i>
+                      User
+                    </p>
+                    <form method="post" action="{% url 'make-staff' aibo_user.user_code %}">
+                      {% csrf_token %}
+                      <div class="text-center"> <!-- Center align the button -->
+                        <button type="submit" name="make_staff" value="yes" class="btn btn-sm btn-alt-primary ms-2"><i class="far fa-book fa-user-circle"></i> Make staff</button>
+                      </div>
+                    </form>
+                    {% endif %}
+                  </div>
+                  <div class="mb-4 col-md-6">
+                    {% if aibo_user.is_active == True %}
+                    <p class="text-muted">
+                      <i class="fa fa-toggle-on text-warning me-1"></i>
+                      Activated
+                    </p>
+                    <form method="post" action="{% url 'deactivate-user' aibo_user.user_code %}">
+                      {% csrf_token %}
+                      <div class="text-center">
+                        <button type="submit" name="make_staff" value="yes" class="btn btn-sm btn-alt-primary ms-2"><i class="far fa-book fa-user-circle"></i> Deactivate</button>
+                      </div>
+                    </form>
+                    {% else %}
+                    <p class="text-muted">
+                      <i class="fa fa-toggle-off text-warning me-1"></i>
+                      Deactivated
+                    </p>
+                    <form method="post" action="{% url 'activate-user' aibo_user.user_code %}">
+                      {% csrf_token %}
+                      <div class="text-center">
+                        <button type="submit" name="make_staff" value="yes" class="btn btn-sm btn-alt-primary ms-2"><i class="far fa-book fa-user-circle"></i> Activate</button>
+                      </div>
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+              <p class="text-muted">
+                Joined on {{aibo_user.created_at}}
+              </p>
+            </div>
+          </div>
+          <div class="block-content bg-body-light text-center">
+            <div class="row items-push text-uppercase">
+              <div class="col-6 col-md-3">
+                <div class="fw-semibold text-dark mb-1">ARP</div>
+                <a class="link-fx fs-3" href="">{{aibo.arp}}</a>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="fw-semibold text-dark mb-1">ACCOUNT BALANCE</div>
+                <a class="link-fx fs-3" href="">{{user_wallet.currency}} {{user_wallet.balance}}</a>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="fw-semibold text-dark mb-1">RANK</div>
+                <a class="link-fx fs-3" href="">{{aibo.level}}</a>
+              </div>
+              <div class="col-6 col-md-3">
+                  <div class="fw-semibold text-dark mb-1">TEAM SIZE</div>
+                  <a class="link-fx fs-3" href="">{{aibo_user.team}}</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    
+      <div class="block block-rounded">
+        <div class="block-header block-header-default">
+          <h3 class="block-title">USER INFO</h3>
+        </div>
+        <div class="block-content">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="block block-rounded block-bordered">
+                <div class="block-header border-bottom">
+                  <h3 class="block-title">CONTACT INFO</h3>
+                </div>
+                <div class="block-content">
+                  <address class="fs-sm">
+                    <p class="text-muted"><i class="fa fa-envelope"></i> {{aibo_user.email}}</p>
+                    <p class="text-muted"><i class="fa fa-phone"></i> {{aibo_user.phone_number}}</p>
+                  </address>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="block block-rounded block-bordered">
+                <div class="block-header border-bottom">
+                  <h3 class="block-title">OTHER INFO</h3>
+                </div>
+                <div class="block-content">
+                  <address class="fs-sm">
+                    <p class="text-muted"><i class="fa fa-wallet"></i> {{user_wallet.wallet_number}}</p>
+                    <p class="text-muted"><i class="fa fa-users"></i> {{aibo_user.user_code}}</p>
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="block block-rounded">
+        <div class="block-header block-header-default">
+          <h3 class="block-title">AIBO PAY</h3>
+        </div>
+        <div class="block-content">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-vcenter">
+                  <thead>
+                    <tr>
+                      <th>DETAILS</th>
+                      <th class="text-center">Transaction</th>
+                      <th class="text-center">Amount</th>
+                      <th class="text-center">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transactionBody">
+                    {% for transaction in transactions %}
+                    <tr class="transaction-row">
+                      <td>
+                        <p class="fw-semibold mb-1">
+                          {{transaction.ref}}
+                        </p>
+                        <p class="fs-sm text-muted">
+                         Description: {{transaction.description}}
+                        </p>
+                        <p class="fs-sm text-muted">
+                          {{transaction.timestamp}}
+                        </p>
+                      </td>
+                      <td class="text-center">
+                        <span class="fs-sm">{{transaction.transaction_type}}</span>
+                      </td>
+                      <td class="text-center">
+                        <div >
+                          {{transaction.currency}} {{transaction.amount}}
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        {% if transaction.status == 'Success' %}
+                        <a href="" style="color: green;">Success</a>
+                        {% elif transaction.status == 'Pending' %}
+                        <a href="" style="color: rgb(46, 48, 172);">Pending</a>
+                        {% else %}
+                        <a href="" style="color: red;">Failed</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center">
+                        <span id="empty">No Transactions Yet</span>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div id="buttonsContainer" class="text-center">
+                <button id="viewMoreBtn" class="btn btn-primary">View More</button>
+                <button id="viewLessBtn" class="btn btn-primary" style="display: none;">View Less</button>
+            </div>
+        </div>
+      </div>
+
+      <div class="block block-rounded">
+        <div class="block-header block-header-default">
+          <h3 class="block-title">AIBO EARN</h3>
+        </div>
+        <div class="block-content">
+            <div class="table-responsive">
+                <table class="table table-borderless table-striped table-vcenter fs-sm">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Transaction ID</th>
+                      <th class="text-center">Transaction Date/Time</th>
+                      <th class="text-center">Expiring Date/Time</th>
+                      <th class="text-center">Sector</th>
+                      <th class="text-center">Asset</th>
+                      <th class="text-center">Amount</th>
+                      <th class="text-center">Shares</th>
+                      <th class="text-center">Ledger Balance</th>
+                      <th class="text-center">Available Balance</th>
+                      <th class="text-center">Total Withdrawals</th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="transactionBody">
+                    {% for purchase in purchases %}
+                    <tr class="transaction-row">
+                      <td class="text-center">
+                        <a class="fw-semibold" href="">
+                          <strong>{{ purchase.id }}</strong>
+                        </a>
+                      </td>
+                      <td class="text-center">
+                        {{purchase.transaction_datetime}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.expiring_datetime}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.sector}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.asset}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.amount}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.share_value}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.ledger_balance}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.available_balance}}
+                      </td>
+                      <td class="text-center">
+                        {{purchase.total_sale}}
+                      </td>
+                      <td class="text-center">
+                       <a class="btn btn-primary btn-sm btn-primary rounded-pill px-2" href="{% url 'aiboearn_sell' purchase.id %}">Withdraw</a>
+                      </td>
+                      <td class="text-center">
+                        <a class="btn btn-primary btn-sm btn-primary rounded-pill px-2" href="{% url 'aiboearn_sales' purchase.id %}">Withdrawals</a>
+                       </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="12" class="text-center">
+                        <span id="empty">No Transactions Yet</span>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div id="buttonsContainer" class="text-center">
+                <button id="viewMoreBtn" class="btn btn-primary">View More</button>
+                <button id="viewLessBtn" class="btn btn-primary" style="display: none;">View Less</button>
+              </div>
+        </div>
+      </div>
+      <!-- END Past Orders -->
+
+      <div class="block block-rounded">
+        <div class="block-header block-header-default">
+          <h3 class="block-title">Direct Referrals</h3>
+        </div>
+        {% for referral in referrals %}
+        <div class="block-content">
+          <div class="row items-push">
+            <div class="col-md-4">
+              <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0" href="">
+                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-semibold mb-1">{{ referral.first_name }} {{ referral.last_name }}</div>
+                    <div class="fs-sm text-muted">{{ referral.username }}</div>
+                  </div>
+                  <div class="ms-3">
+                    <img class="img-avatar" src="{{referral.image.url}}" alt="{% static 'assets/media/avatars/avatar.jpg' %}">
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <span id="empty">No referred users found.</span>
+        {% endfor %}
+      </div>
+
+      <!-- Private Notes -->
+      <div class="block block-rounded">
+        <div class="block-header block-header-default">
+          <h3 class="block-title">Private Notes</h3>
+        </div>
+        <div class="block-content">
+          <p class="alert alert-info fs-sm">
+            <i class="fa fa-fw fa-info me-1"></i> This note will not be displayed to the customer.
+          </p>
+          <form action="be_pages_ecom_customer.html" onsubmit="return false;">
+            <div class="mb-4">
+              <label class="form-label" for="dm-ecom-customer-note">Note</label>
+              <textarea class="form-control" id="dm-ecom-customer-note" name="dm-ecom-customer-note" rows="4" placeholder="Maybe a special request?"></textarea>
+            </div>
+            <div class="mb-4">
+              <button type="submit" class="btn btn-alt-primary">Add Note</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- END Private Notes -->
+    </div>
+    <!-- END Page Content -->
+</main>
+{% endblock %}
