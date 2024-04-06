@@ -30,9 +30,8 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    "https://awazone-dashboard-57229f8ebde4.herokuapp.com/",
-    "awazone-dashboard-57229f8ebde4.herokuapp.com/",
-    ]
+    "awazone-dashboard-57229f8ebde4.herokuapp.com",
+]
 
 # Application definition
 
@@ -153,7 +152,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 django_heroku.settings(locals())
 
-MEDIA_URL = 'app/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
