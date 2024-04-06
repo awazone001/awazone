@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,9 +30,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'awazone-4bedeb7518e6.herokuapp.com',
-    '127.0.0.1'
-]
+    "https://awazone-dashboard-57229f8ebde4.herokuapp.com/",
+    "awazone-dashboard-57229f8ebde4.herokuapp.com/",
+    ]
 
 # Application definition
 
@@ -150,6 +151,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+django_heroku.settings(locals())
 
 MEDIA_URL = '/app/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
