@@ -71,7 +71,7 @@ class UserProfile(AbstractUser):
 
         if not self.profile_image:
             # Set a default profile image
-            default_image_path = 'profile_pictures/avatar.jpg'
+            default_image_path = 'media/profile_pictures/avatar.jpg'
             with open(default_image_path, 'rb') as f:
                 default_image_data = f.read()
             self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data))
