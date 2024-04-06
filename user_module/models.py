@@ -21,7 +21,7 @@ class UserProfile(AbstractUser):
     last_name = models.CharField(max_length=50,blank=False,verbose_name='Last name')
     username = models.CharField(max_length=50,unique=True,verbose_name='Username')
     email = models.EmailField(unique = True,verbose_name='Email')
-    profile_image = models.ImageField(upload_to='profile_pictures/',verbose_name='Profile Picture',default='profile_pictures/avatar.jpg')
+    profile_image = models.ImageField(upload_to='profile_pictures/',verbose_name='Profile Picture')
     phone_number = models.CharField(max_length = 11)
     is_active = models.BooleanField(default=False,verbose_name= 'Account active')
     is_staff = models.BooleanField(default = False,verbose_name='Staff')
