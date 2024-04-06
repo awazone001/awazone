@@ -120,7 +120,7 @@ def add_level(request):
         if new_level_form.is_valid():
             new_level_form.save()
             messages.success(request, 'New Level Successfully Added!')
-            return redirect('admin_view_level')
+            return redirect('admin_view_rank')
         else:
             messages.error(request, 'Invalid Inputs')
     else:
