@@ -4,7 +4,7 @@ from django.db import transaction
 from PIL import Image
 import secrets
 import requests
-from django.conf import settings
+from io import BytesIO
 
 def get_dialing_code(country_code):
 
@@ -74,10 +74,13 @@ class UserProfile(AbstractUser):
 
         # Resize image if needed
         if self.profile_image and hasattr(self.profile_image, 'path'):
-            img = Image.open(self.profile_image.path)
+            img = Image.open(BytesIO(self.profile_image.read()))
             if img.height > 100 or img.width > 100:
                 img.thumbnail((100, 100))
-                img.save(self.profile_image.path)
+                img_buffer = BytesIO()
+                img.save(img_buffer, format='JPEG')
+                img_buffer.seek(0)
+                self.profile_image.save(self.profile_image.name, img_buffer)
 
     def activate(self):
         try:
