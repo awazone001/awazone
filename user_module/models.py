@@ -6,6 +6,7 @@ import secrets
 import requests
 from io import BytesIO
 from django.core.files.base import ContentFile
+from django.conf import settings
 
 
 def get_dialing_code(country_code):
@@ -71,7 +72,7 @@ class UserProfile(AbstractUser):
 
         if not self.profile_image:
             # Set a default profile image
-            default_image_path = 'profile_pictures/avatar.jpg'
+            default_image_path = settings.MEDIA_URL + 'profile_pictures/avatar.jpg'
             with open(default_image_path, 'rb') as f:
                 default_image_data = f.read()
             self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data))
