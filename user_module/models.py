@@ -87,8 +87,6 @@ class UserProfile(AbstractUser):
                 self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()), save=False)
         self.save()  # Save the changes to the instance after processing the image
 
-
-
     def activate(self):
         try:
             self.is_active =True
