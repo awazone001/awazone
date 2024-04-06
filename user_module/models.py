@@ -5,6 +5,8 @@ from PIL import Image
 import secrets
 import requests
 from io import BytesIO
+from django.core.files.base import ContentFile
+
 
 def get_dialing_code(country_code):
 
@@ -69,18 +71,21 @@ class UserProfile(AbstractUser):
 
         if not self.profile_image:
             # Set a default profile image
-            self.profile_image.name = 'profile_pictures/avatar.jpg'
-            self.profile_image.save('profile_pictures/avatar.jpg', Image.new('RGB', (100, 100), (255, 255, 255)))
+            default_image_path = 'profile_pictures/avatar.jpg'
+            with open(default_image_path, 'rb') as f:
+                default_image_data = f.read()
+            self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data))
 
-        # Resize image if needed
-        if self.profile_image and hasattr(self.profile_image, 'path'):
-            img = Image.open(BytesIO(self.profile_image.read()))
+        # Process image if provided
+        if self.profile_image:
+            img = Image.open(self.profile_image)
             if img.height > 100 or img.width > 100:
                 img.thumbnail((100, 100))
                 img_buffer = BytesIO()
                 img.save(img_buffer, format='JPEG')
                 img_buffer.seek(0)
-                self.profile_image.save(self.profile_image.name, img_buffer)
+                self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()))
+
 
     def activate(self):
         try:
