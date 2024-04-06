@@ -69,12 +69,12 @@ class UserProfile(AbstractUser):
         if self.user_code is None:
             self.user_code = self.generate_ref(self.email)
 
-        super().save(*args, **kwargs)
-
         if not self.profile_image:
             # Set a default profile image
             default_image_path = settings.STATIC_ROOT + '/images/avatar.jpg'
-            self.profile_image.save('default_avatar.jpg', ContentFile(open(default_image_path, 'rb').read()), save=False)
+            with open(default_image_path, 'rb') as f:
+                default_image_data = f.read()
+            self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data), save=False)
 
         # Process image if provided
         if self.profile_image:
@@ -85,7 +85,8 @@ class UserProfile(AbstractUser):
                 img.save(img_buffer, format='JPEG')
                 img_buffer.seek(0)
                 self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()), save=False)
-        self.save()  # Save the changes to the instance after processing the image
+
+        super().save(*args, **kwargs)
 
     def activate(self):
         try:
