@@ -74,7 +74,7 @@ class UserProfile(AbstractUser):
             default_image_path = settings.STATIC_ROOT + '/images/avatar.jpg'
             with open(default_image_path, 'rb') as f:
                 default_image_data = f.read()
-            self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data), save=False)
+            self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data), save=True)
 
         # Process image if provided
         if self.profile_image:
@@ -84,7 +84,7 @@ class UserProfile(AbstractUser):
                 img_buffer = BytesIO()
                 img.save(img_buffer, format='JPEG')
                 img_buffer.seek(0)
-                self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()), save=False)
+                self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()), save=True)
 
         super().save(*args, **kwargs)
 
