@@ -4,6 +4,7 @@ from django.db import transaction
 from PIL import Image
 import secrets
 import requests
+from django.conf import settings
 
 def get_dialing_code(country_code):
 
@@ -56,9 +57,7 @@ class UserProfile(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self.referral_code:
-            if self.referral_clean(self.referral_code):
-                self.referral_code = self.referral_code
-            else:
+            if not self.referral_clean(self.referral_code):
                 self.referral_code = None
 
         self.first_name = self.first_name.capitalize()
@@ -66,13 +65,19 @@ class UserProfile(AbstractUser):
         if self.user_code is None:
             self.user_code = self.generate_ref(self.email)
 
-        img = Image.open(self.profile_image.path)
-        if img.height > 100 or img.width > 100:
-            new_img = [100, 100]
-            img.thumbnail(new_img)
-            img.save(self.profile_image.path)
+        super().save(*args, **kwargs)
 
-        super(AbstractUser, self).save(*args, **kwargs)
+        if not self.profile_image:
+            # Set a default profile image
+            self.profile_image.name = 'profile_pictures/avatar.jpg'
+            self.profile_image.save('profile_pictures/avatar.jpg', Image.new('RGB', (100, 100), (255, 255, 255)))
+
+        # Resize image if needed
+        if self.profile_image and hasattr(self.profile_image, 'path'):
+            img = Image.open(self.profile_image.path)
+            if img.height > 100 or img.width > 100:
+                img.thumbnail((100, 100))
+                img.save(self.profile_image.path)
 
     def activate(self):
         try:
