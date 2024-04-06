@@ -72,10 +72,8 @@ class UserProfile(AbstractUser):
 
         if not self.profile_image:
             # Set a default profile image
-            default_image_path = settings.MEDIA_URL + 'profile_pictures/avatar.jpg'
-            with open(default_image_path, 'rb') as f:
-                default_image_data = f.read()
-            self.profile_image.save('default_avatar.jpg', ContentFile(default_image_data))
+            default_image_path = os.path.join(settings.MEDIA_ROOT, 'profile_pictures/avatar.jpg')
+            self.profile_image.save('default_avatar.jpg', ContentFile(open(default_image_path, 'rb').read()), save=False)
 
         # Process image if provided
         if self.profile_image:
@@ -85,7 +83,9 @@ class UserProfile(AbstractUser):
                 img_buffer = BytesIO()
                 img.save(img_buffer, format='JPEG')
                 img_buffer.seek(0)
-                self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()))
+                self.profile_image.save(self.profile_image.name, ContentFile(img_buffer.read()), save=False)
+        self.save()  # Save the changes to the instance after processing the image
+
 
 
     def activate(self):
