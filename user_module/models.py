@@ -7,6 +7,7 @@ import requests
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.conf import settings
+import os
 
 
 def get_dialing_code(country_code):
