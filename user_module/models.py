@@ -73,7 +73,7 @@ class UserProfile(AbstractUser):
 
         if not self.profile_image:
             # Set a default profile image
-            default_image_path = os.path.join(settings.MEDIA_ROOT, 'profile_pictures/avatar.jpg')
+            default_image_path = settings.STATIC_ROOT + '/images/avatar.jpg'
             self.profile_image.save('default_avatar.jpg', ContentFile(open(default_image_path, 'rb').read()), save=False)
 
         # Process image if provided
