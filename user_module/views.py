@@ -10,8 +10,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .decorators import user_access_only
-from .forms import CreateUserForm, LoginForm, TestimonialForm, UserUpdateForm
-from .models import UserProfile, AIBO, Reward, Level
+from .forms import CreateUserForm, LoginForm, UserUpdateForm
+from .models import UserProfile, AIBO, Level
 from .tokens import account_activation_token
 from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense
 from messaging_module.models import Notification
@@ -89,7 +89,6 @@ def sign_up(request):
                     Notification.create_notification(user=user, message='User Created Successfully')
                     return redirect('user_login', permanent=True)
             except Exception as e:
-                print(e)
                 messages.error(request, f"Error Occurred")
                 return render(request, 'signup.html', {'form': form})
         else:
@@ -208,35 +207,3 @@ def view_level(request):
         'levels': levels,
     }
     return render(request, 'user_view_levels.html', content)
-
-@login_required
-@user_access_only()
-def verify_level(request):
-    searched_user = UserProfile.objects.get(email=request.user.email)
-    user_level = Level.objects.get(title = AIBO.objects.get(user=searched_user).level)
-    user_reward = Reward.objects.get(user=searched_user, user_level=user_level.level)
-    
-    if request.method == 'POST':
-        testimonial = TestimonialForm(request.POST)
-        if testimonial.is_valid():
-            user_reward.title = testimonial.cleaned_data['title']
-            user_reward.testimonial = testimonial.cleaned_data['testimonial']
-            user_reward.recieved = testimonial.cleaned_data['recieved']
-            user_reward.save()
-            messages.success(request, 'You have completed verification!')
-            return redirect('user_dashboard')
-        else:
-            messages.error(request, 'Invalid Input')
-            testimonial = TestimonialForm(request.POST)
-    else:
-        testimonial = TestimonialForm(request.POST)
-    
-    content = {
-        'user': searched_user,
-        'user_wallet': AIBOWallet.objects.get(user=searched_user.id),
-        'aibo': AIBO.objects.get(user=searched_user.id),
-        'level': user_level,
-        'reward': user_reward,
-        'testimonial': testimonial,
-    }
-    return render(request, 'user_verify_level.html', content)

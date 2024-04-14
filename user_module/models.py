@@ -7,8 +7,6 @@ import requests
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.conf import settings
-import os
-
 
 def get_dialing_code(country_code):
 
@@ -106,16 +104,8 @@ class UserProfile(AbstractUser):
     def create_user(self):
         try:
             with transaction.atomic():
-                user_level = Level.objects.get(level = 'Level 1')
-                reward = Reward.objects.create(
-                    user= self, 
-                    user_level=user_level, 
-                    reward=user_level.user_reward
-                    )
-                reward.save()
                 aibo  = AIBO.objects.create(
-                    user = self,
-                    level = user_level,
+                    user = self
                 )
                 aibo.save()
                 return True
@@ -160,17 +150,7 @@ class Level(models.Model):
         ('Level 7','Level 7'),
         ('Level 8','Level 8'),
         ('Level 9','Level 9'),
-        ('Level 10','Level 10'),
-        ('Level 11','Level 11'),
-        ('Level 12','Level 12'),
-        ('Level 13','Level 13'),
-        ('Level 14','Level 14'),
-        ('Level 15','Level 15'),
-        ('Level 16','Level 16'),
-        ('Level 17','Level 17'),
-        ('Level 18','Level 18'),
-        ('Level 19','Level 19'),
-        ('Level 20','Level 20'),
+        ('Level 10','Level 10')
     )
 
     level = models.TextField(choices = levels ,primary_key=True,verbose_name='Level')
@@ -190,7 +170,7 @@ class Level(models.Model):
 class AIBO(models.Model):
     user = models.OneToOneField(UserProfile,on_delete=models.CASCADE)
     arp = models.FloatField(default= 0)
-    level = models.ForeignKey(Level,on_delete=models.CASCADE)
+    level = models.ForeignKey(Level,on_delete=models.CASCADE,null=True,blank=True)
     is_subscribed_for_mail = models.BooleanField(default=True,auto_created=True,verbose_name= 'Subscribe for Mailing')
     auto_renew_license = models.BooleanField(default=False,verbose_name= 'Auto Renew Licenses and Subscription')
     is_valid_for_monthly_license = models.BooleanField(default=True)
@@ -200,21 +180,7 @@ class AIBO(models.Model):
         return self.user
     
     def save(self,*args,**kwargs) -> None:
-        return super().save()
-
-class Reward(models.Model):
-    user = models.ForeignKey(UserProfile,on_delete=models.SET_NULL,null=True)
-    user_level = models.ForeignKey(Level,on_delete=models.SET_NULL,null=True)
-    reward = models.TextField()
-    title = models.CharField(max_length=100,verbose_name='Description')
-    testimonial = models.URLField()
-    recieved = models.BooleanField(default=False,verbose_name= 'recieved')
-    qualified = models.BooleanField(default=False,verbose_name= 'qualified')
-    timestamp = models.TimeField(auto_now_add=True)
-    datestamp = models.DateField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('user_level',)
-
-    def __str__(self):
-        return self.user
+        if not self.level:
+            self.level = "Free Citizen"
+        
+        super().save(*args, **kwargs)

@@ -48,139 +48,80 @@
               <span class="nav-main-link-name">Dashboard</span>
               <span class="nav-main-link-badge badge rounded-pill bg-success">{{ user.username }}</span>
             </a>
-            <li class="nav-main-heading">USER</li>
             <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-menu" href="{% url 'user_profile' %}">
-                <i class="nav-main-link-icon fa fa-user"></i>
-                <span class="nav-main-link-name">PROFILE</span>
+                <i class="nav-main-link-icon fa fa-user-circle"></i>
+                <span class="nav-main-link-name">Profile</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">Manage Fund</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-bank"></i>
+                <span class="nav-main-link-name">aibopay</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">Discover</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-user-circle"></i>
+                <span class="nav-main-link-name">Become an AIBO</span>
               </a>
             </li>
             <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
-                <i class="nav-main-link-icon fa fa-chess-queen"></i>
-                <span class="nav-main-link-name">RANK</span>
+                <i class="nav-main-link-icon fa fa-shopping-cart"></i>
+                <span class="nav-main-link-name">Buy Asset</span>
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                <a class="nav-main-link" href="{% url 'levels' %}">
-                  <i class="nav-main-link-icon fa fa-chess-queen"></i>
-                    <span class="nav-main-link-name">Ranks</span>
+                  <a class="nav-main-link" href="">
+                    <i class="nav-main-link-icon fa fa-users"></i>
+                    <span class="nav-main-link-name">Marketplace</span>
                   </a>
                 </li>
               </ul>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'verify_level' %}">
-                    <i class="nav-main-link-icon fa fa-check-circle"></i>
-                    <span class="nav-main-link-name">Verify Rank</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-main-heading">DISCOVER</li>
-            <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
-                <i class="nav-main-link-icon fa fa-wallet"></i>
-                <span class="nav-main-link-name">AIBOPAY</span>
-              </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'aibopay_dashboard' %}">
+                  <a class="nav-main-link" href="">
                     <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                    <span class="nav-main-link-name">Home</span>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'initiate_payment' %}">
-                    <i class="nav-main-link-icon fa fa-arrow-alt-circle-down"></i>
-                    <span class="nav-main-link-name">Deposit</span>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'withdraw' %}">
-                    <i class="nav-main-link-icon fa fa-arrow-alt-circle-up"></i>
-                    <span class="nav-main-link-name">Withdraw</span>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'reset_pin' %}">
-                    <i class="nav-main-link-icon fa fa-link"></i>
-                    <span class="nav-main-link-name">Reset PIN</span>
+                    <span class="nav-main-link-name">Asset</span>
                   </a>
                 </li>
               </ul>
             </li>
+            <li class="nav-main-heading">Manage Team</li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
-                <i class="nav-main-link-icon fa fa-coins"></i>
-                <span class="nav-main-link-name">AIBOEARN</span>
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-user-friends"></i>
+                <span class="nav-main-link-name">Direct team</span>
               </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'aiboearn_dashboard' %}">
-                      <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                      <span class="nav-main-link-name">Home</span>
-                    </a>
-                  </li>
-                </li>
-                <li class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'user_view_sector' %}">
-                      <i class="nav-main-link-icon fa fa-diamond"></i>
-                      <span class="nav-main-link-name">Sectors</span>
-                    </a>
-                  </li>
-                </li>
-                <li class="nav-main-submenu">
-                  <li class="nav-main-item">
-                    <a class="nav-main-link" href="{% url 'user_view_asset' %}">
-                      <i class="nav-main-link-icon fa fa-hourglass"></i>
-                      <span class="nav-main-link-name">Assets</span>
-                    </a>
-                  </li>
-                </li>
-              </ul>
             </li>
             <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-menu" href="">
-                <i class="nav-main-link-icon fa fa-credit-card"></i>
-                <span class="nav-main-link-name">PAWA Card</span>
+                <i class="nav-main-link-icon fa fa-ranking-star"></i>
+                <span class="nav-main-link-name">Rank</span>
               </a>
+            </li>
+            <li class="nav-main-heading">Launch Pad</li>
+            <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-menu" href="">
-                <i class="nav-main-link-icon fa fa-users"></i>
-                <span class="nav-main-link-name">MARKET PLACE</span>
+                <i class="nav-main-link-icon fa fa-briefcase"></i>
+                <span class="nav-main-link-name">Launch Products</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-business-time"></i>
+                <span class="nav-main-link-name">Provide</span>
               </a>
             </li>
             <li class="nav-main-heading">Manage Account</li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                <i class="nav-main-link-icon fa fa-handshake"></i>
-                <span class="nav-main-link-name">Support</span>
+              <a class="nav-main-link nav-main-link-menu" href="{% url 'customer_support' %}">
+                <i class="nav-main-link-icon fa fa-user-cog"></i>
+                <span class="nav-main-link-name">support</span>
               </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'customer_support' %}">
-                    <span class="nav-main-link-name">Customer Support</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="{% url 'contact' %}">
-                    <span class="nav-main-link-name">Contact Center</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="">
-                    <span class="nav-main-link-name">Resources</span>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="nav-main-heading">Sign Out</li>
             <li class="nav-main-item">

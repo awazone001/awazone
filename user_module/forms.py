@@ -1,7 +1,7 @@
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import (
-    TextInput,EmailInput,PasswordInput,URLInput,EmailField,CharField,CheckboxInput,forms,ModelForm
+    EmailInput,PasswordInput,EmailField,CharField,forms,ModelForm
     )
 from crispy_forms.helper import FormHelper,Layout
 from crispy_forms.bootstrap import PrependedText
@@ -46,17 +46,6 @@ class UserUpdateForm(ModelForm):
             PrependedText('image','x'),
             PrependedText('phone_number', text=dailing_code),
         )
-
-class TestimonialForm(ModelForm):
-
-    class Meta:
-        model = Reward
-        fields = ['title','testimonial','recieved']
-        widgets = {
-            'title': TextInput(attrs={'placeholder': 'Title'}),
-            'testimonial': URLInput(attrs={'placeholder': 'Link to Testimonial'}),
-            'recieved': CheckboxInput(attrs={'placeholder': 'Recieved'})
-            }
 
 class LevelForm(ModelForm):
 
