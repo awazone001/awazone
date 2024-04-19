@@ -17,29 +17,32 @@
   </div>
   <div class="content content-boxed overflow-hidden">
     <div class="row py-5">
-      {% for level in levels %}
+      {% if ranks == None %}
+      <h3 style="text-align: center; color: red;">No ranks available yet.</h3>
+      {% else %}
+      {% for rank in ranks %}
       <div class="col-md-6 col-xl-3">
         <a class="block block-link-pop block-rounded text-center" href="">
           <div class="block block-rounded block-themed text-center">
             <div class="block-header bg-muted" style="color: white;">
-              <h3 class="block-title" id="rank1">{{level.level}} - {{ level.title }}</h3>
+              <h3 class="block-title" id="rank1">{{rank.level}} - {{ rank.title }}</h3>
             </div>
             <div class="block-content">
               <div class="py-2">
                 <span class="h1 fw-bold mb-2"><h5>REQUIREMENTS</h5></span>
-                <p class="h6 text-muted"> Direct Team: {{level.direct_team}} {{ level.title }}</p>
-                <p class="h6 text-muted"> Team Size: {{level.number_team}} Team Member</p>
+                <p class="h6 text-muted"> Direct Team: {{rank.direct_team}} {{ rank.title }}</p>
+                <p class="h6 text-muted"> Team Size: {{rank.number_team}} Team Member</p>
                 <p>
                   <strong>Reward</strong><br>
                 </p>
-                <pre>{{ level.user_reward }}</pre>
+                <pre>{{ rank.user_reward }}</pre>
                 <p>
                   <strong>Description</strong><br>
                 </p>
-                <pre>{{ level.description }}</pre>
+                <pre>{{ rank.description }}</pre>
               </div>
             </div>
-            {% if level == aibo.level %}
+            {% if level == data.aibo.level %}
             <div class="block-content block-content-full bg-body-light">
               <span class="btn btn-hero btn-primary px-4">
                 <i class="fa fa-certificate opacity-70 me-1"></i> Current Level
@@ -50,6 +53,7 @@
         </a>
       </div>
       {% endfor %}
+      {% endif %}
     </div>
   </div>
 </main>

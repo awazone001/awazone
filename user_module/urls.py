@@ -22,6 +22,7 @@ urlpatterns = [
     path('reset-password-complete/',
     auth_views.PasswordResetCompleteView.as_view(template_name = "reset_password_done.html"),
     name="password_reset_complete"),
-    path('user-ranks/',views.view_level,name='levels'),
-    path('terms-and-conditions/',views.view_terms_and_conditions,name='terms-and-conditions')
+    path('user-ranks/',views.view_rank,name='view_ranks'),
+    path('terms-and-conditions/',views.view_terms_and_conditions,name='terms-and-conditions'),
+    path('direct-referrals/',views.view_direct_referrals,name='direct-referrals')
 ]

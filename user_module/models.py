@@ -7,6 +7,7 @@ import requests
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 def get_dialing_code(country_code):
 
@@ -101,7 +102,7 @@ class UserProfile(AbstractUser):
             return f"Error Occurred: {e}"
         
     #create new user
-    def create_user(self):
+    def create_aibo(self):
         try:
             with transaction.atomic():
                 aibo  = AIBO.objects.create(
@@ -110,7 +111,8 @@ class UserProfile(AbstractUser):
                 aibo.save()
                 return True
         except Exception as e:
-            return f"Error Occurred: {e}"
+            print(e)
+            raise ValidationError("User creation failed")
 
     #create new staff
     def create_staff(self):
@@ -140,27 +142,31 @@ class UserProfile(AbstractUser):
             return f"Error Occurred: {e}"
 
 class Level(models.Model):
-    levels = (
-        ('Level 1','Level 1'),
-        ('Level 2','Level 2'),
-        ('Level 3','Level 3'),
-        ('Level 4','Level 4'),
-        ('Level 5','Level 5'),
-        ('Level 6','Level 6'),
-        ('Level 7','Level 7'),
-        ('Level 8','Level 8'),
-        ('Level 9','Level 9'),
-        ('Level 10','Level 10')
+    LEVEL_CHOICES = (
+        ('Level 1', 'Level 1'),
+        ('Level 2', 'Level 2'),
+        ('Level 3', 'Level 3'),
+        ('Level 4', 'Level 4'),
+        ('Level 5', 'Level 5'),
+        ('Level 6', 'Level 6'),
+        ('Level 7', 'Level 7'),
+        ('Level 8', 'Level 8'),
+        ('Level 9', 'Level 9'),
+        ('Level 10', 'Level 10')
     )
 
-    level = models.TextField(choices = levels ,primary_key=True,verbose_name='Level')
-    title = models.CharField(max_length=100,verbose_name='Rank')
+    level = models.CharField(max_length=10, choices=LEVEL_CHOICES, primary_key=True, verbose_name='Level')
+    title = models.CharField(max_length=100, verbose_name='Rank')
     description = models.TextField(verbose_name='Description')
     direct_team = models.IntegerField(verbose_name='Direct Team Size')
     number_team = models.IntegerField(verbose_name='Total Team Size')
     user_reward = models.TextField(verbose_name='User Reward')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @classmethod
+    def get_default_level(cls):
+        # You can customize this method to return the desired default level
+        return Level.objects.get(level="Level 1")
     class Meta:
         ordering = ('level',)
 
@@ -168,19 +174,20 @@ class Level(models.Model):
         return self.title
     
 class AIBO(models.Model):
-    user = models.OneToOneField(UserProfile,on_delete=models.CASCADE)
-    arp = models.FloatField(default= 0)
-    level = models.ForeignKey(Level,on_delete=models.CASCADE,null=True,blank=True)
-    is_subscribed_for_mail = models.BooleanField(default=True,auto_created=True,verbose_name= 'Subscribe for Mailing')
-    auto_renew_license = models.BooleanField(default=False,verbose_name= 'Auto Renew Licenses and Subscription')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    arp = models.FloatField(default=0)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, null=True, blank=True)
+    auto_renew_license = models.BooleanField(default=False, verbose_name='Auto Renew Licenses and Subscription')
     is_valid_for_monthly_license = models.BooleanField(default=True)
     is_valid_for_yearly_license = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user
-    
-    def save(self,*args,**kwargs) -> None:
+        return str(self.user)  # Make sure to return a string
+
+    def save(self, *args, **kwargs):
         if not self.level:
-            self.level = "Free Citizen"
+            # Retrieve the default level object
+            default_level = Level.get_default_level()
+            self.level = default_level
         
         super().save(*args, **kwargs)

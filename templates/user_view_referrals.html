@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Direct Referrals{% endblock %}
+{% block content %}
+<h1>My Direct Referrals</h1>
+<div class="block block-rounded">
+  {% for referral in data.referrals %}
+  <div class="block-content">
+    <div class="row items-push">
+      <div class="col-md-4">
+        <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0" href="">
+          <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+            <div>
+              <div class="fw-semibold mb-1">{{ data.referral.first_name }} {{ data.referral.last_name }}</div>
+              <div class="fs-sm text-muted">{{ data.referral.username }}</div>
+            </div>
+            <div class="ms-3">
+              <img class="img-avatar" src="{{data.referral.image.url}}" alt="{% static 'assets/media/avatars/avatar.jpg' %}">
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <span id="empty">No referred users found.</span>
+  {% endfor %}
+</div>
+<div class="block block-rounded block-bordered">
+  <div class="block-content">
+    <nav aria-label="Best Selling Authors">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Previous">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-double-left"></i>
+            </span>
+            <span class="visually-hidden">Previous</span>
+          </a>
+        </li>
+        <li class="page-item active">
+          <a class="page-link" href="javascript:void(0)">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)">4</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" aria-label="Next">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-double-right"></i>
+            </span>
+            <span class="visually-hidden">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}

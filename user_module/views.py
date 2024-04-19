@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth import get_user_model, login, logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -10,13 +10,14 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .decorators import user_access_only
-from .forms import CreateUserForm, LoginForm, UserUpdateForm
+from .forms import CreateUserForm, LoginForm, UserUpdateForm, get_dialing_code
 from .models import UserProfile, AIBO, Level
 from .tokens import account_activation_token
-from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense
+from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense, WalletTransaction, BankAccount
 from messaging_module.models import Notification
 from django.db import transaction
 from admin_and_staff_module.models import SlidePhoto,TermsAndConditions
+from encrypt import hash_password
 
 def view_terms_and_conditions(request):
     if request.method == 'GET':
@@ -77,22 +78,29 @@ def sign_up(request):
             try:
                 with transaction.atomic():
                     user = form.save(commit=True)
-                    referral_code = form.cleaned_data['referral_code']
-                    if referral_code == settings.ADMIN_REFERENCE:
-                        UserProfile.create_admin(user)
+                    referral_code = form.cleaned_data.get('referral_code')
+                    
+                    if referral_code:
+                        referred_by = UserProfile.objects.filter(user_code=referral_code).first()
+                        if referred_by:
+                            AIBOWallet.create_wallet(user)
+                        elif hash_password(referral_code) == settings.ADMIN_REFERENCE:
+                            UserProfile.create_admin(user)
+                        else:
+                            AIBOWallet.create_wallet(user)
                     else:
-                        UserProfile.create_user(user)
                         AIBOWallet.create_wallet(user)
 
                     verify_email_view(request, user)
                     messages.success(request, 'Kindly confirm your email to complete the registration')
                     Notification.create_notification(user=user, message='User Created Successfully')
-                    return redirect('user_login', permanent=True)
+                    return redirect('user_login')
             except Exception as e:
-                messages.error(request, f"Error Occurred")
+                print(e)
+                messages.error(request, 'An error occurred during registration')
                 return render(request, 'signup.html', {'form': form})
         else:
-            messages.error(request, "Invalid Input!")
+            messages.error(request, 'Invalid input!')
             return render(request, 'signup.html', {'form': form})
     else:
         form = CreateUserForm()
@@ -102,50 +110,75 @@ def sign_up(request):
 def sign_in(request):
     if request.method == 'POST':
         try:
-            form = LoginForm(request.POST)
-            if form.is_valid():
-                email = form.cleaned_data['email']
-                password = form.cleaned_data['password']
-                user = authenticate(request, username=email, password=password)
-                if user is not None:
-                    if not user.is_active:
-                        messages.error(request, 'Kindly confirm your email to complete the registration Or contact support')
-                    else:
-                        login(request, user)
-                        if user.is_staff:
-                            if user.is_superuser:
-                                return redirect('admin_dashboard', permanent=True)
-                            else:
-                                return redirect('staff_dashboard', permanent=True)
+            user_form = LoginForm(request.POST)
+            if user_form.is_valid():
+                user = user_form.clean()
+                auth_user = authenticate(username = user['username_or_email'], password= user['password'])
+                if auth_user:
+                    login(request, auth_user)
+                    if auth_user.is_staff:
+                        if auth_user.is_superuser:
+                            return redirect('admin_dashboard', permanent=True)
                         else:
-                            return redirect('user_dashboard', permanent=True)
+                            return redirect('staff_dashboard', permanent=True)
+                    else:
+                        return redirect('user_dashboard', permanent=True)
                 else:
                     messages.error(request, 'Email or Password Incorrect!')
             else:
                 messages.error(request, 'Invalid Input!')
         except Exception as e:
+            print(e)
             messages.error(request,'Error Occurred')
     else:
-        form = LoginForm()
+        user_form = LoginForm()
     
-    return render(request, 'signin.html', {'form': form})
+    return render(request, 'signin.html', {'form': user_form})
 
 def sign_out(request):
     logout(request)
     return redirect('user_login', permanent=True)
 
 @login_required
+def RetrieveUser(request, email):
+    if request.user.is_authenticated:
+        try:
+            user = UserProfile.objects.get(email=email)
+            aibo = AIBO.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            user = None
+        except AIBO.DoesNotExist:
+            aibo = None
+        
+        try:
+            wallet = AIBOWallet.objects.get(user=user)
+        except AIBOWallet.DoesNotExist:
+            wallet = None
+        
+        monthly_subscriptions = MonthlyLicense.objects.filter(user=user, is_valid=True)
+        yearly_subscriptions = YearlyLicense.objects.filter(user=user, is_valid=True)
+        referrals = UserProfile.objects.filter(referral_code=user.user_code)
+        transactions = WalletTransaction.objects.filter(wallet=wallet)
+        account = BankAccount.objects.filter(wallet=wallet)
+
+        data = {
+            "user": user,
+            "aibo": aibo,
+            "wallet": wallet,
+            "MonthlySubscription": monthly_subscriptions,
+            "YearlySubscription": yearly_subscriptions,
+            "referrals": referrals,
+            'transactions': transactions,
+            'account': account,
+        }
+        return data
+    return None
+
+@login_required
 @user_access_only()
 def user_dashboard(request):
-    user = UserProfile.objects.get(email=request.user)
-    monthly_subscriptions = MonthlyLicense.objects.filter(user=user, is_valid=True)
-    yearly_subscriptions = YearlyLicense.objects.filter(user=user, is_valid=True)
     content = {
-        'user': user,
-        'aibo': AIBO.objects.get(user=user),
-        'wallet': AIBOWallet.objects.get(user=user),
-        'monthly': monthly_subscriptions,
-        'yearly': yearly_subscriptions,
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'slides': SlidePhoto.objects.all()
     }
     return render(request, 'user_view_dashboard.html', content)
@@ -153,12 +186,8 @@ def user_dashboard(request):
 @login_required
 @user_access_only()
 def view_profile(request):
-    user = UserProfile.objects.get(id=request.user.id)
     content = {
-        'user': user,
-        'user_wallet': AIBOWallet.objects.get(user=user),
-        'aibo': AIBO.objects.get(user=user),
-        'referrals': UserProfile.objects.filter(referral_code=user.user_code),
+        'data' : RetrieveUser(request=request, email=request.user.email),
     }
     return render(request, 'user_view_profile.html', content)
 
@@ -168,42 +197,42 @@ def update_profile(request):
     user = UserProfile.objects.get(email=request.user.email)
     try:
         if request.method == 'POST':
-            update_form = UserUpdateForm(request.POST, request.FILES)
+            update_form = UserUpdateForm(request.POST, request.FILES)  # Pass dialing code to form
             if update_form.is_valid():
                 user.profile_image = update_form.cleaned_data['profile_image']
                 user.phone_number = update_form.cleaned_data['phone_number']
                 user.save() 
                 messages.info(request, 'User Details Updated!')
                 return redirect('user_profile')
-            else:
-                user.profile_image = update_form.cleaned_data['profile_image']
-                user.phone_number = update_form.cleaned_data['phone_number']
-                user.save()
-                messages.info(request, 'User Details Updated!')
-                return redirect('user_profile')
         else:
-            update_form = UserUpdateForm(instance=user)
+            update_form = UserUpdateForm(instance=user)  # Pass dialing code to form
     except Exception as e:
         messages.error(request, f'Error Occurred: {e}')
     content = {
-        'user': user,
-        'user_wallet': AIBOWallet.objects.get(user=user),
-        'aibo': AIBO.objects.get(user=user),
-        'update_form': update_form,
-    }
+        'data': RetrieveUser(request=request, email=request.user.email),
+        'update_form': update_form,    
+        }
     return render(request, 'user_update_profile.html', content)
+
+
 
 @login_required
 @user_access_only()
-def view_level(request):
-    searched_user = UserProfile.objects.get(email=request.user.email)
-    user_wallet = AIBOWallet.objects.get(user=searched_user.id)
-    user_info = AIBO.objects.get(user=searched_user.id)
-    levels = Level.objects.all()
+def view_rank(request):
+    ranks = Level.objects.all()
+    if ranks.count() == 0:
+        ranks = None
+
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': user_info,
-        'levels': levels,
+        'data': RetrieveUser(request=request, email=request.user.email),
+        'ranks': ranks,
     }
-    return render(request, 'user_view_levels.html', content)
+    return render(request, 'user_view_ranks.html', content)
+
+@login_required
+@user_access_only()
+def view_direct_referrals(request):
+    content = {
+        'data' : RetrieveUser(request=request, email=request.user.email),
+    }
+    return render(request, 'user_view_referrals.html', content)

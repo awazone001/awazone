@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-center align-items-center">
               <div>
                 <i class="fa fa-2x fa-wallet text-primary"></i>
-                <a class="link-fx fs-1 fw-semibold" href=""><h3>{{user_wallet.wallet_number}}</h3></a>
+                <a class="link-fx fs-1 fw-semibold" href=""><h3>{{data.wallet.wallet_number}}</h3></a>
                 <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET NUMBER</div>
               </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="d-flex justify-content-center align-items-center">
               <div>
                 <i class="fa fa-2x fa-sack-dollar text-warning"></i>
-                <a class="link-fx text-warning fs-1 fw-semibold" href=""><h3>NGN {{user_wallet.balance}}</h3></a>
+                <a class="link-fx text-warning fs-1 fw-semibold" href=""><h3>NGN {{data.wallet.balance}}</h3></a>
                 <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET BALANCE</div>
               </div>
             </div>
@@ -37,7 +37,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <div>
               <i class="fa fa-2x fa-arrow-alt-circle-up text-danger"></i>
-              <a class="link-fx text-danger fs-1 fw-semibold" href=""><h3>{{user_wallet.currency}} {{user_wallet.outflow}}</h3></a>
+              <a class="link-fx text-danger fs-1 fw-semibold" href=""><h3>NGN {{data.wallet.outflow}}</h3></a>
               <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">EXPENSES</div>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <div>
               <i class="fa fa-2x fa-arrow-alt-circle-down text-success"></i>
-              <a class="link-fx text-success fs-1 fw-semibold" href=""><h4>{{user_wallet.currency}} {{user_wallet.inflow}}</h4></a>
+              <a class="link-fx text-success fs-1 fw-semibold" href=""><h4>NGN {{data.wallet.inflow}}</h4></a>
               <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">INCOME</div>
             </div>
           </div>
@@ -147,7 +147,7 @@
             </tr>
           </thead>
           <tbody id="transactionBody">
-            {% for transaction in transactions %}
+            {% for transaction in data.transactions %}
             <tr class="transaction-row">
               <td>
                 <p class="fw-semibold mb-1">

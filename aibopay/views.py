@@ -12,7 +12,6 @@ from user_module.models import UserProfile,AIBO
 from user_module.decorators import user_access_only
 from messaging_module.models import Notification, OTP
 from messaging_module.forms import OTPForm
-from aiboearn.models import AssetPurchases,AssetSales
 from .models import WalletTransaction,AIBOWallet,AIBORates,BankAccount
 from .paystack_verification import (
     get_supported_banks,get_bank_name,get_user_accounts
@@ -23,17 +22,13 @@ from .forms import (
 from user_module.decorators import user_access_only,staff_access_only,admin_access_only
 from django.conf import settings
 from django.db import transaction as  db_transaction
+from user_module.views import RetrieveUser
 
 @login_required
 @user_access_only()
 def aibopay_dashboard(request):
-    searched_user = UserProfile.objects.get(email = request.user)
-    user_wallet = AIBOWallet.objects.get(user = searched_user)
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': AIBO.objects.get(user=searched_user),
-        'transactions': WalletTransaction.objects.filter(wallet=user_wallet),
+        'data' : RetrieveUser(request=request, email=request.user.email),
     }
     return render(request, 'aibopay.html', content)
 
@@ -78,9 +73,7 @@ def deposit(request):
 
     return render(request, 'aibopay_deposit.html', {
         'deposit': deposit_form,
-        'user': UserProfile.objects.get(email=request.user),
-        'user_wallet': AIBOWallet.objects.get(user = request.user),
-        'aibo': AIBO.objects.get(user = request.user),
+        'data' : RetrieveUser(request=request, email=request.user.email),
     })
 
 @login_required
@@ -162,9 +155,7 @@ def resetpin(request):
         messages.error(request, 'Error Occurred!')
 
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': AIBO.objects.get(user=searched_user),
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'pin': PINForm,
     }
     return render(request, 'reset_pin.html', content)
@@ -205,9 +196,7 @@ def resetpin_otp_confirmation(request, id):
     else:
         OTPForm_ = OTPForm(request.POST)
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': AIBO.objects.get(user=searched_user),
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'otp': OTPForm_,
     }
     return render(request, 'OTP_Form.html', content)
@@ -225,14 +214,8 @@ def resend_otp(request):
 @login_required
 @user_access_only()
 def payout_account(request):
-    searched_user = UserProfile.objects.get(email=request.user)
-    user_wallet = AIBOWallet.objects.get(user=searched_user)
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': AIBO.objects.get(user=searched_user),
-        'user_account': BankAccount.objects.filter(wallet=user_wallet),
-        'transactions': WalletTransaction.objects.filter(wallet=user_wallet),
+        'data' : RetrieveUser(request=request, email=request.user.email),
     }
     return render(request, 'aibopay_accounts.html', content)
 
@@ -282,9 +265,7 @@ def add_account(request):
     else:
         VerificationForm = VerifyAccountForm(request.POST)
     content = {
-        'user': searched_user,
-        'aibo': user_info,
-        'user_wallet': user_wallet,
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'verify': VerificationForm,
         'banks': bank_list,
     }
@@ -319,9 +300,7 @@ def verify_account(request, id):
         PINForm = PINVerificationForm(request.POST)
 
     content = {
-        'user': searched_user,
-        'aibo': user_info,
-        'user_wallet': user_wallet,
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'form': PINForm,
         'account': data,
     }
@@ -414,9 +393,7 @@ def withdraw(request):
             WithdrawForm = WithdrawalForm(request.POST)
 
         content = {
-            'user': searched_user,
-            'aibo': user_info,
-            'user_wallet': user_wallet,
+            'data' : RetrieveUser(request=request, email=request.user.email),
             'withdrawal': WithdrawForm,
             'banks': banks,
         }
@@ -455,9 +432,7 @@ def authenticate_PIN(request, ref):
         PINForm = PINVerificationForm(request.POST)
 
     content = {
-        'user': searched_user,
-        'aibo': user_info,
-        'user_wallet': user_wallet,
+        'data' : RetrieveUser(request=request, email=request.user.email),
         'pin': PINForm
     }
     return render(request, 'PINForm.html', content)

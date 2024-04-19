@@ -46,7 +46,7 @@
             <a class="nav-main-link active" href="{% url 'user_dashboard' %}">
               <i class="nav-main-link-icon fa fa-chart-pie"></i>
               <span class="nav-main-link-name">Dashboard</span>
-              <span class="nav-main-link-badge badge rounded-pill bg-success">{{ user.username }}</span>
+              <span class="nav-main-link-badge badge rounded-pill bg-success">{{ data.user.username }}</span>
             </a>
             <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-menu" href="{% url 'user_profile' %}">
@@ -56,7 +56,7 @@
             </li>
             <li class="nav-main-heading">Manage Fund</li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-menu" href="">
+              <a class="nav-main-link nav-main-link-menu" href="{% url 'aibopay_dashboard' %}">
                 <i class="nav-main-link-icon fa fa-bank"></i>
                 <span class="nav-main-link-name">aibopay</span>
               </a>
@@ -69,36 +69,26 @@
               </a>
             </li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
+              <a class="nav-main-link nav-main-link-menu" href="">
                 <i class="nav-main-link-icon fa fa-shopping-cart"></i>
                 <span class="nav-main-link-name">Buy Asset</span>
               </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="">
-                    <i class="nav-main-link-icon fa fa-users"></i>
-                    <span class="nav-main-link-name">Marketplace</span>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="">
-                    <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                    <span class="nav-main-link-name">Asset</span>
-                  </a>
-                </li>
-              </ul>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link nav-main-link-menu" href="">
+                <i class="nav-main-link-icon fa fa-users"></i>
+                <span class="nav-main-link-name">Marketplace</span>
+              </a>
             </li>
             <li class="nav-main-heading">Manage Team</li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-menu" href="">
+              <a class="nav-main-link nav-main-link-menu" href="{% url  'direct-referrals' %}">
                 <i class="nav-main-link-icon fa fa-user-friends"></i>
                 <span class="nav-main-link-name">Direct team</span>
               </a>
             </li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-menu" href="">
+              <a class="nav-main-link nav-main-link-menu" href="{% url  'view_ranks' %}">
                 <i class="nav-main-link-icon fa fa-ranking-star"></i>
                 <span class="nav-main-link-name">Rank</span>
               </a>
@@ -150,7 +140,12 @@
           <div class="dropdown d-inline-block">
             <button type="button" class="btn btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-fw fa-user d-sm-none"></i>
-              <span class="d-none d-sm-inline-block">{{ user.first_name }} {{ user.last_name }}</span> <span class="nav-main-link-badge badge rounded-pill bg-success"> {{ aibo.level }}</span>
+              <span class="d-none d-sm-inline-block">{{ data.user.first_name }} {{ data.user.last_name }}</span>
+              {% if data.aibo == None %}
+              <span class="nav-main-link-badge badge rounded-pill bg-success">Free Citizen</span>
+              {% else %}
+              <span class="nav-main-link-badge badge rounded-pill bg-success"> {{ data.aibo.level }}</span>
+              {% endif %}
               <i class="fa fa-fw fa-angle-down opacity-50 ms-1 d-none d-sm-inline-block"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">

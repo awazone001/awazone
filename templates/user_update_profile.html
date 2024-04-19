@@ -6,41 +6,41 @@
 <div class="content content-full">
   <div class="block block-rounded">
     <div class="content content-full content-boxed">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-          <div class="block">
-            <div class="block-header block-header-default">
-              <h3>UPDATE PROFILE</h3>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="block-header block-header-default">
+          <h3>UPDATE PROFILE</h3>
+        </div>
+        <div class="row push">
+          <div class="col-lg-4">
+            {% if update_form.instance.profile_image %}
+            <div class="mb-6">
+              <img class="img-avatar img-avatar96" src="{{user.profile_image.url}}" alt="">
             </div>
-            <div class="block-content">
-              <div class="row justify-content-center push">
-                <div class="col-md-10" >
-                  <div>
-                    <div>FIRST NAME: <span style="color: blue;">{{user.first_name}}</span></div>
-                    <div>LAST NAME: <span style="color: blue;">{{user.last_name}}</span></div>
-                    <div>USERNAME: <span style="color: blue;">{{user.username}}</span></div>
-                    <div>EMAIL: <span style="color: blue;">{{user.email}}</span></div>
-                  </div>
-                  <div class="mb-4">
-                    ADDRESS
-                    {{address_form|crispy}}                         
-                  </div>
-                  {{update_form|crispy}} 
-                </div>
-              </div>
+            {% endif %} 
+          </div>
+          <div class="col-lg-8 col-xl-5">
+            <div class="mb-4">
+              <div>FIRST NAME: <span>{{user.first_name}}</span></div>
+              <div>LAST NAME: <span>{{user.last_name}}</span></div>
+              <div>USERNAME: <span>{{user.username}}</span></div>
+              <div>EMAIL: <span>{{user.email}}</span></div>
             </div>
-            <div class="block-content bg-body-light">
-              <div class="row justify-content-center push">
-                <div class="col-md-10">
-                  <button type="submit" class="btn btn-alt-primary">
-                    <i class="fa fa-fw fa-edit opacity-50 me-1"></i> UPDATE
-                  </button>
-                </div>
-              </div>
+            <div class="row mb-4">
+              <div class="col-lg-8">
+                {{update_form|crispy}}
+              </div>      
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+        <div class="row justify-content-center push">
+          <div class="col-md-10">
+            <button type="submit" class="btn btn-alt-primary">
+              <i class="fa fa-fw fa-edit opacity-50 me-1"></i> UPDATE
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

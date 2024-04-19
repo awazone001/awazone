@@ -10,8 +10,8 @@
         <div class="mb-3">
           <img class="img-avatar img-avatar96" src="{{user.profile_image.url}}" alt="">
         </div>
-        <h1 class="fs-lg mb-0">{{user.first_name}} {{user.last_name}}</h1>
-        <p class="text-muted"><i class="fa fa-user"></i> {{user.username}}</p>
+        <h1 class="fs-lg mb-0">{{data.user.first_name}} {{data.user.last_name}}</h1>
+        <p class="text-muted"><i class="fa fa-user"></i> {{data.user.username}}</p>
         <a class="btn btn-primary btn-sm btn-primary rounded-pill px-3" href="{% url 'update_profile' %}">
           <i class="far fa-book fa-user"></i> Update Info
         </a>
@@ -20,20 +20,28 @@
     <div class="block-content bg-body-light text-center">
       <div class="row items-push text-uppercase">
         <div class="col-6 col-md-3">
-          <div class="fw-semibold text-dark mb-1">ARP</div>
-          <a class="link-fx fs-3" href="">{{aibo.arp}}</a>
-        </div>
-        <div class="col-6 col-md-3">
           <div class="fw-semibold text-dark mb-1">ACCOUNT BALANCE</div>
-          <a class="link-fx fs-3" href="">{{user_wallet.currency}} {{user_wallet.balance}}</a>
+          <a class="link-fx fs-3" href="">NGN {{data.wallet.balance}}</a>
         </div>
         <div class="col-6 col-md-3">
-          <div class="fw-semibold text-dark mb-1">RANK</div>
-          <a class="link-fx fs-3" href="">{{aibo.level}}</a>
+          <div class="fw-semibold text-dark mb-1">ARP</div>
+          {% if data.aibo == None %}
+          <a class="link-fx fs-3" href="">0</a>
+          {% else %}
+          <a class="link-fx fs-3" href="">{{data.aibo.arp}}</a>
+          {% endif %}
         </div>
         <div class="col-6 col-md-3">
-            <div class="fw-semibold text-dark mb-1">TEAM SIZE</div>
-            <a class="link-fx fs-3" href="">{{user.team}}</a>
+          <div class="fw-semibold text-dark mb-1">Rank</div>
+          {% if data.aibo == None %}
+          <a class="link-fx fs-3" href="">Free Citizen</a>
+          {% else %}
+          <a class="link-fx fs-3" href="">{{data.aibo.title}}</a>
+          {% endif %}
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="fw-semibold text-dark mb-1">TEAM SIZE</div>
+          <a class="link-fx fs-3" href="">{{data.user.team}}</a>
         </div>
       </div>
     </div>
@@ -51,8 +59,8 @@
             </div>
             <div class="block-content">
               <address class="fs-sm">
-                <p class="text-muted"><i class="fa fa-envelope"></i> {{user.email}}</p>
-                <p class="text-muted"><i class="fa fa-phone"></i> {{user.phone_number}}</p>
+                <p class="text-muted"><i class="fa fa-envelope"></i> {{data.user.email}}</p>
+                <p class="text-muted"><i class="fa fa-phone"></i> {{data.user.phone_number}}</p>
               </address>
             </div>
           </div>
@@ -64,40 +72,14 @@
             </div>
             <div class="block-content">
               <address class="fs-sm">
-                <p class="text-muted"><i class="fa fa-wallet"></i> {{user_wallet.wallet_number}}</p>
-                <p class="text-muted"><i class="fa fa-users"></i> {{user.user_code}}</p>
+                <p class="text-muted"><i class="fa fa-wallet"></i> {{data.wallet.wallet_number}}</p>
+                <p class="text-muted"><i class="fa fa-users"></i> {{data.user.user_code}}</p>
               </address>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="block block-rounded">
-    <div class="block-header block-header-default">
-      <h3 class="block-title">Direct Referrals</h3>
-    </div>
-    {% for referral in referrals %}
-    <div class="block-content">
-      <div class="row items-push">
-        <div class="col-md-4">
-          <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0" href="">
-            <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-              <div>
-                <div class="fw-semibold mb-1">{{ referral.first_name }} {{ referral.last_name }}</div>
-                <div class="fs-sm text-muted">{{ referral.username }}</div>
-              </div>
-              <div class="ms-3">
-                <img class="img-avatar" src="{{referral.image.url}}" alt="{% static 'assets/media/avatars/avatar.jpg' %}">
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    {% empty %}
-    <span id="empty">No referred users found.</span>
-    {% endfor %}
   </div>
 </div>
 {% endblock %}
