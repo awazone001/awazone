@@ -13,7 +13,7 @@ from .decorators import user_access_only
 from .forms import CreateUserForm, LoginForm, UserUpdateForm, get_dialing_code
 from .models import UserProfile, AIBO, Level
 from .tokens import account_activation_token
-from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense, WalletTransaction, BankAccount
+from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense, WalletTransaction, BankAccount, AIBORates
 from aiboearn.models import AssetPurchases,AssetSales
 from messaging_module.models import Notification
 from django.db import transaction
@@ -165,6 +165,7 @@ def RetrieveUser(request, email):
         assetsales = AssetSales.objects.filter(user=user)
         monthlylicense = MonthlyLicense.get_monthly_license(user = user)
         yearlylicense = YearlyLicense.get_yearly_license(user = user)
+        rates = AIBORates.RetrieveRates()
 
         data = {
             "user": user,
@@ -178,7 +179,8 @@ def RetrieveUser(request, email):
             'assetpurchases': assetpurchases,
             'assetsales': assetsales,
             'monthlylicense' : monthlylicense,  
-            'yearlylicense' : yearlylicense
+            'yearlylicense' : yearlylicense,
+            'rates': rates
         }
         return data
     return None
@@ -222,8 +224,6 @@ def update_profile(request):
         'update_form': update_form,    
         }
     return render(request, 'user_update_profile.html', content)
-
-
 
 @login_required
 @user_access_only()

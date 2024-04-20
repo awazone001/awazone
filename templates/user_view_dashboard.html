@@ -48,17 +48,17 @@
           <div class="item item-circle bg-primary-lighter mx-auto my-3">
             <i class="fa fa-check-circle text-primary"></i>
           </div>
-          {% for yearly in yearly %}
+          {% if data.yearlylicense != None %}
           Yearly License
-          <div class="display-7 fw-bold">{{yearly.currency}} {{yearly.amount}}</div>
-          <div class="text-muted mt-1">{{yearly.datestamp}}</div>
+          <div class="display-7 fw-bold">NGN {{data.yearlylicense.amount}}</div>
+          <div class="text-muted mt-1">{{data.yearlylicense.datestamp}}</div>
           <div class="py-3 fs-4 fw-bold text-success">
             <i class="fa fa-check-circle me-1"></i>
             Running...
           </div>
-          {% empty %}
+          {% else %}
             <span id="empty">No Yearly License</span>
-          {% endfor %}
+          {% endif %}
         </div>
       </a>
     </div>
@@ -68,18 +68,17 @@
           <div class="item item-circle bg-xinspire-lighter mx-auto my-3">
             <i class="fa fa-check-circle text-xinspire-dark"></i> 
           </div>
-          
-          {% for monthly in monthly %}
+          {% if data.monthlylicense != None %}
           Monthly License
-          <div class="display-7 fw-bold">{{monthly.currency}} {{monthly.amount}}</div>
-          <div class="text-muted mt-1">{{monthly.datestamp}}</div>
+          <div class="display-7 fw-bold">NGN {{data.monthlylicense.amount}}</div>
+          <div class="text-muted mt-1">{{data.monthlylicense.datestamp}}</div>
           <div class="py-3 fs-4 fw-bold text-success">
             <i class="fa fa-check-circle me-1"></i>
             Running...
           </div>
-          {% empty %}
+          {% else %}
             <span id="empty">No Monthly License</span>
-          {% endfor %}
+          {% endif %}
         </div>
       </a>
     </div>

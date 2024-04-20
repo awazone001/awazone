@@ -95,14 +95,19 @@ def authenticate_deposit(request):
                 user_wallet.save()
                 payment.status = 'Success'
                 payment.save()
+                content = {
+                    'data' : RetrieveUser(request=request, email=request.user.email),
+                    'amount': payment.amount,
+                    'wallet': payment
+                }
                 Notification.create_notification(user = UserProfile.objects.get(email=request.user),
                                                  message=f'Your deposit of NGN {payment.amount} was Successful')
-                return render(request, 'aibopay_deposit_success.html', {'amount': payment.amount, 'wallet': payment})
+                return render(request, 'aibopay_deposit_success.html',content)
             else:
                 return redirect('user_dashboard', permanent=True)
 
     payment = WalletTransaction.objects.get(ref=transaction_reference)
-    return render(request, 'aibopay_deposit_failed.html', {'amount': payment.amount, 'wallet': payment.wallet})
+    return render(request, 'aibopay_deposit_failed.html',content)
 
 @login_required
 @admin_access_only()

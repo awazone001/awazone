@@ -302,11 +302,9 @@ def purchase_yearly_license(request):
     try:
         if request.method == 'POST':
             return redirect('purchase_yearly_license_complete',permanent=True)
-        searched_user = UserProfile.objects.get(email=request.user)
-        content['user'] = searched_user
-        content['user_wallet'] = AIBOWallet.objects.get(user=searched_user)
-        content['aibo'] = AIBO.objects.get(user=searched_user)
-        content['yearly'] = AIBORates.objects.latest('created_at').yearly_subscription
+        content = {
+            'data' : RetrieveUser(request=request,email = request.user.email)
+        }
     except Exception:
         return render(request, 'op_error_403.html')
 
@@ -356,11 +354,9 @@ def purchase_monthly_license(request):
     try:
         if request.method == 'POST':
             return redirect('purchase_monthly_license_complete',permanent=True)
-        searched_user = UserProfile.objects.get(email=request.user)
-        content['user'] = searched_user
-        content['user_wallet'] = AIBOWallet.objects.get(user=searched_user)
-        content['aibo'] = AIBO.objects.get(user=searched_user)
-        content['monthly'] = AIBORates.objects.latest('created_at').monthly_subscription
+        content = {
+            'data' : RetrieveUser(request=request,email = request.user.email)
+        }
     except Exception as e:
         return render(request, 'op_error_403.html')
 

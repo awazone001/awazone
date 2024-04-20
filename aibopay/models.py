@@ -64,9 +64,9 @@ class BankAccount(models.Model):
 
 class AIBORates(models.Model):
     arp_rate = models.DecimalField(default=0,max_digits=14,decimal_places=2,verbose_name='Fiat per ARP')
-    monthly_subscription = models.DecimalField(max_digits=14,decimal_places=2,verbose_name='Monthly Subscription Amount')
-    yearly_subscription = models.DecimalField(max_digits=14,decimal_places=2,verbose_name='Yearly Subscription Amount')
-    charge_rate = models.DecimalField(max_digits=3,decimal_places=2,verbose_name='Percentage Charge per Transaction')
+    monthly_subscription = models.DecimalField(default=0,max_digits=14,decimal_places=2,verbose_name='Monthly Subscription Amount')
+    yearly_subscription = models.DecimalField(default=0,max_digits=14,decimal_places=2,verbose_name='Yearly Subscription Amount')
+    charge_rate = models.DecimalField(default=0,max_digits=3,decimal_places=2,verbose_name='Percentage Charge per Transaction')
     created_at = models.DateTimeField(auto_now_add = True)
 
     def save(self, *args, **kwargs):
@@ -86,6 +86,9 @@ class AIBORates(models.Model):
         previous_rates.yearly_subscription = self.yearly_subscription
         previous_rates.charge_rate = self.charge_rate
         previous_rates.save()
+
+    def RetrieveRates():
+        return AIBORates.objects.latest("created_at")
 
 class WalletTransaction(models.Model):
 
