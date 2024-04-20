@@ -15,6 +15,7 @@ from messaging_module.models import Notification
 from user_module.models import AIBO
 from datetime import timedelta
 from decimal import Decimal
+from user_module.views import RetrieveUser
 
 @login_required
 @user_access_only()
@@ -48,13 +49,8 @@ def user_view_sector_asset(request, aibo_sector):
     return _render_aiboearn_page(request, 'user_view_aiboearn_assets.html', content)
 
 def _render_aiboearn_page(request, template_name, extra_context=None):
-    searched_user = UserProfile.objects.get(email=request.user)
     context = {
-        'user': searched_user,
-        'user_wallet': AIBOWallet.objects.get(user=searched_user),
-        'aibo': AIBO.objects.get(user=searched_user),
-        'purchases': AssetPurchases.objects.filter(user=request.user),
-        'sales': AssetSales.objects.filter(user=request.user),
+        'data' : RetrieveUser(request= request, email= request.user.email),
         'assets': Asset.objects.all(),
         'sectors': Sector.objects.all(),
     }
@@ -181,18 +177,11 @@ def _purchase_asset(request, asset, sector, amount, user_wallet):
         return messages.error(request, f'An Error Occured')
 
 def _render_asset_purchase_page(request, purchase_form):
-    searched_user = UserProfile.objects.get(email=request.user)
-    user_wallet = AIBOWallet.objects.get(user=searched_user)
 
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': AIBO.objects.get(user=searched_user),
-        'purchases': AssetPurchases.objects.filter(user=request.user),
-        'sales': AssetSales.objects.filter(user=request.user),
+        'data' : RetrieveUser(request= request, email= request.user.email),
         'purchase': purchase_form,
     }
-
     return render(request, 'aiboearn_purchase_asset.html', content)
 
 @login_required
@@ -235,7 +224,6 @@ def aiboearn_sell_asset(request, purchase_id):
                                 transaction_type='Transfer',
                                 email=searched_user.email,
                                 description='AIBO ASSET SALES',
-                                currency = user_wallet.currency,
                                 amount = amount,
                                 status = 'Success'
                             )
@@ -298,9 +286,7 @@ def aiboearn_sell_asset(request, purchase_id):
         form = AssetSaleForm()
 
     content = {
-        'user': searched_user,
-        'user_wallet': user_wallet,
-        'aibo': aibo,
+        'data' : RetrieveUser(request= request, email= request.user.email),
         'purchase': purchase,
         'form': form,
         'sales': AssetSales.objects.filter(purchase=purchase_id),

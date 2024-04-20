@@ -163,6 +163,14 @@ class MonthlyLicense(models.Model):
         latest.is_valid = False
         latest.save()
 
+    def get_monthly_license(user):
+        licenses = MonthlyLicense.objects.filter(user=user).order_by('-timestamp')
+        try:
+            return licenses[0]
+        except IndexError:
+            licenses = None
+            return licenses
+
 class YearlyLicense(models.Model):
     user = models.OneToOneField(UserProfile,on_delete=models.CASCADE,null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -188,3 +196,11 @@ class YearlyLicense(models.Model):
         latest = YearlyLicense.objects.get(user = user)
         latest.is_valid = False
         latest.save()
+
+    def get_yearly_license(user):
+        licenses = YearlyLicense.objects.filter(user=user).order_by('-timestamp')
+        try:
+            return licenses[0]
+        except IndexError:
+            licenses = None
+            return licenses

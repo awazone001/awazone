@@ -63,16 +63,30 @@
             </li>
             <li class="nav-main-heading">Discover</li>
             <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-menu" href="">
-                <i class="nav-main-link-icon fa fa-user-circle"></i>
-                <span class="nav-main-link-name">Become an AIBO</span>
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                <i class="nav-main-link-icon fa fa-user-plus"></i>
+                <span class="nav-main-link-name">AIBO</span>
               </a>
-            </li>
-            <li class="nav-main-item">
-              <a class="nav-main-link nav-main-link-menu" href="">
-                <i class="nav-main-link-icon fa fa-shopping-cart"></i>
-                <span class="nav-main-link-name">Buy Asset</span>
-              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link nav-main-link-menu" href="">
+                    <i class="nav-main-link-icon fa fa-user-circle"></i>
+                    <span class="nav-main-link-name">Become an AIBO</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link nav-main-link-menu" href="{% url 'aiboearn_dashboard' %}">
+                    <i class="nav-main-link-icon fa fa-bar-chart"></i>
+                    <span class="nav-main-link-name">AIBO Earn</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link nav-main-link-menu" href="{% url 'aiboearn_asset_purchase' %}">
+                    <i class="nav-main-link-icon fa fa-shopping-cart"></i>
+                    <span class="nav-main-link-name">Buy Asset</span>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-main-item">
               <a class="nav-main-link nav-main-link-menu" href="">
@@ -113,7 +127,6 @@
                 <span class="nav-main-link-name">support</span>
               </a>
             </li>
-            <li class="nav-main-heading">Sign Out</li>
             <li class="nav-main-item">
               <a class="nav-main-link" href="{% url 'user_logout' %}">
                 <i class="nav-main-link-icon fa fa-arrow-alt-circle-left"></i>
@@ -155,6 +168,10 @@
               <div class="p-2">
                 <a class="dropdown-item" href="{% url 'user_profile' %}">
                   <i class="far fa-fw fa-user me-1"></i> Profile
+                </a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'reset_pin' %}">
+                  <i class="fa fa-fw fa-wrench"></i> Reset PIN
                 </a>
                 <div role="separator" class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'user_logout' %}">

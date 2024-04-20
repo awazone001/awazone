@@ -14,6 +14,7 @@ from .forms import CreateUserForm, LoginForm, UserUpdateForm, get_dialing_code
 from .models import UserProfile, AIBO, Level
 from .tokens import account_activation_token
 from aibopay.models import AIBOWallet, MonthlyLicense, YearlyLicense, WalletTransaction, BankAccount
+from aiboearn.models import AssetPurchases,AssetSales
 from messaging_module.models import Notification
 from django.db import transaction
 from admin_and_staff_module.models import SlidePhoto,TermsAndConditions
@@ -160,6 +161,10 @@ def RetrieveUser(request, email):
         referrals = UserProfile.objects.filter(referral_code=user.user_code)
         transactions = WalletTransaction.objects.filter(wallet=wallet)
         account = BankAccount.objects.filter(wallet=wallet)
+        assetpurchases = AssetPurchases.objects.filter(user=user)
+        assetsales = AssetSales.objects.filter(user=user)
+        monthlylicense = MonthlyLicense.get_monthly_license(user = user)
+        yearlylicense = YearlyLicense.get_yearly_license(user = user)
 
         data = {
             "user": user,
@@ -170,6 +175,10 @@ def RetrieveUser(request, email):
             "referrals": referrals,
             'transactions': transactions,
             'account': account,
+            'assetpurchases': assetpurchases,
+            'assetsales': assetsales,
+            'monthlylicense' : monthlylicense,  
+            'yearlylicense' : yearlylicense
         }
         return data
     return None

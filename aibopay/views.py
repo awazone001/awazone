@@ -8,7 +8,7 @@ from paystackapi.paystack import Paystack
 import base64
 import json
 import hashlib
-from user_module.models import UserProfile,AIBO
+from user_module.models import UserProfile
 from user_module.decorators import user_access_only
 from messaging_module.models import Notification, OTP
 from messaging_module.forms import OTPForm
@@ -128,7 +128,6 @@ def manage_rates(request):
 @user_access_only()
 def resetpin(request):
     searched_user = UserProfile.objects.get(email=request.user)
-    user_wallet = AIBOWallet.objects.get(user=searched_user)
     try:
         if request.method == 'POST':
             PINForm = ResetPINForm(request.POST)
@@ -151,7 +150,6 @@ def resetpin(request):
         else:
             PINForm = ResetPINForm(request.POST)
     except Exception as e:
-        print(e)
         messages.error(request, 'Error Occurred!')
 
     content = {
@@ -222,9 +220,6 @@ def payout_account(request):
 @login_required
 @user_access_only()
 def add_account(request):
-    searched_user = UserProfile.objects.get(email=request.user)
-    user_wallet = AIBOWallet.objects.get(user=searched_user)
-    user_info = AIBO.objects.get(user=searched_user)
     bank_list = get_supported_banks()
 
     if request.method == 'POST':
@@ -276,7 +271,6 @@ def add_account(request):
 def verify_account(request, id):
     searched_user = UserProfile.objects.get(email=request.user)
     user_wallet = AIBOWallet.objects.get(user=searched_user)
-    user_info = AIBO.objects.get(user=searched_user)
     data = request.session.get('data')
 
     if request.method == 'POST':
@@ -308,10 +302,10 @@ def verify_account(request, id):
 
 @login_required
 @user_access_only()
-def delete_account(request, id):
+def delete_account(request,account_number):
     account = BankAccount.objects.get(
         Q(wallet = AIBOWallet.objects.get(user = request.user)) &
-        Q(id=id)
+        Q(account_number=account_number)
     )
     account.delete()
     messages.success(request, f'{account.account_number} deleted successfully')
@@ -323,7 +317,6 @@ def withdraw(request):
     try:
         searched_user = UserProfile.objects.get(email=request.user)
         user_wallet = AIBOWallet.objects.get(user=searched_user)
-        user_info = AIBO.objects.get(user=searched_user)
         banks = get_user_accounts(user_wallet)
 
         if request.method == 'POST':
@@ -407,7 +400,6 @@ def withdraw(request):
 def authenticate_PIN(request, ref):
     searched_user = UserProfile.objects.get(email=request.user)
     user_wallet = AIBOWallet.objects.get(user=searched_user)
-    user_info = AIBO.objects.get(user=searched_user)
     if request.method == 'POST':
         try:
             PINForm = PINVerificationForm(request.POST)

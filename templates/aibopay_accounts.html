@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-center align-items-center">
               <div>
                 <i class="fa fa-2x fa-wallet text-primary"></i>
-                <a class="link-fx fs-1 fw-semibold" href=""><h3>{{user_wallet.wallet_number}}</h3></a>
+                <a class="link-fx fs-1 fw-semibold" href=""><h3>{{data.wallet.wallet_number}}</h3></a>
                 <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET NUMBER</div>
               </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="d-flex justify-content-center align-items-center">
               <div>
                 <i class="fa fa-2x fa-sack-dollar text-warning"></i>
-                <a class="link-fx text-warning fs-1 fw-semibold" href=""><h3>NGN {{user_wallet.balance}}</h3></a>
+                <a class="link-fx text-warning fs-1 fw-semibold" href=""><h3>NGN {{data.wallet.balance}}</h3></a>
                 <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">WALLET BALANCE</div>
               </div>
             </div>
@@ -37,7 +37,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <div>
               <i class="fa fa-2x fa-upload text-danger"></i>
-              <a class="link-fx text-danger fs-1 fw-semibold" href=""><h3>{{user_wallet.currency}} {{user_wallet.outflow}}</h3></a>
+              <a class="link-fx text-danger fs-1 fw-semibold" href=""><h3>NGN {{data.wallet.outflow}}</h3></a>
               <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">EXPENSES</div>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <div>
               <i class="fa fa-2x fa-download text-success"></i>
-              <a class="link-fx text-success fs-1 fw-semibold" href=""><h4>{{user_wallet.currency}} {{user_wallet.inflow}}</h4></a>
+              <a class="link-fx text-success fs-1 fw-semibold" href=""><h4>NGN {{data.wallet.inflow}}</h4></a>
               <div class="fs-sm fw-semibold text-uppercase text-muted mt-1">INCOME</div>
             </div>
           </div>
@@ -130,19 +130,19 @@
             <i class="far fa-book fa-plus"></i> Add Account
         </a> 
       </div>
-      {% for user_account in user_account %}
+      {% for account in data.account %}
       <div class="block block-rounded block-fx-pop mb-2">
         <div class="block-content block-content-full border-start border-3 border-dark">
           <div class="d-md-flex justify-content-md-between align-items-md-center">
             <div class="p-1 p-md-3 w-50">
-              <h3 class="h4 fw-bold mb-1">{{user_account.account_name}}</h3>
+              <h3 class="h4 fw-bold mb-1">{{account.account_name}}</h3>
               <p class="fs-sm text-muted">
-                <i class="fa fa-wallet me-1"></i> {{user_account.account_number}}<br>
-                <i class="fa fa-bank me-1"></i> {{user_account.bank_name}}
+                <i class="fa fa-wallet me-1"></i> {{account.account_number}}<br>
+                <i class="fa fa-bank me-1"></i> {{account.bank_name}}
               </p>
             </div>
             <div class="p-1 p-md-3 text-md-end">
-              <a class="btn btn-sm btn-alt-danger rounded-pill px-3 my-1" href="{% url 'delete_account' user_account.id %}">
+              <a class="btn btn-sm btn-alt-danger rounded-pill px-3 my-1" href="{% url 'delete_account' account.account_number %}">
                 <i class="fa fa-times opacity-50 me-1"></i> Delete
               </a>
             </div>

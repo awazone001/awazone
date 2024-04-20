@@ -15,6 +15,7 @@ from user_module.models import UserProfile,AIBO
 from user_module.decorators import staff_access_only
 from aibopay.models import AIBOWallet,MonthlyLicense,YearlyLicense
 from django.core.exceptions import PermissionDenied
+from user_module.views import RetrieveUser
 
 @login_required
 def get_notifications(request):
@@ -49,7 +50,6 @@ def mark_notification_as_read(request):
         # You may choose to raise PermissionDenied or return a specific error message
         return JsonResponse({'status': 'error', 'message': 'Internal server error'})
 
-
 @login_required
 def create_room(request):
     chats = ChatRoom.objects.create(user = request.user)
@@ -83,11 +83,7 @@ def room_message_sender(request, room_name):
         send_websocket_message(room_name, sender, message)
 
     content = {
-        'user': searched_user,
-        'aibo': AIBO.objects.get(user=searched_user),
-        'user_wallet': AIBOWallet.objects.get(user=searched_user.id),
-        'monthly': MonthlyLicense.objects.filter(Q(user=searched_user) & Q(is_valid=True)),
-        'yearly': YearlyLicense.objects.filter(Q(user=searched_user) & Q(is_valid=True)),
+        'data' : RetrieveUser(request=request,email=request.user.email),
         'room_name': room_name,
         'chat_messages': chat_messages
     }
@@ -149,11 +145,7 @@ def contact_view(request):
     searched_user = UserProfile.objects.get(id=request.user)
     form_class = ContactForm
     content = {
-        'user': searched_user,
-        'aibo': AIBO.objects.get(user=searched_user),
-        'user_wallet': AIBOWallet.objects.get(user=searched_user.id),
-        'monthly': MonthlyLicense.objects.filter(Q(user=searched_user) & Q(is_valid=True)),
-        'yearly': YearlyLicense.objects.filter(Q(user=searched_user) & Q(is_valid=True)),
+        'data' : RetrieveUser(request=request,email=request.user.email),
         'form': form_class
     }
     

@@ -26,10 +26,10 @@
         </a>
       </div>
       <div class="col-6 col-md-4 col-xl-3">
-        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="#purchaseDiv">
+        <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
           <div class="block-content">
             <p class="mb-2 d-none d-sm-block text-primary">
-              {{purchases.count}}
+              {{data.assetpurchases.count}}
             </p>
             <p class="fw-semibold fs-sm text-uppercase">PURCHASES</p>
           </div>
@@ -39,7 +39,7 @@
         <a class="block block-rounded block-link-pop text-center d-flex align-items-center h-100 mb-0" href="">
           <div class="block-content">
             <p class="mb-2 d-none d-sm-block text-primary">
-              {{sales.count}}
+              {{data.assetsales.count}}
             </p>
             <p class="fw-semibold fs-sm text-uppercase">SALES</p>
           </div>
@@ -77,7 +77,7 @@
             </tr>
           </thead>
           <tbody id="transactionBody">
-            {% for purchase in purchases %}
+            {% for purchase in data.assetpurchases %}
             <tr class="transaction-row">
               <td class="text-center">
                 <a class="fw-semibold" href="">
